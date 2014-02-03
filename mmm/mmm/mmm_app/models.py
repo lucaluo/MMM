@@ -91,7 +91,7 @@ class Project(models.Model):
 		#tag_2 = models.ForeignKey(max_length = 100, blank = false)
 	
 	class Meta:
-		ordering = ['date_posted']
+		ordering = ['-date_posted']
 	
 	def __unicode__(self):
 		return u'%s' %(self.title)
