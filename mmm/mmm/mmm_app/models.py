@@ -70,12 +70,10 @@ class Sponsor(models.Model):
 		
 # projects table
 class Project(models.Model):
-	# sponsor
-	user_id = models.ForeignKey(User, unique = True, max_length = 100, blank = false)
-
 	# project information
 	title = models.CharField(max_length=100)
 	date_posted = models.DateTimeField('date posted')
+	sponsor = models.ForeignKey(User, unique = True, max_length = 100, blank = false)
 	status = models.CharField(max_length=100)
 	description = models.TextField()
 	likes = models.IntegerField()
