@@ -83,7 +83,7 @@ class Project(models.Model):
 	image = models.FileField("Project Image", upload_to="images/projects/", blank=True)
 	
 	# developers that are a part of the project
-	developers = models.ManyToManyField(User, blank=True)
+	developers = models.ManyToManyField(User, through='Developer')
 		#developer0 = models.ForeignKey('Developer', blank=True, null=True, related_name='+')
 		#developer1 = models.ForeignKey('Developer', blank=True, null=True, related_name='+')
 		#developer2 = models.ForeignKey('Developer', blank=True, null=True, related_name='+')
