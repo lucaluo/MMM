@@ -32,6 +32,8 @@ def profile(request):
     if userInfo.is_developer:
         # query developer info
 
+    # render()
+
 @login_required
 def settings(request):
     
