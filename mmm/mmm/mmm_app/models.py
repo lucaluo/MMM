@@ -92,7 +92,11 @@ class Project(models.Model):
 
 	class Meta:
 		ordering = ['-date_posted']
+<<<<<<< HEAD
 
+=======
+	
+>>>>>>> 981b6f35e0ff1bf066d77910377c5c19ee44ae67
 	def __unicode__(self):
 		return u'%s' %(self.title)
 
