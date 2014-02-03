@@ -46,7 +46,7 @@ class Developer(models.Model):
 		ordering = ['last_name']
 	
 	def __unicode__(self):
-		return u'%s, %s' %(self.last_name, self.first_name)
+		return u'%s, %s' %(user.last_name, user.first_name)
 		
 # sponsors table
 class Sponsor(models.Model):
