@@ -6,7 +6,7 @@ from django.db import models
 # associated with each django user object
 class UserInfo(models.Model):
 	# django user object id
-	user_id = models.ForeignKey(User, unique = True, max_length = 100, blank = false)
+	user = models.ForeignKey(User, unique = True, max_length = 100, blank = false)
 	
 	# is the user a sponsor or developer?
 	is_sponsor = models.BooleanField()
@@ -18,19 +18,17 @@ class UserInfo(models.Model):
 	setting_2 = models.BooleanField()
 	
 	class Meta:
-		ordering = ['user_id']
+		ordering = ['user']
 
 	def __unicode__(self):
-		return u'%s' %(user_id)
+		return u'%s' %(user)
 
 # developers table
 class Developer(models.Model):
 	# django user object id
-	user_id = models.ForeignKey(User, unique = True, max_length = 100, blank = false)
+	user = models.ForeignKey(User, unique = True, max_length = 100, blank = false)
 	
 	# developer information
-	first_name = models.CharField(max_length=100)
-	last_name = models.CharField(max_length=100)
 	major = models.CharField(max_length=100, blank=True)
 	bio = models.TextField()
 	
@@ -53,7 +51,7 @@ class Developer(models.Model):
 # sponsors table
 class Sponsor(models.Model):
 	# django user object id
-	user_id = models.ForeignKey(User, unique = True, max_length = 100, blank = false)
+	user = models.ForeignKey(User, unique = True, max_length = 100, blank = false)
 	
 	# sponsor information
 	org_name = models.CharField(max_length=100)
@@ -101,10 +99,10 @@ class Project(models.Model):
 # comments table	
 class Comment(models.Model):
 	# django user object id
-	user_id = models.ForeignKey(User, max_length = 100, blank = false)
+	user = models.ForeignKey(User, max_length = 100, blank = false)
 	
 	# comment information
-	project_id = models.ForeignKey(Project, max_length = 100, blank = false)
+	project = models.ForeignKey(Project, max_length = 100, blank = false)
 	date_posted = models.DateTimeField('date posted')
 	title = models.CharField(max_length=100)
 	text = models.TextField()
