@@ -1,7 +1,7 @@
 from django.http import Http404, HttpResponseRedirect
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
-from models import *
+from mmm_app.models import *
 
 def landing(request):
     if request.user.is_authenticated():

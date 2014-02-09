@@ -58,7 +58,9 @@ WSGI_APPLICATION = 'mmm.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': os.path.join(BASE_DIR, 'db.mysql.mmm'),
+        'NAME': 'mmmdb',
+        'USER': 'root',
+        'PASSWORD': 'password',
     }
 }
 
