@@ -21,8 +21,8 @@ class UserInfo(models.Model):
 	class Meta:
 		ordering = ['user']
 
-	def __unicode__(self):
-		return u'%s' %(user)
+	#def __unicode__(self):
+		#return u'%s' %(user)
 
 # developers table
 class Developer(models.Model):
@@ -37,17 +37,17 @@ class Developer(models.Model):
 	image = models.FileField("Developer Image", upload_to="images/developers/", blank=True)
 
 	# projects that the developer is a part of
-	projects = models.ManyToManyField('Project', blank=True)
+	projects = models.ManyToManyField('Project', related_name = 'dev_proj_assoc', blank=True)
 		#project0 = models.ForeignKey('Project', blank=True, null=True, related_name='+')
 		#project1 = models.ForeignKey('Project', blank=True, null=True, related_name='+')
 		#project2 = models.ForeignKey('Project', blank=True, null=True, related_name='+')
 		#project3 = models.ForeignKey('Project', blank=True, null=True, related_name='+')
 
 	class Meta:
-		ordering = ['user.last_name']
+		ordering = ['user']
 
-	def __unicode__(self):
-		return u'%s, %s' %(user.last_name, user.first_name)
+	#def __unicode__(self):
+		#return u'%s, %s' %(user)
 
 # sponsors table
 class Sponsor(models.Model):
@@ -80,7 +80,7 @@ class Project(models.Model):
 	image = models.FileField("Project Image", upload_to="images/projects/", blank=True)
 
 	# developers that are a part of the project
-	developers = models.ManyToManyField(User, blank=True)
+	developers = models.ManyToManyField(User, related_name = 'proj_dev_assoc', blank=True)
 		#developer0 = models.ForeignKey('Developer', blank=True, null=True, related_name='+')
 		#developer1 = models.ForeignKey('Developer', blank=True, null=True, related_name='+')
 		#developer2 = models.ForeignKey('Developer', blank=True, null=True, related_name='+')
