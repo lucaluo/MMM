@@ -1,3 +1,9 @@
+# INSTRUCTIONS: Run the following commands from the directory MMM/mmm
+#				python manage.py shell < deleteSampleData.py
+#				python manage.py shell < addSampleData.py
+# IMPORTANT:	You MUST delete data from the database before adding the sample data
+
+
 from mmm.mmm_app.models import UserInfo, Developer, Sponsor, Project, Comment, Category_top, Category_sub
 from django.contrib.auth.models import User
 from django.utils import timezone
@@ -143,6 +149,7 @@ ui3 = UserInfo(
 ui3.save()
 
 #--------------------------------------
+# Developer
 
 d0 = Developer(
 	user = u0,
@@ -167,6 +174,7 @@ d2.save()
 
 
 #--------------------------------------
+# Sponsor
 
 s0 = Sponsor(
 	user = u2,
@@ -183,6 +191,7 @@ s1 = Sponsor(
 s1.save()
 
 #--------------------------------------
+# Project
 
 p0 = Project(
 	title = 'The New Angry Birds',
@@ -195,6 +204,7 @@ p0 = Project(
 p0.save()
 
 #--------------------------------------
+# Comment
 
 c0 = Comment(
 	user = u0,
