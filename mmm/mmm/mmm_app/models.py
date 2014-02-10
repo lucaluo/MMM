@@ -79,7 +79,7 @@ class Project(models.Model):
 	developers = models.ManyToManyField(User, related_name = 'proj_dev_assoc', blank=True)
 		
 	#  sub-categorization of project
-	category_sub = models.ManyToManyField('Category_sub', blank=True) 
+	category_subs = models.ManyToManyField('Category_sub', blank=True) 
 
 	class Meta:
 		ordering = ['date_posted']
