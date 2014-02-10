@@ -16,7 +16,7 @@ def landing(request):
     # get all proejcts
     projects = Project.objects.all().order_by('-date_posted')
     # get all tags
-    tags = Tag.objects.all().order_by('term')
+    tags = Category_sub.objects.all().order_by('top')
 
     # render()
     
@@ -30,27 +30,46 @@ def profile(request):
     userInfo = UserInfo.objects.get(user=request.user)
     if userInfo.is_sponsor:
         # query sponsor info
-        pass
+        sponsorInfo = Sponsor.objects.get(user=request.user)
+    else:
+        sponsorInfo = []
     if userInfo.is_developer:
         # query developer info
-        pass
+        developerInfo = Developer.objects.get(user=request.user)
+    else:
+        developerInfo = []
 
     # render()
 
 @login_required
+def update_profile(request):
+    # redirect()
+
+@login_required
 def settings(request):
-    pass
+    userInfo = UserInfo.objects.get(user=request.user)
+
+    # render()
 
 @login_required
 def new_project(request):
-    pass
+    userInfo = UserInfo.objects.get(user=request.user)
+    tags = Category_sub.objects.all().order_by('top')
+
+    # render()
 
 @login_required
 def edit_project(request, proj_id):
-    pass
-
+    # redirect()
+    
+@login_required
 def view_project(request, proj_id):
-    pass
+    projectInfo = Project.obejcts.get(id=proj_id)
+    developers = proejctInfo.developers.all()
+    tags = projectInfo.category_subs.all().order_by('top')
+    comments = Comment.objects.filter(proejct=proj_id)
+
+    # render()
 
 def gallery(request):
-	pass
+
