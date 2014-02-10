@@ -21,8 +21,8 @@ class UserInfo(models.Model):
 	class Meta:
 		ordering = ['user']
 
-	#def __unicode__(self):
-		#return u'%s' %(user)
+	def __unicode__(self):
+		return u'%s' %(self.user.username)
 
 # developers table
 class Developer(models.Model):
@@ -42,8 +42,8 @@ class Developer(models.Model):
 	class Meta:
 		ordering = ['user']
 
-	#def __unicode__(self):
-		#return u'%s, %s' %(user)
+	def __unicode__(self):
+		return u'%s' %(self.user.username)
 
 # sponsors table
 class Sponsor(models.Model):
@@ -58,7 +58,7 @@ class Sponsor(models.Model):
 	image = models.FileField("Sponsor Image", upload_to="images/sponsors/", blank=True)
 
 	class Meta:
-		ordering = ['org_name']
+		ordering = ['user']
 
 	def __unicode__(self):
 		return u'%s' %(self.org_name)
@@ -78,14 +78,11 @@ class Project(models.Model):
 	# developers that are a part of the project
 	developers = models.ManyToManyField(User, related_name = 'proj_dev_assoc', blank=True)
 		
-	# top level categorization of project
-	category_top = models.ForeignKey('Category_top', max_length = 100, blank = False)
-	
 	#  sub-categorization of project
-	category_sub = models.ForeignKey('Category_sub', max_length = 100, blank = False)
+	category_sub = models.ManyToManyField('Category_sub', blank=True) 
 
 	class Meta:
-		ordering = ['-date_posted']
+		ordering = ['date_posted']
 
 	def __unicode__(self):
 		return u'%s' %(self.title)
@@ -113,7 +110,7 @@ class Category_top(models.Model):
 	name = models.CharField(max_length=100)
 
 	class Meta:
-		ordering = ['term']
+		ordering = ['name']
 
 	def __unicode__(self):
 		return u'%s' %(self.name)
