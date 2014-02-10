@@ -90,13 +90,12 @@ admin.site.register(Category_top, Category_topAdmin)
 # Category_sub
 class Category_subAdmin(admin.ModelAdmin):
 	fieldsets = (
-		('Top Level Category', {
+		('Top Level Category(s)', {
 			'fields': ('top',)
 		}),
 		('Sub-Category', {
 			'fields': ('name',)
 		}),
 	)
-	
 admin.site.register(Category_sub, Category_subAdmin)
 

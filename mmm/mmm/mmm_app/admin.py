@@ -64,7 +64,7 @@ admin.site.register(Project, ProjectAdmin)
 
 # Comment
 class CommentAdmin(admin.ModelAdmin):
-	readonly_fields = ('user',)
+	readonly_fields = ('user', 'project', 'date_posted',)
 	fieldsets = (
 		('User', {
 			'fields': ('user',)
@@ -97,6 +97,5 @@ class Category_subAdmin(admin.ModelAdmin):
 			'fields': ('name',)
 		}),
 	)
-	
 admin.site.register(Category_sub, Category_subAdmin)
 

@@ -3,167 +3,205 @@ from django.contrib.auth.models import User
 from django.utils import timezone
 
 #--------------------------------------
+# Category_top
 
-cat_t = Category_top(
+cat_t0 = Category_top(
+	name = 'Language',
+)
+cat_t0.save()
+
+cat_t1 = Category_top(
+	name = 'Paid',
+)
+cat_t1.save()
+
+cat_t2 = Category_top(
 	name = 'Platform',
 )
-cat_t.save()
+cat_t2.save()
 
-cat_s = Category_sub(
-	name = 'Android',
-	top = cat_t,
+cat_t3 = Category_top(
+	name = 'Misc',
 )
-cat_s.save()
+cat_t3.save()
+
+
 
 #--------------------------------------
+# Category_sub
 
-# User0
-u = User.objects.create_user(
+cat_s0 = Category_sub(
+	name = 'Android',
+	top = cat_t2,
+)
+cat_s0.save()
+
+cat_s1 = Category_sub(
+	name = 'iOS',
+	top = cat_t2,
+)
+cat_s1.save()
+
+cat_s2 = Category_sub(
+	name = 'C/C++',
+	top = cat_t0,
+)
+cat_s2.save()
+
+cat_s3 = Category_sub(
+	name = 'Java',
+	top = cat_t0,
+)
+cat_s3.save()
+
+cat_s4 = Category_sub(
+	name = 'Python',
+	top = cat_t0,
+)
+cat_s4.save()
+
+#--------------------------------------
+# Users
+
+u0 = User.objects.create_user(
 	'user0', 
 	'user0@fakemail.com', 
 	'user0_pswd',
 	first_name='User', 
 	last_name='Zero', 
 )
-u.save()
+u0.save()
 
-ui = UserInfo(
-	user = u,
-	is_sponsor=False, 
-	is_developer=True,
-	setting_0=True,
-	setting_1=True,
-	setting_2=True,
-)
-ui.save()
-
-# Developer0
-d = Developer(
-	user = u,
-	major = 'Computer Engineering',
-	bio = 'I am a cool person.',
-)
-d.save()
-
-#--------------------------------------
-
-# User1
-u = User.objects.create_user(
+u1 = User.objects.create_user(
 	'user1', 
 	'user1@fakemail.com', 
 	'user1_pswd',
 	first_name='User', 
 	last_name='One', 
 )
-u.save()
+u1.save()
 
-ui = UserInfo(
-	user = u,
-	is_sponsor=False, 
-	is_developer=True,
-	setting_0=False,
-	setting_1=True,
-	setting_2=False,
-)
-ui.save()
-
-# Developer1
-d = Developer(
-	user = u,
-	major = 'Computer Science',
-	bio = 'I love computers!!!!',
-)
-d.save()
-
-#--------------------------------------
-
-# User2
-u = User.objects.create_user(
+u2 = User.objects.create_user(
 	'user2', 
 	'user2@fakemail.com', 
 	'user2_pswd',
 	first_name='User', 
 	last_name='Two', 
 )
-u.save()
+u2.save()
 
-ui = UserInfo(
-	user = u,
-	is_sponsor=True, 
-	is_developer=False,
-	setting_0=False,
-	setting_1=False,
-	setting_2=False,
-)
-ui.save()
-
-# Sponsor0
-s = Sponsor(
-	user = u,
-	org_name = 'Really Cool Startup',
-	org_bio = 'We are the most cool and awesome startup in the entire city of Ann Arbor!',
-)
-s.save()
-
-#--------------------------------------
-
-# User3
-u = User.objects.create_user(
+u3 = User.objects.create_user(
 	'user3', 
 	'user3@fakemail.com', 
 	'user3_pswd',
 	first_name='User', 
 	last_name='Three', 
 )
-u.save()
+u3.save()
 
-ui = UserInfo(
-	user = u,
+#--------------------------------------
+# UserInfo
+
+ui0 = UserInfo(
+	user = u0,
+	is_sponsor=False, 
+	is_developer=True,
+	setting_0=True,
+	setting_1=True,
+	setting_2=True,
+)
+ui0.save()
+
+ui1 = UserInfo(
+	user = u1,
+	is_sponsor=False, 
+	is_developer=True,
+	setting_0=False,
+	setting_1=True,
+	setting_2=False,
+)
+ui1.save()
+
+ui2 = UserInfo(
+	user = u2,
 	is_sponsor=True, 
 	is_developer=False,
 	setting_0=False,
 	setting_1=False,
 	setting_2=False,
 )
-ui.save()
+ui2.save()
 
-# Developer2
-d = Developer(
-	user = u,
+ui3 = UserInfo(
+	user = u3,
+	is_sponsor=True, 
+	is_developer=True,
+	setting_0=False,
+	setting_1=False,
+	setting_2=False,
+)
+ui3.save()
+
+#--------------------------------------
+
+d0 = Developer(
+	user = u0,
+	major = 'Computer Engineering',
+	bio = 'I am a cool person.',
+)
+d0.save()
+
+d1 = Developer(
+	user = u1,
+	major = 'Computer Science',
+	bio = 'I love computers!!!!',
+)
+d1.save()
+
+d2 = Developer(
+	user = u3,
 	major = 'Computer Science',
 	bio = 'Im a cool person',
 )
-d.save()
+d2.save()
 
-# Sponsor1
-s = Sponsor(
-	user = u,
+
+#--------------------------------------
+
+s0 = Sponsor(
+	user = u2,
+	org_name = 'Really Cool Startup',
+	org_bio = 'We are the most cool and awesome startup in the entire city of Ann Arbor!',
+)
+s1.save()
+
+s1 = Sponsor(
+	user = u3,
 	org_name = 'The Even More Cooler Startup',
 	org_bio = 'We build Android apps for everything.',
 )
-s.save()
+s1.save()
 
 #--------------------------------------
 
-p = Project(
+p0 = Project(
 	title = 'The New Angry Birds',
 	date_posted = timezone.now(),
-	sponsor = u,
+	sponsor = u2,
 	status = 'active',
 	description = 'A talented team of Java developers are making the next Angry Bird Game for Android!',
 	likes = 0,
-	developers = (d,),
 )
-p.save()
+p0.save()
 
 #--------------------------------------
 
-c = Comment(
-	user = u,
-	project = p,
+c0 = Comment(
+	user = u0,
+	project = p0,
 	date_posted = timezone.now(),
 	title = 'AWESOME!!',
 	text = 'Wow this is such a cool project!',
 )
-c.save()
+c0.save()
 
