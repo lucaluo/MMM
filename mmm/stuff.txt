@@ -1,0 +1,59 @@
+# User1
+u = User.objects.create_user(
+	'user1', 
+	'user1@fakemail.com', 
+	'user1_pswd',
+	first_name='User', 
+	last_name='One', 
+)
+u.save()
+
+ui = UserInfo(
+	user = u,
+	is_sponsor=True, 
+	is_developer=False,
+	setting_0=False,
+	setting_1=True,
+	setting_2=False,
+)
+ui.save()
+
+# User2
+u = User.objects.create_user(
+	'user2', 
+	'user2@fakemail.com', 
+	'user2_pswd',
+	first_name='User', 
+	last_name='Two', 
+)
+u.save()
+
+ui = UserInfo(
+	user = u,
+	is_sponsor=True, 
+	is_developer=True,
+	setting_0=True,
+	setting_1=False,
+	setting_2=True,
+)
+ui.save()
+
+# User3
+u = User.objects.create_user(
+	'user3', 
+	'user3@fakemail.com', 
+	'user3_pswd',
+	first_name='User', 
+	last_name='Three', 
+)
+u.save()
+
+ui = UserInfo(
+	user = u,
+	is_sponsor=False, 
+	is_developer=False,
+	setting_0=False,
+	setting_1=False,
+	setting_2=False,
+)
+ui.save()

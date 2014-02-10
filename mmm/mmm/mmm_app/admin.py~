@@ -4,10 +4,39 @@ from mmm.mmm_app.models import UserInfo, Developer, Sponsor, Project, Comment, T
 
 # Register your models here.
 
-admin.site.register(UserInfo)
-admin.site.register(Developer)
-admin.site.register(Sponsor)
-admin.site.register(Project)
-admin.site.register(Comment)
-admin.site.register(Tag)
+# UserInfo
+class UserInfoAdmin(admin.ModelAdmin):
+	pass
+	
+admin.site.register(UserInfo, UserInfoAdmin)
+
+# Developer
+class DeveloperAdmin(admin.ModelAdmin):
+	pass
+	
+admin.site.register(Developer, DeveloperAdmin)
+
+# Sponsor
+class SponsorAdmin(admin.ModelAdmin):
+	pass
+
+admin.site.register(Sponsor, SponsorAdmin)
+
+# Project
+class ProjectAdmin(admin.ModelAdmin):
+	pass
+	
+admin.site.register(Project, ProjectAdmin)
+
+# Comment
+class CommentAdmin(admin.ModelAdmin):
+	pass
+	
+admin.site.register(Comment, CommentAdmin)
+
+# Tag
+class TagAdmin(admin.ModelAdmin):
+	pass
+	
+admin.site.register(Tag, TagAdmin)
 

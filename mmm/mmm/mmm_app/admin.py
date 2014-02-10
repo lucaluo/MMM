@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from mmm.mmm_app.models import UserInfo, Developer, Sponsor, Project, Comment, Tag
+from mmm.mmm_app.models import UserInfo, Developer, Sponsor, Project, Comment, Category_top, Category_sub
 
 # Register your models here.
 
@@ -34,9 +34,15 @@ class CommentAdmin(admin.ModelAdmin):
 	
 admin.site.register(Comment, CommentAdmin)
 
-# Tag
-class TagAdmin(admin.ModelAdmin):
+# Category_top
+class Category_topAdmin(admin.ModelAdmin):
 	pass
 	
-admin.site.register(Tag, TagAdmin)
+admin.site.register(Category_top, Category_topAdmin)
+
+# Category_sub
+class Category_subAdmin(admin.ModelAdmin):
+	pass
+	
+admin.site.register(Category_sub, Category_subAdmin)
 
