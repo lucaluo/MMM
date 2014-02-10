@@ -36,6 +36,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'mmm.mmm_app',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -58,7 +59,9 @@ WSGI_APPLICATION = 'mmm.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': os.path.join(BASE_DIR, 'db.mysql.mmm'),
+        'NAME': 'mmmdb',
+        'USER': 'root',
+        'PASSWORD': 'password',
     }
 }
 
