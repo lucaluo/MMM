@@ -16,7 +16,7 @@ def landing(request):
     # get all proejcts
     projects = Project.objects.all().order_by('-date_posted')
     # get all tags
-    tags = Tag.objects.all().order_by('term')
+    tags = Category_sub.objects.all().order_by('top')
 
     # render()
     
@@ -54,7 +54,7 @@ def settings(request):
 @login_required
 def new_project(request):
     userInfo = UserInfo.objects.get(user=request.user)
-    tags = Tag.objects.all().order_by('term')
+    tags = Category_sub.objects.all().order_by('top')
 
     # render()
 
@@ -66,7 +66,7 @@ def edit_project(request, proj_id):
 def view_project(request, proj_id):
     projectInfo = Project.obejcts.get(id=proj_id)
     developers = proejctInfo.developers.all()
-    tags = projectInfo.tags.all()
+    tags = projectInfo.category_subs.all().order_by('top')
     comments = Comment.objects.filter(proejct=proj_id)
 
     # render()
