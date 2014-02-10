@@ -1,3 +1,7 @@
+# INSTRUCTIONS: Run the following commands from the directory MMM/mmm
+#				python manage.py shell < deleteSampleData.py
+
+
 from mmm.mmm_app.models import UserInfo, Developer, Sponsor, Project, Comment, Category_top, Category_sub
 from django.contrib.auth.models import User
 from django.utils import timezone

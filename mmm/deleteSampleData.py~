@@ -4,8 +4,10 @@ from django.utils import timezone
 
 # Delete User
 for x in User.objects.all():
-	if x.username
-	x.delete()
+	if x.username == 'admin':
+		pass
+	else:
+		x.delete()
 
 # Delete UserInfo
 for x in UserInfo.objects.all():
