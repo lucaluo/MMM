@@ -44,6 +44,7 @@ def profile(request):
 @login_required
 def update_profile(request):
     # redirect()
+    pass
 
 @login_required
 def settings(request):
@@ -61,6 +62,7 @@ def new_project(request):
 @login_required
 def edit_project(request, proj_id):
     # redirect()
+    pass
     
 @login_required
 def view_project(request, proj_id):
@@ -72,4 +74,6 @@ def view_project(request, proj_id):
     # render()
 
 def gallery(request):
+	pass
+
 
