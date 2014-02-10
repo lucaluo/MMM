@@ -29,24 +29,46 @@ def profile(request):
     userInfo = UserInfo.objects.get(user=request.user)
     if userInfo.is_sponsor:
         # query sponsor info
+        sponsorInfo = Sponsor.objects.get(user=request.user)
+    else:
+        sponsorInfo = []
     if userInfo.is_developer:
         # query developer info
+        developerInfo = Developer.objects.get(user=request.user)
+    else:
+        developerInfo = []
 
     # render()
 
 @login_required
+def update_profile(request):
+    # redirect()
+
+@login_required
 def settings(request):
-    
+    userInfo = UserInfo.objects.get(user=request.user)
+
+    # render()
 
 @login_required
 def new_project(request):
-    
+    userInfo = UserInfo.objects.get(user=request.user)
+    tags = Tag.objects.all().order_by('term')
+
+    # render()
 
 @login_required
 def edit_project(request, proj_id):
+    # redirect()
     
-
+@login_required
 def view_project(request, proj_id):
-    
+    projectInfo = Project.obejcts.get(id=proj_id)
+    developers = proejctInfo.developers.all()
+    tags = projectInfo.tags.all()
+    comments = Comment.objects.filter(proejct=proj_id)
+
+    # render()
 
 def gallery(request):
+
