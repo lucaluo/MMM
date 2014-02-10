@@ -65,11 +65,19 @@ class Sponsor(models.Model):
 
 # projects table
 class Project(models.Model):
+	# choices for status
+	STATUS_CHOICES = (
+    ('IN', 'Inactive'),
+    ('AC', 'Active'),
+    ('CO', 'Completed'),
+	)
+
 	# project information
 	title = models.CharField(max_length=100)
 	date_posted = models.DateTimeField('date posted')
 	sponsor = models.ForeignKey(User, unique = True, max_length = 100, blank = False)
-	status = models.CharField(max_length=100)
+	status = models.CharField(max_length=2, choices=STATUS_CHOICES, default='IN')
+	show_in_gallery = models.BooleanField() # show in gallery after competion
 	description = models.TextField()
 	likes = models.IntegerField()
 

@@ -57,14 +57,14 @@ class ProjectAdmin(admin.ModelAdmin):
 			'fields': ('title', 'image', 'sponsor', 'description', 'developers',)
 		}),
 		('Meta Information', {
-			'fields': ('date_posted', 'status', 'likes', 'category_subs',)
+			'fields': ('date_posted', 'status', 'show_in_galler', 'likes', 'category_subs',)
 		}),
 	)	
 admin.site.register(Project, ProjectAdmin)
 
 # Comment
 class CommentAdmin(admin.ModelAdmin):
-	readonly_fields = ('user',)
+	readonly_fields = ('user', 'project', 'date_posted',)
 	fieldsets = (
 		('User', {
 			'fields': ('user',)
@@ -80,6 +80,7 @@ admin.site.register(Comment, CommentAdmin)
 
 # Category_top
 class Category_topAdmin(admin.ModelAdmin):
+	readonly_fields = ('name',)
 	fieldsets = (
 		('Top Level Category', {
 			'fields': ('name',)

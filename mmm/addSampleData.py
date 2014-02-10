@@ -197,10 +197,17 @@ p0 = Project(
 	title = 'The New Angry Birds',
 	date_posted = timezone.now(),
 	sponsor = u2,
-	status = 'active',
-	description = 'A talented team of Java developers are making the next Angry Bird Game for Android!',
+	status = 'AC',
+	show_in_gallery = True,
+	description = 'A talented team of Java developers are making the next Angry Bird game for Android!',
 	likes = 0,
 )
+p0.save()
+p0.developers.add(u0)
+p0.developers.add(u1)
+p0.developers.add(u3)
+p0.category_subs.add(cat_s0)
+p0.category_subs.add(cat_s3)
 p0.save()
 
 #--------------------------------------
