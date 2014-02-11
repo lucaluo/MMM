@@ -79,6 +79,7 @@ class Project(models.Model):
 	status = models.CharField(max_length=2, choices=STATUS_CHOICES, default='IN')
 	show_in_gallery = models.BooleanField() # show in gallery after competion
 	description = models.TextField()
+	requirements = models.TextField()
 	likes = models.IntegerField()
 
 	image = models.FileField("Project Image", upload_to="images/projects/", blank=True)
@@ -86,9 +87,12 @@ class Project(models.Model):
 	# developers that are a part of the project
 	developers = models.ManyToManyField(User, related_name = 'proj_dev_assoc', blank=True)
 		
-	#  sub-categorization of project
+	# sub-categorization of project
 	category_subs = models.ManyToManyField('Category_sub', blank=True) 
-
+	
+	# top level categorization of project
+	category_tops = models.ManyToManyField('Category_top', blank=True) 
+	
 	class Meta:
 		ordering = ['date_posted']
 

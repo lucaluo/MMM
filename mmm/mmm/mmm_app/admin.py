@@ -54,10 +54,10 @@ admin.site.register(Sponsor, SponsorAdmin)
 class ProjectAdmin(admin.ModelAdmin):
 	fieldsets = (
 		('Project Information', {
-			'fields': ('title', 'image', 'sponsor', 'description', 'developers',)
+			'fields': ('title', 'image', 'sponsor', 'description', 'requirements', 'developers',)
 		}),
 		('Meta Information', {
-			'fields': ('date_posted', 'status', 'show_in_gallery', 'likes', 'category_subs',)
+			'fields': ('date_posted', 'status', 'show_in_gallery', 'likes', 'category_tops', 'category_subs',)
 		}),
 	)	
 admin.site.register(Project, ProjectAdmin)

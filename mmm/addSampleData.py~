@@ -200,17 +200,35 @@ p0 = Project(
 	status = 'AC',
 	show_in_gallery = True,
 	description = 'A talented team of Java developers are making the next Angry Bird game for Android!',
+	requirements = 'Wicked Java skills and knowledge of mobile app development.',
 	likes = 0,
-	#developers = [u0, u1, u3],
-	#category_subs = (cat_s0, cat_s3),
 )
 p0.save()
 p0.developers.add(u0)
 p0.developers.add(u1)
 p0.developers.add(u3)
+p0.category_tops.add(cat_t0)
+p0.category_tops.add(cat_t2)
 p0.category_subs.add(cat_s0)
 p0.category_subs.add(cat_s3)
 p0.save()
+
+p1 = Project(
+	title = 'Bitcoin Mining Operation',
+	date_posted = timezone.now(),
+	sponsor = u3,
+	status = 'AC',
+	show_in_gallery = False,
+	description = 'We are going to get rich by stealing bitcoins.',
+	requirements = 'Must be a member of the theives guild.',
+	likes = 0,
+)
+p1.save()
+p1.developers.add(u1)
+p1.developers.add(u3)
+p0.category_tops.add(cat_t1)
+p0.category_tops.add(cat_t3)
+p1.save()
 
 #--------------------------------------
 # Comment
@@ -223,4 +241,13 @@ c0 = Comment(
 	text = 'Wow this is such a cool project!',
 )
 c0.save()
+
+c1 = Comment(
+	user = u3,
+	project = p1,
+	date_posted = timezone.now(),
+	title = 'Horrible',
+	text = 'You all are bad people.',
+)
+c1.save()
 
