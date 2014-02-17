@@ -7,6 +7,10 @@ from django.core.mail import send_mail, BadHeaderError
 from models import *
 import hashlib
 
+HOMEPAGE_URL = '/'
+LOGIN_URL = '/login_form/'
+REGISTER_URL = '/register_form/'
+
 def landing(request):
     if request.user.is_authenticated():
         # get user info
@@ -29,7 +33,7 @@ def user_register_form(request):
         if request.GET.get('next'):
             next = request.GET['next']
         else:
-            next = '/'
+            next = HOMEPAGE_URL
         if request.user.is_authenticated():
             return redirect(next)
         else:
@@ -59,7 +63,7 @@ def user_register(request):
         user.save()
         return redirect('/thankyou/')
     else:
-        return redirect('/register_form/')
+        return redirect(REGISTER_URL)
 
 def send_verify_email(request, username, email):
     activation_code = generate_actication_code(username)
@@ -70,9 +74,9 @@ def user_activate(request, username, activation_code):
         user = User.objects.get(username=username)
         user.is_active = True
         user.save()
-        return redirect('/login_form/')
+        return redirect(LOGIN_URL)
     else:
-        return redirect('/register_form/')
+        return redirect(REGISTER_URL)
 
 def generate_actication_code(username):
     return hashlib.sha256(username[0] + username[-1] + username).hexdigest()
@@ -82,7 +86,7 @@ def user_login_form(request):
         if request.GET.get('next'):
             next = request.GET['next']
         else:
-            next = '/'
+            next = HOMEPAGE_URL
         if request.user.is_authenticated():
             return redirect(next)
         else:
@@ -96,7 +100,7 @@ def user_login(request):
         if request.POST['next']:
             next = request.POST['next']
         else:
-            next = '/'
+            next = HOMEPAGE_URL
         if not (username and password):
             return render(request, 'login_form.html', {'next': next, 'username': username, 'error': 'Fields cannot be empty'})
         user = authenticate(username=username, password=password)
@@ -111,15 +115,15 @@ def user_login(request):
             # Return an 'invalid login' error message.
             return render(request, 'login_form.html', {'next': next, 'username': username, 'error': 'Login Invalid'})
     else:
-        return redirect('/login_form/')
+        return redirect(LOGIN_URL)
 
 def user_logout(request):
     logout(request)
     # redirect to homepage
-    return redirect('/')
+    return redirect(HOMEPAGE_URL)
 
 @login_required
-def profile(request):
+def profile_form(request):
     userInfo = UserInfo.objects.get(user=request.user)
     if userInfo.is_sponsor:
         # query sponsor info
@@ -140,25 +144,32 @@ def update_profile(request):
     pass
 
 @login_required
-def settings(request):
+def settings_form(request):
     userInfo = UserInfo.objects.get(user=request.user)
 
+    # render()
+
+@login_required
+def update_settings(request):
+    pass
+
+@login_required
+def new_project_form(request):
+    userInfo = UserInfo.objects.get(user=request.user)
+    tags = Category_sub.objects.all().order_by('top')
     # render()
 
 @login_required
 def new_project(request):
-    userInfo = UserInfo.objects.get(user=request.user)
-    tags = Category_sub.objects.all().order_by('top')
-
-    # render()
+    pass
 
 @login_required
-def edit_project(request, proj_id):
+def project_form(request, proj_id):
     # redirect()
     pass
     
 @login_required
-def view_project(request, proj_id):
+def edit_project(request, proj_id):
     projectInfo = Project.obejcts.get(id=proj_id)
     developers = proejctInfo.developers.all()
     tags = projectInfo.category_subs.all().order_by('top')
