@@ -1,7 +1,11 @@
 from django.http import Http404, HttpResponseRedirect
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
+from django.contrib.auth import authenticate, login, logout
+from django.core.mail import send_mail, BadHeaderError
 from models import *
+import hashlib
 
 def landing(request):
     if request.user.is_authenticated():
@@ -19,11 +23,100 @@ def landing(request):
     tags = Category_sub.objects.all().order_by('top')
 
     # render()
-    
 
-def userlogin(request):
-    # render()
-    pass
+def user_register_form(request):
+    if request.method == 'GET':
+        if request.GET.get('next'):
+            next = request.GET['next']
+        else:
+            next = '/'
+        if request.user.is_authenticated():
+            return redirect(next)
+        else:
+            return render(request, 'register_form.html', {'next': next})
+    else:
+        return redirect('/register/')
+
+def user_register(request):
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+        uniqname = request.POST['uniqname']
+        name = request.POST['name']
+        if request.POST.get('position'):
+            position = request.POST['position']
+        else:
+            position = ''
+        if not (username and password and uniqname):
+            return render(request, 'register_form.html', {'username': username, 'uniqname': uniqname, 'name': name, 'position': position})
+        if User.objects.filter(username=username).exists():
+            return render(request, 'register_form.html', {'username': username, 'uniqname': uniqname, 'name': name, 'position': position})
+        # TODO: Check legitimate username, password, uniqname, etc.
+        email = uniqname + '@umich.edu'
+        user = User.objects.create_user(username=username, password=password, email=email, first_name=name)
+        user.is_active = False
+        send_verify_email(request, username, email)
+        user.save()
+        return redirect('/thankyou/')
+    else:
+        return redirect('/register_form/')
+
+def send_verify_email(request, username, email):
+    activation_code = generate_actication_code(username)
+    send_mail('User Verification', request.build_absolute_uri('/activate/' + username + '/' + activation_code), 'mmm.umich@gmail.com', [email], fail_silently=False)
+
+def user_activate(request, username, activation_code):
+    if activation_code == generate_actication_code(username):
+        user = User.objects.get(username=username)
+        user.is_active = True
+        user.save()
+        return redirect('/login_form/')
+    else:
+        return redirect('/register_form/')
+
+def generate_actication_code(username):
+    return hashlib.sha256(username[0] + username[-1] + username).hexdigest()
+
+def user_login_form(request):
+    if request.method == 'GET':
+        if request.GET.get('next'):
+            next = request.GET['next']
+        else:
+            next = '/'
+        if request.user.is_authenticated():
+            return redirect(next)
+        else:
+            return render(request, 'login_form.html', {'next': next})
+
+
+def user_login(request):
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+        if request.POST['next']:
+            next = request.POST['next']
+        else:
+            next = '/'
+        if not (username and password):
+            return render(request, 'login_form.html', {'next': next, 'username': username, 'error': 'Fields cannot be empty'})
+        user = authenticate(username=username, password=password)
+        if user is not None:
+            if user.is_active:
+                login(request, user)
+                return redirect(next);
+            else:
+                # Return a 'disabled account' error message
+                return render(request, 'login_form.html', {'next': next, 'username': username, 'error': 'Account Disabled!'})
+        else:
+            # Return an 'invalid login' error message.
+            return render(request, 'login_form.html', {'next': next, 'username': username, 'error': 'Login Invalid'})
+    else:
+        return redirect('/login_form/')
+
+def user_logout(request):
+    logout(request)
+    # redirect to homepage
+    return redirect('/')
 
 @login_required
 def profile(request):

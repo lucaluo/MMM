@@ -23,6 +23,7 @@ SECRET_KEY = 'or0dn1+%45q0v^4c$trli019-ovw!4dk6n#vbz6ig0!u!6br(e'
 DEBUG = True
 
 TEMPLATE_DEBUG = True
+TEMPLATE_DIRS = (os.path.join(BASE_DIR, 'mmm/templates/'))
 
 ALLOWED_HOSTS = []
 
@@ -61,9 +62,15 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'mmmdb',
         'USER': 'root',
-        'PASSWORD': 'password',
+        'PASSWORD': 'luojiaxi',
     }
 }
+
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'mmm.umich@gmail.com'
+EMAIL_HOST_PASSWORD = 'mmm@umich.edu'
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.6/topics/i18n/
