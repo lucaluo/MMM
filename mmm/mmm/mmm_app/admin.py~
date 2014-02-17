@@ -5,37 +5,71 @@ from mmm.mmm_app.models import UserInfo, Developer, Sponsor, Project, Comment, C
 
 # Register your models here.
 
+# admin model base class
+class userBaseAdmin(admin.ModelAdmin):
+	def first_name(self, obj):
+		u = obj.user
+		return u.first_name
+	
+	def last_name(self, obj):
+		u = obj.user
+		return u.last_name
+		
+	def email(self, obj):
+		u = obj.user
+		return u.email
+		
+	def is_active(self, obj):
+		u = obj.user
+		return u.is_active
+		
+	def is_staff(self, obj):
+		u = obj.user
+		return u.is_staff
+
 # UserInfo
-class UserInfoAdmin(admin.ModelAdmin):
-	readonly_fields = ('user',)
+class UserInfoAdmin(userBaseAdmin):
 	fieldsets = (
 		('User Information', {
-			'fields': ('user', 'is_sponsor', 'is_developer',)
+			'fields': ('user', 'first_name', 'last_name', 'email', 'is_active', 'is_staff', 'is_sponsor', 'is_developer',)
 		}),
 		('User Settings', {
 			'fields': ('setting_0', 'setting_1', 'setting_2',)
 		}),
 	)
+	
+	readonly_fields = ('user','first_name', 'last_name', 'email', 'is_active', 'is_staff',)
+
 admin.site.register(UserInfo, UserInfoAdmin)
 
 # Developer
-class DeveloperAdmin(admin.ModelAdmin):
-	readonly_fields = ('user',)
+class DeveloperAdmin(userBaseAdmin):
 	fieldsets = (
-		('Developer Information', {
-			'fields': ('user', 'image', 'major', 'bio', 'skills','projects',)
+		('Personal Information', {
+			'fields': ('user', 'first_name', 'last_name', 'email',)
+		}),
+		('Profile Information', {
+			'fields': ('image', 'major', 'bio', 'skills','projects',)
 		}),
 	)
+	
+	readonly_fields = ('user','first_name', 'last_name', 'email',)
+	
 admin.site.register(Developer, DeveloperAdmin)
 
 # Sponsor
-class SponsorAdmin(admin.ModelAdmin):
-	readonly_fields = ('user',)
+class SponsorAdmin(userBaseAdmin):
 	fieldsets = (
-		('Sponsor Information', {
-			'fields': ('user', 'org_name', 'image', 'org_bio', 'projects',)
+		('Personal Information', {
+			'fields': ('user', 'first_name', 'last_name', 'email',)
+		}),
+		('Organization Information', {
+			'fields': ('org_name', 'image', 'org_bio', 'projects',)
 		}),
 	)
+	
+	readonly_fields = ('user','first_name', 'last_name', 'email',)
+	
 admin.site.register(Sponsor, SponsorAdmin)
 
 # Project
@@ -48,13 +82,18 @@ class ProjectAdmin(admin.ModelAdmin):
 admin.site.register(Project, ProjectAdmin)
 
 # Comment
-class CommentAdmin(admin.ModelAdmin):
-	readonly_fields = ('user', 'project', 'date_posted',)
+class CommentAdmin(userBaseAdmin):
 	fieldsets = (
 		('Comment Information', {
-			'fields': ('user', 'project', 'date_posted', 'title', 'text',)
-		}), 
+			'fields': ('project', 'date_posted', 'title', 'text', 'flags',)
+		}),
+		('User Information', {
+			'fields': ('user', 'first_name', 'last_name', 'email',)
+		}),
 	)
+	
+	#readonly_fields = ('user', 'first_name', 'last_name', 'email',)
+	
 admin.site.register(Comment, CommentAdmin)
 
 # Category_top

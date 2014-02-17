@@ -13,4 +13,7 @@ Database Setup Instructions
 4.	Run the following commands from the directory with manage.py in it:
 		$	python manage.py sql mmm_app
 		$	python manage.py syncdb
-5.	The database is set up. Add data t
+		NOTE: you will be prompted to make a root username and password for the django admin site.
+			  Don't forget either!!
+5.	The database is set up. Add data to it.
+

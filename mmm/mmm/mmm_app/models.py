@@ -22,7 +22,7 @@ class UserInfo(models.Model):
 		ordering = ['user']
 
 	def __unicode__(self):
-		return u'%s' %(self.user.username)
+		return u'%s: (%s %s)' %(self.user.username, self.user.first_name, self.user.last_name)
 
 # developers table
 class Developer(models.Model):
@@ -44,7 +44,7 @@ class Developer(models.Model):
 		ordering = ['user']
 
 	def __unicode__(self):
-		return u'%s' %(self.user.username)
+		return u'%s: (%s %s)' %(self.user.username, self.user.first_name, self.user.last_name)
 
 # sponsors table
 class Sponsor(models.Model):
@@ -65,7 +65,7 @@ class Sponsor(models.Model):
 		ordering = ['user']
 
 	def __unicode__(self):
-		return u'%s' %(self.org_name)
+		return u'%s: %s (%s %s)' %(self.org_name, self.user.username, self.user.first_name, self.user.last_name)
 
 # projects table
 class Project(models.Model):
@@ -119,7 +119,7 @@ class Comment(models.Model):
 		ordering = ['date_posted']
 
 	def __unicode__(self):
-		return u'%s' %(self.title)
+		return u'%s -> %s' %(self.project, self.title)
 
 # category_top table
 class Category_top(models.Model):

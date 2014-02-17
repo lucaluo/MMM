@@ -22,7 +22,7 @@ class UserInfo(models.Model):
 		ordering = ['user']
 
 	def __unicode__(self):
-		return u'%s' %(self.user.username)
+		return u'%s: (%s %s)' %(self.user.username, self.user.first_name, self.user.last_name)
 
 # developers table
 class Developer(models.Model):
@@ -44,7 +44,7 @@ class Developer(models.Model):
 		ordering = ['user']
 
 	def __unicode__(self):
-		return u'%s' %(self.user.username)
+		return u'%s: (%s %s)' %(self.user.username, self.user.first_name, self.user.last_name)
 
 # sponsors table
 class Sponsor(models.Model):
@@ -59,13 +59,13 @@ class Sponsor(models.Model):
 	image = models.FileField("Sponsor Image", upload_to="images/sponsors/", blank=True)
 	
 	# projects that are sponsored by this sponsor
-	projects = models.ManyToManyField('Project', related_name = 'dev_proj_assoc', blank=True)
+	projects = models.ManyToManyField('Project', related_name = 'spons_proj_assoc', blank=True)
 
 	class Meta:
 		ordering = ['user']
 
 	def __unicode__(self):
-		return u'%s' %(self.org_name)
+		return u'%s: %s (%s %s)' %(slef.org_name, self.user.username, self.user.first_name, self.user.last_name)
 
 # projects table
 class Project(models.Model):
@@ -119,7 +119,7 @@ class Comment(models.Model):
 		ordering = ['date_posted']
 
 	def __unicode__(self):
-		return u'%s' %(self.title)
+		return u'%s -> %s' %(self.project, self.title)
 
 # category_top table
 class Category_top(models.Model):
