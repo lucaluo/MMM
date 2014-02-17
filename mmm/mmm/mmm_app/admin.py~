@@ -26,6 +26,13 @@ class userBaseAdmin(admin.ModelAdmin):
 	def is_staff(self, obj):
 		u = obj.user
 		return u.is_staff
+		
+# Action for deleting flagged comments
+def deleteFlagged_3plus(modeladmin, request, queryset):
+	for obj in queryset:
+		if obj.flags >= 3:
+			obj.delete()
+	deleteFlagged_3plus.short_description = "Delete comments with 3 or more flags"
 
 # UserInfo
 class UserInfoAdmin(userBaseAdmin):
@@ -40,6 +47,8 @@ class UserInfoAdmin(userBaseAdmin):
 	
 	readonly_fields = ('user','first_name', 'last_name', 'email', 'is_active', 'is_staff',)
 
+	list_display = ('user', 'first_name', 'last_name',)	
+	
 admin.site.register(UserInfo, UserInfoAdmin)
 
 # Developer
@@ -54,6 +63,8 @@ class DeveloperAdmin(userBaseAdmin):
 	)
 	
 	readonly_fields = ('user','first_name', 'last_name', 'email',)
+	
+	list_display = ('user', 'first_name', 'last_name',)
 	
 admin.site.register(Developer, DeveloperAdmin)
 
@@ -70,6 +81,8 @@ class SponsorAdmin(userBaseAdmin):
 	
 	readonly_fields = ('user','first_name', 'last_name', 'email',)
 	
+	list_display = ('org_name', 'user', 'first_name', 'last_name',)
+	
 admin.site.register(Sponsor, SponsorAdmin)
 
 # Project
@@ -78,7 +91,10 @@ class ProjectAdmin(admin.ModelAdmin):
 		('Project Information', {
 			'fields': ('title', 'image',  'sponsor', 'date_posted', 'status', 'description', 'requirements', 'developers', 'category_tops', 'category_subs', 'show_in_gallery', 'flags',)
 		}),
-	)	
+	)
+	
+	list_display = ('title', 'sponsor',)
+		
 admin.site.register(Project, ProjectAdmin)
 
 # Comment
@@ -92,7 +108,9 @@ class CommentAdmin(userBaseAdmin):
 		}),
 	)
 	
-	#readonly_fields = ('user', 'first_name', 'last_name', 'email',)
+	readonly_fields = ('user', 'first_name', 'last_name', 'email',)
+	
+	list_display = ('title', 'project', 'user', 'flags',)
 	
 admin.site.register(Comment, CommentAdmin)
 
@@ -113,5 +131,8 @@ class Category_subAdmin(admin.ModelAdmin):
 			'fields': ('top', 'name',)
 		}),
 	)
+	
+	list_display = ('name', 'top')
+	
 admin.site.register(Category_sub, Category_subAdmin)
 

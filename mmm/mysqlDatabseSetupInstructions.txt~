@@ -6,7 +6,7 @@ Database Setup Instructions
 		$	YOUR_ROOT_PASSWORD
 3.	Create a database, a user, and give the user permissions:
 		mysql>	create database mmmdb;
-		mysql>	create user 'mmm_django_site'@'localhost' identified by 'aPlainTextPassword1994$%';
+		mysql>	create user 'mmm_django_site'@'localhost' identified by 'aPlainTextPassword';
 		mysql>	grant all privileges on mmmdb.* to mmm_django_site@localhost;
 		mysql>	flush privileges;
 		mysql>	exit;
