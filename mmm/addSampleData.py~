@@ -197,7 +197,7 @@ p0 = Project(
 	title = 'The New Angry Birds',
 	date_posted = timezone.now(),
 	sponsor = u2,
-	status = 'AC',
+	status = 'OP',
 	show_in_gallery = True,
 	description = 'A talented team of Java developers are making the next Angry Bird game for Android!',
 	requirements = 'Wicked Java skills and knowledge of mobile app development.',
@@ -217,7 +217,7 @@ p1 = Project(
 	title = 'Bitcoin Mining Operation',
 	date_posted = timezone.now(),
 	sponsor = u3,
-	status = 'AC',
+	status = 'CL',
 	show_in_gallery = False,
 	description = 'We are going to get rich by stealing bitcoins.',
 	requirements = 'Must be a member of the theives guild.',
@@ -226,8 +226,8 @@ p1 = Project(
 p1.save()
 p1.developers.add(u1)
 p1.developers.add(u3)
-p0.category_tops.add(cat_t1)
-p0.category_tops.add(cat_t3)
+p1.category_tops.add(cat_t1)
+p1.category_tops.add(cat_t3)
 p1.save()
 
 #--------------------------------------

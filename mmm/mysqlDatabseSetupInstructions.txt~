@@ -1,0 +1,16 @@
+Database Setup Instructions
+
+1.	Install mysql-server on your machine. Make sure to note the root password.
+2.	Login to mysql with:
+		$	mysql -u root -p
+		$	YOUR_ROOT_PASSWORD
+3.	Create a database, a user, and give the user permissions:
+		mysql>	create database mmmdb;
+		mysql>	create user 'mmm_django_site'@'localhost' identified by 'aPlainTextPassword1994$%';
+		mysql>	grant all privileges on mmmdb.* to mmm_django_site@localhost;
+		mysql>	flush privileges;
+		mysql>	exit;
+4.	Run the following commands from the directory with manage.py in it:
+		$	python manage.py sql mmm_app
+		$	python manage.py syncdb
+5.	The database is set up. Add data t

@@ -60,8 +60,8 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'mmmdb',
-        'USER': 'root',
-        'PASSWORD': 'password',
+        'USER': 'mmm_django_site',
+        'PASSWORD': 'aPlainTextPassword1994$%',
     }
 }
 

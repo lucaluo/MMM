@@ -197,11 +197,11 @@ p0 = Project(
 	title = 'The New Angry Birds',
 	date_posted = timezone.now(),
 	sponsor = u2,
-	status = 'AC',
+	status = 'OP',
 	show_in_gallery = True,
 	description = 'A talented team of Java developers are making the next Angry Bird game for Android!',
 	requirements = 'Wicked Java skills and knowledge of mobile app development.',
-	likes = 0,
+	flags = 0,
 )
 p0.save()
 p0.developers.add(u0)
@@ -217,11 +217,11 @@ p1 = Project(
 	title = 'Bitcoin Mining Operation',
 	date_posted = timezone.now(),
 	sponsor = u3,
-	status = 'AC',
+	status = 'CL',
 	show_in_gallery = False,
 	description = 'We are going to get rich by stealing bitcoins.',
 	requirements = 'Must be a member of the theives guild.',
-	likes = 0,
+	flags = 0,
 )
 p1.save()
 p1.developers.add(u1)
@@ -239,6 +239,7 @@ c0 = Comment(
 	date_posted = timezone.now(),
 	title = 'AWESOME!!',
 	text = 'Wow this is such a cool project!',
+	flags = 0,
 )
 c0.save()
 
@@ -248,6 +249,7 @@ c1 = Comment(
 	date_posted = timezone.now(),
 	title = 'Horrible',
 	text = 'You all are bad people.',
+	flags = 4,
 )
 c1.save()
 

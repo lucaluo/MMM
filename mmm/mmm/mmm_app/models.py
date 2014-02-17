@@ -32,6 +32,7 @@ class Developer(models.Model):
 	# developer information
 	major = models.CharField(max_length=100, blank=True)
 	bio = models.TextField()
+	skills = models.TextField()
 
 	# optional picture of developer
 	image = models.FileField("Developer Image", upload_to="images/developers/", blank=True)
@@ -56,6 +57,9 @@ class Sponsor(models.Model):
 		
 	# optional sponsor picture/logo
 	image = models.FileField("Sponsor Image", upload_to="images/sponsors/", blank=True)
+	
+	# projects that are sponsored by this sponsor
+	projects = models.ManyToManyField('Project', related_name = 'spons_proj_assoc', blank=True)
 
 	class Meta:
 		ordering = ['user']
@@ -67,8 +71,8 @@ class Sponsor(models.Model):
 class Project(models.Model):
 	# choices for status
 	STATUS_CHOICES = (
-    ('IN', 'Inactive'),
-    ('AC', 'Active'),
+    ('OP', 'Open'),
+    ('CL', 'Closed'),
     ('CO', 'Completed'),
 	)
 
@@ -80,7 +84,7 @@ class Project(models.Model):
 	show_in_gallery = models.BooleanField() # show in gallery after competion
 	description = models.TextField()
 	requirements = models.TextField()
-	likes = models.IntegerField()
+	flags = models.IntegerField()
 
 	image = models.FileField("Project Image", upload_to="images/projects/", blank=True)
 
@@ -109,6 +113,7 @@ class Comment(models.Model):
 	date_posted = models.DateTimeField('date posted')
 	title = models.CharField(max_length=100)
 	text = models.TextField()
+	flags = models.IntegerField()
 
 	class Meta:
 		ordering = ['date_posted']
@@ -120,6 +125,9 @@ class Comment(models.Model):
 class Category_top(models.Model):
 	# the category name
 	name = models.CharField(max_length=100)
+
+	# sub-categorization of project
+	category_subs = models.ManyToManyField('Category_sub', blank=True) 
 
 	class Meta:
 		ordering = ['name']

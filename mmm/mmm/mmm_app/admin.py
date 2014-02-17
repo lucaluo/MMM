@@ -9,11 +9,8 @@ from mmm.mmm_app.models import UserInfo, Developer, Sponsor, Project, Comment, C
 class UserInfoAdmin(admin.ModelAdmin):
 	readonly_fields = ('user',)
 	fieldsets = (
-		('Username', {
-			'fields': ('user',)
-		}),
-		('User Type', {
-			'fields': ('is_sponsor', 'is_developer',)
+		('User Information', {
+			'fields': ('user', 'is_sponsor', 'is_developer',)
 		}),
 		('User Settings', {
 			'fields': ('setting_0', 'setting_1', 'setting_2',)
@@ -25,14 +22,8 @@ admin.site.register(UserInfo, UserInfoAdmin)
 class DeveloperAdmin(admin.ModelAdmin):
 	readonly_fields = ('user',)
 	fieldsets = (
-		('User', {
-			'fields': ('user', 'image',)
-		}),
 		('Developer Information', {
-			'fields': ('major', 'bio',)
-		}),
-		('Developer Works', {
-			'fields': ('projects',)
+			'fields': ('user', 'image', 'major', 'bio', 'skills','projects',)
 		}),
 	)
 admin.site.register(Developer, DeveloperAdmin)
@@ -41,11 +32,8 @@ admin.site.register(Developer, DeveloperAdmin)
 class SponsorAdmin(admin.ModelAdmin):
 	readonly_fields = ('user',)
 	fieldsets = (
-		('User', {
-			'fields': ('user',)
-		}),
 		('Sponsor Information', {
-			'fields': ('org_name', 'image', 'org_bio',)
+			'fields': ('user', 'org_name', 'image', 'org_bio', 'projects',)
 		}),
 	)
 admin.site.register(Sponsor, SponsorAdmin)
@@ -54,10 +42,7 @@ admin.site.register(Sponsor, SponsorAdmin)
 class ProjectAdmin(admin.ModelAdmin):
 	fieldsets = (
 		('Project Information', {
-			'fields': ('title', 'image', 'sponsor', 'description', 'requirements', 'developers',)
-		}),
-		('Meta Information', {
-			'fields': ('date_posted', 'status', 'show_in_gallery', 'likes', 'category_tops', 'category_subs',)
+			'fields': ('title', 'image',  'sponsor', 'date_posted', 'status', 'description', 'requirements', 'developers', 'category_tops', 'category_subs', 'show_in_gallery', 'flags',)
 		}),
 	)	
 admin.site.register(Project, ProjectAdmin)
@@ -66,15 +51,9 @@ admin.site.register(Project, ProjectAdmin)
 class CommentAdmin(admin.ModelAdmin):
 	readonly_fields = ('user', 'project', 'date_posted',)
 	fieldsets = (
-		('User', {
-			'fields': ('user',)
-		}),
 		('Comment Information', {
-			'fields': ('title', 'text',)
-		}),
-		('Meta Information', {
-			'fields': ('project', 'date_posted',)
-		}),
+			'fields': ('user', 'project', 'date_posted', 'title', 'text', 'flags',)
+		}), 
 	)
 admin.site.register(Comment, CommentAdmin)
 
@@ -82,8 +61,8 @@ admin.site.register(Comment, CommentAdmin)
 class Category_topAdmin(admin.ModelAdmin):
 	readonly_fields = ('name',)
 	fieldsets = (
-		('Top Level Category', {
-			'fields': ('name',)
+		('Category Information', {
+			'fields': ('name', 'category_subs',)
 		}),
 	)
 admin.site.register(Category_top, Category_topAdmin)
@@ -91,11 +70,8 @@ admin.site.register(Category_top, Category_topAdmin)
 # Category_sub
 class Category_subAdmin(admin.ModelAdmin):
 	fieldsets = (
-		('Top Level Category(s)', {
-			'fields': ('top',)
-		}),
-		('Sub-Category', {
-			'fields': ('name',)
+		('Category Information', {
+			'fields': ('top', 'name',)
 		}),
 	)
 admin.site.register(Category_sub, Category_subAdmin)
