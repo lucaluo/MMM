@@ -32,7 +32,27 @@ def deleteFlagged_3plus(modeladmin, request, queryset):
 	for obj in queryset:
 		if obj.flags >= 3:
 			obj.delete()
-	deleteFlagged_3plus.short_description = "Delete comments with 3 or more flags"
+deleteFlagged_3plus.short_description = "Delete comments with 3 or more flags"
+
+# Action for setting project status to open
+def setStatusOpen(modeladmin, request, queryset):
+	queryset.update(status='OP')
+setStatusOpen.short_description = "Set project statuses to Open"
+	
+# Action for setting project status to open
+def setStatusClosed(modeladmin, request, queryset):
+	queryset.update(status='CL')
+setStatusClosed.short_description = "Set project statuses to Closed"
+	
+# Action for setting project status to open
+def setStatusComp(modeladmin, request, queryset):
+	queryset.update(status='CO')
+setStatusComp.short_description = "Set project statuses to Completed"
+
+# Action for showing project in gallery
+def setShowInGallery(modeladmin, request, queryset):
+	queryset.update(show_in_gallery=True)
+setShowInGallery.short_description = "Set show_in_gallery to True"
 
 # UserInfo
 class UserInfoAdmin(userBaseAdmin):
@@ -47,7 +67,9 @@ class UserInfoAdmin(userBaseAdmin):
 	
 	readonly_fields = ('user','first_name', 'last_name', 'email', 'is_active', 'is_staff',)
 
-	list_display = ('user', 'first_name', 'last_name',)	
+	list_display = ('user', 'first_name', 'last_name',)
+	
+	search_fields = ['user__username', 'user__email', 'user__first_name', 'user__last_name']	
 	
 admin.site.register(UserInfo, UserInfoAdmin)
 
@@ -66,6 +88,8 @@ class DeveloperAdmin(userBaseAdmin):
 	
 	list_display = ('user', 'first_name', 'last_name',)
 	
+	search_fields = ['user__username', 'user__email', 'user__first_name', 'user__last_name', 'major']
+	
 admin.site.register(Developer, DeveloperAdmin)
 
 # Sponsor
@@ -83,6 +107,8 @@ class SponsorAdmin(userBaseAdmin):
 	
 	list_display = ('org_name', 'user', 'first_name', 'last_name',)
 	
+	search_fields = ['user__username', 'user__email', 'user__first_name', 'user__last_name', 'org_name']
+	
 admin.site.register(Sponsor, SponsorAdmin)
 
 # Project
@@ -93,7 +119,16 @@ class ProjectAdmin(admin.ModelAdmin):
 		}),
 	)
 	
-	list_display = ('title', 'sponsor',)
+	def sponsor_org_name(self, obj):
+		u = obj.sponsor
+		s = Sponsor.objects.get(user=u)
+		return s.org_name
+	
+	list_display = ('title', 'sponsor_org_name', 'sponsor', 'status', 'show_in_gallery',)
+	
+	actions = [setStatusOpen, setStatusClosed, setStatusComp, setShowInGallery]
+	
+	search_fields = ['sponsor__username', 'sponsor__email', 'sponsor__first_name', 'sponsor__last_name', 'title', 'category_tops__name', 'category_subs__name'] # , 'sponsor_org_name']
 		
 admin.site.register(Project, ProjectAdmin)
 
@@ -112,6 +147,8 @@ class CommentAdmin(userBaseAdmin):
 	
 	list_display = ('title', 'project', 'user', 'flags',)
 	
+	search_fields = ['user__username', 'user__email', 'user__first_name', 'user__last_name', 'title', 'project__title']
+	
 	actions = [deleteFlagged_3plus]
 	
 admin.site.register(Comment, CommentAdmin)
@@ -124,6 +161,8 @@ class Category_topAdmin(admin.ModelAdmin):
 			'fields': ('name', 'category_subs',)
 		}),
 	)
+	
+	search_fields = ['name', 'category_subs__name']
 admin.site.register(Category_top, Category_topAdmin)
 
 # Category_sub
@@ -135,6 +174,8 @@ class Category_subAdmin(admin.ModelAdmin):
 	)
 	
 	list_display = ('name', 'top')
+	
+	search_fields = ['name', 'top__name']
 	
 admin.site.register(Category_sub, Category_subAdmin)
 
