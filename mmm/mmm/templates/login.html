@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang = "en">
+<head>
+	<title>MMM: Michigan Mobile Manufacturing</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="">
+	<meta name="author" content="">
+	<!-- Le styles -->
+	<link href="static/css/bootstrap.min.css" rel="stylesheet">
+	<link href="static/css/style.css" rel="stylesheet">
+	<link href="static/css/login.css" rel="stylesheet">
+	<!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+<!--[if lt IE 9]>
+<script src="js/html5shiv.js"></script>
+<![endif]-->
+
+</head>
+<body>
+
+	<div class="container">
+
+		<form class="form-signin">
+			<h2 class="form-signin-heading">MMM</h2>
+			<input type="text" class="input-block-level" placeholder="Uniqname">
+			<input type="password" class="input-block-level" placeholder="Password">
+			<label class="checkbox">
+				<input type="checkbox" value="remember-me"> Remember me
+			</label>
+			<button class="btn btn-large btn-info signInBtn" type="submit">Sign in</button>
+			<br />
+			<br />
+			<!-- <button class="btn btn-link" type="signUp"> Not a member? Sign up!</button> -->
+			<a href="#signUpModal" role = "button" data-toggle="modal"> Not a member? Sign up! </a>
+		</form>
+
+	</div> <!-- /container -->
+
+	<!-- sign up modal -->
+	<div id="signUpModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" >
+		<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+			<h3 id="myModalLabel">Sign up for MMM</h3>
+		</div>
+		<div class="modal-body">
+			<input type="text" class="input-block-level" placeholder="Uniqname">
+			<input type="password" class="input-block-level" placeholder="New Password">
+			<input type="password" class="input-block-level" placeholder="Confirm Password">
+			<p style = "color:gray;">Check your email for an activation link after submitting</p>
+		</div>
+		<div class="modal-footer">
+			<button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+			<button class="btn btn-info">Submit</button>
+		</div>
+	</div>
+	<script src="static/js/jquery.min.js"></script>
+	<script src="static/js/bootstrap.min.js"></script>
+	<script src="static/js/login.js"></script>
+</body>
+
+</html>
+

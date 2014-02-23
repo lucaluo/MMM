@@ -127,7 +127,7 @@ class Category_top(models.Model):
 	name = models.CharField(max_length=100)
 
 	# sub-categorization of project
-	category_subs = models.ManyToManyField('Category_sub', blank=True) 
+	# category_subs = models.ManyToManyField('Category_sub', blank=True) 
 
 	class Meta:
 		ordering = ['name']

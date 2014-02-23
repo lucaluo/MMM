@@ -1,6 +1,6 @@
 from django.conf.urls import patterns, include, url
 from mmm_app.views import *
-
+from django.conf import settings
 from django.contrib import admin
 admin.autodiscover()
 
@@ -20,4 +20,8 @@ urlpatterns = patterns('',
     # url(r'^project/(?P<proj_id>\w+)/$', view_project),
     # url(r'^gallery/$', gallery),
     # url(r'^admin/$', admin),
+    # handles media files
+    # url(r'^media/(?P<path>.*)/$', 'django.views.static.serve', {'document_root': settings.MEDIA_ROOT}), 
+    # handles static files
+    url(r'^static/(?P<path>.*)/$', 'django.views.static.serve', {'document_root': settings.STATIC_ROOT}), 
 )

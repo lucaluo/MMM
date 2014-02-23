@@ -10,7 +10,7 @@ https://docs.djangoproject.com/en/1.6/ref/settings/
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
-BASE_DIR = os.path.dirname(os.path.dirname(__file__))
+BASE_DIR = os.path.dirname(__file__)
 
 
 # Quick-start development settings - unsuitable for production
@@ -23,7 +23,7 @@ SECRET_KEY = 'or0dn1+%45q0v^4c$trli019-ovw!4dk6n#vbz6ig0!u!6br(e'
 DEBUG = True
 
 TEMPLATE_DEBUG = True
-TEMPLATE_DIRS = (os.path.join(BASE_DIR, 'mmm/templates/'))
+TEMPLATE_DIRS = (os.path.join(BASE_DIR, 'templates/'))
 
 ALLOWED_HOSTS = []
 
@@ -63,7 +63,6 @@ DATABASES = {
         'NAME': 'mmmdb',
         'USER': 'root',
         'PASSWORD': 'password',
-        #'PASSWORD': 'luojiaxi',
     }
 }
 
@@ -90,4 +89,19 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.6/howto/static-files/
 
+STATIC_ROOT = ''
 STATIC_URL = '/static/'
+# Additional locations of static files
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, 'static').replace('\\','/'),
+)
+
+# List of finder classes that know how to find static files in
+# various locations.
+STATICFILES_FINDERS = (
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+#    'django.contrib.staticfiles.finders.DefaultStorageFinder',
+)
+
+from settings_local import *
