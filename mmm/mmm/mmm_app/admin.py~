@@ -53,6 +53,10 @@ setStatusComp.short_description = "Set project statuses to Completed"
 def setShowInGallery(modeladmin, request, queryset):
 	queryset.update(show_in_gallery=True)
 setShowInGallery.short_description = "Set show_in_gallery to True"
+	
+# inline class for editing sub categories
+class CategorySubInline(admin.TabularInline):
+	model = Category_sub
 
 # UserInfo
 class UserInfoAdmin(userBaseAdmin):
@@ -83,7 +87,7 @@ class DeveloperAdmin(userBaseAdmin):
 			'fields': ('user', 'first_name', 'last_name', 'email',)
 		}),
 		('Profile Information', {
-			'fields': ('image', 'major', 'bio', 'skills','projects',)
+			'fields': ('image', 'major', 'bio', 'skills', 'projects',)
 		}),
 	)
 	
@@ -97,6 +101,14 @@ admin.site.register(Developer, DeveloperAdmin)
 
 # Sponsor
 class SponsorAdmin(userBaseAdmin):
+	def projects(self, obj):
+		proj_str = ', '
+		proj_names = ['']
+		projs = Project.objects.all(sponsor=obj.user)
+		for p in projs:
+			proj_names.append(p.title)
+		return proj_str.join(proj_names)
+
 	fieldsets = (
 		('Personal Information', {
 			'fields': ('user', 'first_name', 'last_name', 'email',)
@@ -106,7 +118,7 @@ class SponsorAdmin(userBaseAdmin):
 		}),
 	)
 	
-	readonly_fields = ('user','first_name', 'last_name', 'email',)
+	readonly_fields = ('user','first_name', 'last_name', 'email', 'projects')
 	
 	list_display = ('org_name', 'user', 'first_name', 'last_name',)
 	
@@ -116,15 +128,12 @@ admin.site.register(Sponsor, SponsorAdmin)
 
 # Project
 class ProjectAdmin(admin.ModelAdmin):
+	readonly_fields = ('sponsor_org_name',)
 	fieldsets = (
 		('Project Information', {
-			'fields': ('title', 'image',  'sponsor', 'date_posted', 'status', 'description', 'requirements', 'developers', 'category_tops', 'category_subs', 'show_in_gallery', 'flags',)
+			'fields': ('title', 'image', 'sponsor_org_name', 'sponsor', 'date_posted', 'status', 'description', 'requirements', 'category_subs', 'show_in_gallery', 'flags',)
 		}),
 	)
-	
-	def category_tops(self, obj):
-		cs = (,)
-		cs = obj.category_subs
 	
 	def sponsor_org_name(self, obj):
 		u = obj.sponsor
@@ -163,26 +172,29 @@ admin.site.register(Comment, CommentAdmin)
 # Category_top
 class Category_topAdmin(admin.ModelAdmin):
 	readonly_fields = ('name',)
+	
+	inlines = [CategorySubInline]
+	
 	fieldsets = (
 		('Category Information', {
-			'fields': ('name', 'category_subs',)
+			'fields': ('name',)
 		}),
 	)
 	
-	search_fields = ['name', 'category_subs__name']
+	search_fields = ['name']
 admin.site.register(Category_top, Category_topAdmin)
 
 # Category_sub
 class Category_subAdmin(admin.ModelAdmin):
 	fieldsets = (
 		('Category Information', {
-			'fields': ('top', 'name',)
+			'fields': ('category_top', 'name',)
 		}),
 	)
 	
-	list_display = ('name', 'top')
+	list_display = ('name', 'category_top')
 	
-	search_fields = ['name', 'top__name']
+	search_fields = ['name', 'category_top__name']
 	
 admin.site.register(Category_sub, Category_subAdmin)
 

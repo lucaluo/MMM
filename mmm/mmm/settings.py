@@ -105,5 +105,5 @@ STATICFILES_FINDERS = (
 
 LOGIN_URL = '/login_form/'
 
-from settings_local import *
-
+#from settings_local import *
+from mmm.settings import *

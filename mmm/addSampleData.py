@@ -252,6 +252,12 @@ d1.projects.add(p1)
 d2.projects.add(p1)
 d1.projects.add(p0)
 
+# add bookmaked projects to userInfos
+ui0.bookmarks.add(p0)
+ui1.bookmarks.add(p1)
+ui2.bookmarks.add(p0)
+ui2.bookmarks.add(p1)
+
 #--------------------------------------
 # Comment
 

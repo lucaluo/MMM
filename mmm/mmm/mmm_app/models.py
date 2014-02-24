@@ -141,5 +141,5 @@ class Category_sub(models.Model):
 		ordering = ['name']
 
 	def __unicode__(self):
-		return u'%s -> %s' %(self.top.name, self.name)
+		return u'%s -> %s' %(self.category_top.name, self.name)
 

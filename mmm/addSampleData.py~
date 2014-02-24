@@ -239,7 +239,7 @@ p1 = Project(
 	show_in_gallery = False,
 	description = 'We are going to get rich by stealing bitcoins.',
 	requirements = 'Must be a member of the theives guild.',
-	flags = 0,
+	flags = 1,
 )
 p1.save()
 p1.category_subs.add(cat_s5)
@@ -251,6 +251,11 @@ d0.projects.add(p0)
 d1.projects.add(p1)
 d2.projects.add(p1)
 d1.projects.add(p0)
+
+# add bookmaked projects to userInfos
+ui0.bookmarks.add(p0)
+ui1.bookmarks.add(p1)
+ui2.bookmarks.add(p0)
 
 #--------------------------------------
 # Comment
