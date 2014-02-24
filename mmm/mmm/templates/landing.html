@@ -1,0 +1,110 @@
+{% extends "base.html" %}
+{% block style %}
+	<link href="/static/css/landing.css" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+	<div class="container-fluid">
+		<div class="row-fluid">
+			<div class="span3 offset2">
+				<div class="well sidebar-nav">
+					<ul class="nav nav-list">
+						<li class=" nav-header new-project-header"><h4>
+						{% if loggined %} 
+							<button class = "btn-large btn-info btn" href="#newProjModal" data-toggle="modal">New Project</button>
+						{% else %}
+							<a href="./login_form">
+								<button class = "btn-large btn-info btn">New Project</button>
+							</a>
+						{% endif %}
+						</h4></li>
+						<hr style = "border-width:2px">
+						<li class="nav-header"><h6>Add/Remove filters</h6></li>
+						{% for category in category_list %}
+							<li class="nav-header">{{ category.category_top.name }}</li>	
+							{% for category_sub in category.category_sub_list %}
+								<input type="checkbox" name="{{ category.category_top.name }}" value="{{ category_sub.name }}">{{ category_sub.name }} 
+								<br />
+							{% endfor %}
+						{% endfor %}
+						<br />
+						<input type="text" class="input-block searchBox" placeholder="Additional filters">
+						<br />
+					</ul>
+				</div><!--/.well -->
+			</div><!--/span-->
+			<div class="span7">
+
+				<div class="row-fluid my-news-feed">
+
+					<!-- if we use this hover pop up, we need to limit # of words/characters displayed in descripton -->
+					{% for project in projects %}
+					<div class="span8" style = "margin-left:2%">
+						<h2>{{ project.title }}</h2>
+						<div class= "feedItem">
+							<div class = "prompt well">
+								<a href="./login_form">
+									<button class = "btn btn-info">Log in to view details </button>
+								</a>
+							</div>
+							{% if loggined %}
+							<p class = "feedText">{{ project.description }}</p>
+							<p><a class="btn" href="#" style = "bottom:0">View details &raquo;</a></p>
+							{% else %}
+							<p class = "blur feedText"> Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. Donec id elit non mi porta gravida at eget metus Donec id elit non mi porta gravida at eget metus . Fusce dapibus, tellus ac cursus commodoDonec id elit non mi porta gravida at eget metus . Fusce dapibus, tellus ac cursus commodo. Fusce dapibus, tellus ac cursus commodo, torlkjtor mauris condimentum nibh, ut fermentum massa justo sit amet risus.  Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui . </p>
+							<p><a class="btn" href="#" style = "bottom:0">View details &raquo;</a></p>
+							{% endif %}
+						</div>
+					</div><!--/span-->
+					{% endfor %}
+				</div><!--/row-->
+			</div><!--/span-->
+		</div><!--/row-->
+
+		{% if loggined %}
+		<div id="newProjModal" style="height:auto" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" >
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+				<h3 id="myModalLabel">New Project</h3>
+
+			</div>
+			<div class="modal-body">
+				<input type="text" class="input-block" placeholder="Title"><br>
+				<div> 
+					<h5>Upload an image for your project</h5>
+					<input type = "file" class = "">
+				</div>
+				<h5>Check all categories this project falls under</h5>
+				<form action="">
+					<div class = "checkColumn"> 
+						<input type="checkbox" name="platform" value="Android">Android <br>
+						<input type="checkbox" name="platform" value="ios">iOS <br>
+						<input type="checkbox" name="platform" value="windows">Windows <br>
+						<input type="checkbox" name="category" value="social">Social <br>
+
+					</div>
+					<div class = "checkColumn">
+						<input type="checkbox" name="category" value="entertainment">Entertainment <br>
+						<input type="checkbox" name="category" value="educational">Educational <br>
+						<input type="checkbox" name="category" value="productivity">Productivity <br>
+						<input type="checkbox" name="category" value="utility">Utility <br>
+					</div>
+					<div class = "checkColumn">
+						<input type="checkbox" name="misc" value="paid">Paid <br>
+						<input type="checkbox" name="misc" value="university">University related <br>
+					</div>
+
+				</form>
+				<textarea placeholder="Description"></textarea>
+			</div>
+			<div class="modal-footer">
+				<button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+				<button class="btn btn-info">Submit</button>
+			</div>
+		</div>
+		{% endif %}
+{% endblock %}
+
+{% block script %}
+	<script src="/static/js/landing.js"></script>
+{% endblock %}

@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% block style %}
+	<link href="/static/css/login.css" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+	<div class="container">
+		<form class="form-signin" method="post" action="/login/">
+			<h2 class="form-signin-heading">MMM</h2>
+			<input type="text" class="input-block-level" placeholder="Uniqname" name="username" value="{{ username }}">
+			<input type="password" class="input-block-level" placeholder="Password" name="password">
+			<label class="checkbox">
+				<input type="checkbox" value="remember_me" name="remember_me"> Remember me
+			</label>
+			<button class="btn btn-large btn-info" type="submit">Sign in</button>
+			<p>{{ error }}</p>
+			<br />
+			<br />
+			<a href="#signUpModal" role="button" data-toggle="modal"> Not a member? Sign up! </a>
+			<input type="hidden" name="next" value="{{ next }}" />
+			{% csrf_token %}
+		</form>
+
+	</div> <!-- /container -->
+
+	<!-- sign up modal -->
+	<div id="signUpModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" >
+		<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+			<h3 id="myModalLabel">Sign up for MMM</h3>
+		</div>
+		<div class="modal-body">
+			<input type="text" class="input-block-level" placeholder="Uniqname">
+			<input type="password" class="input-block-level" placeholder="New Password">
+			<input type="password" class="input-block-level" placeholder="Confirm Password">
+			<p style = "color:gray;">Check your email for an activation link after submitting</p>
+		</div>
+		<div class="modal-footer">
+			<button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+			<button class="btn btn-info">Submit</button>
+		</div>
+	</div>
+{% endblock %}
+
+{% block script %}
+	<script src="/static/js/login.js"></script>
+{% endblock %}

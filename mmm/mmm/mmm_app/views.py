@@ -22,11 +22,20 @@ def landing(request):
         loggined = False
     
     # get all proejcts
-    projects = Project.objects.all().order_by('-date_posted')
-    # get all tags
-    tags = Category_sub.objects.all().order_by('top')
+    projects = Project.objects.filter(status='OP').order_by('-date_posted')
 
-    # render()
+    # get all tags
+    category_top_list = Category_top.objects.all().order_by('name')
+    category_list = []
+    for category_top in category_top_list:
+        category = {}
+        category['category_top'] = category_top
+        category['category_sub_list'] = Category_sub.objects.filter(top=category_top)
+        category_list.append(category)
+
+    # category_sub = Category_sub.objects.all().order_by('name')
+
+    return render(request, 'landing.html', {'current': 'home', 'loggined': loggined, 'projects': projects, 'category_list': category_list})
 
 def user_register_form(request):
     if request.method == 'GET':
@@ -39,7 +48,7 @@ def user_register_form(request):
         else:
             return render(request, 'register_form.html', {'next': next})
     else:
-        return redirect('/register/')
+        return redirect(REGISTER_URL)
 
 def user_register(request):
     if request.method == 'POST':
@@ -47,10 +56,6 @@ def user_register(request):
         password = request.POST['password']
         uniqname = request.POST['uniqname']
         name = request.POST['name']
-        if request.POST.get('position'):
-            position = request.POST['position']
-        else:
-            position = ''
         if not (username and password and uniqname):
             return render(request, 'register_form.html', {'username': username, 'uniqname': uniqname, 'name': name, 'position': position})
         if User.objects.filter(username=username).exists():
@@ -90,7 +95,7 @@ def user_login_form(request):
         if request.user.is_authenticated():
             return redirect(next)
         else:
-            return render(request, 'login_form.html', {'next': next})
+            return render(request, 'login.html', {'next': next})
 
 
 def user_login(request):
@@ -124,19 +129,19 @@ def user_logout(request):
 
 @login_required
 def profile_form(request):
-    userInfo = UserInfo.objects.get(user=request.user)
-    if userInfo.is_sponsor:
-        # query sponsor info
-        sponsorInfo = Sponsor.objects.get(user=request.user)
-    else:
-        sponsorInfo = []
-    if userInfo.is_developer:
-        # query developer info
-        developerInfo = Developer.objects.get(user=request.user)
-    else:
-        developerInfo = []
-
+    # userInfo = UserInfo.objects.get(user=request.user)
+    # if userInfo.is_sponsor:
+    #     # query sponsor info
+    #     sponsorInfo = Sponsor.objects.get(user=request.user)
+    # else:
+    #     sponsorInfo = []
+    # if userInfo.is_developer:
+    #     # query developer info
+    #     developerInfo = Developer.objects.get(user=request.user)
+    # else:
+    #     developerInfo = []
     # render()
+    return render(request, 'profile.html')
 
 @login_required
 def update_profile(request):

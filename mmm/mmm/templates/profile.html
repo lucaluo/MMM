@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+{% block style %}
+	<link href="/static/css/profile.css" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+	<div class="navbar navbar-inverse navbar-fixed-top">
+		<div class="navbar-inner">
+			<div class="container-fluid">
+				<button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+				<a class="brand" href="#">Michigan Mobile Manufacturing</a>
+				<div class="nav-collapse collapse">
+					<ul class="nav">
+						<li class=""><a href="#">Home</a></li>
+						<li><a href="#about">Gallery</a></li>
+						<li><a href="#contact">Settings</a></li>
+						<li class=" pull-right my-username ">
+							<a href="#" class="navbar-link">Username <i class="icon-chevron-down"></i></a>
+						</li>
+					</ul>
+				</div><!--/.nav-collapse -->
+			</div>
+		</div>
+	</div>
+ 
+	<div class = " container">
+		<div class = "row-fluid headRow">
+			<div class = "span4 picBox">
+
+				<img src="/static/img/myPictures/abe.jpg" class = "pull-right img-rounded profPic">
+
+			</div>
+			<div class = "span8">
+				<div class = "well nametag">
+					<h3 class = "name"> Abraham Lincoln </h3>
+
+					<h5 class = "major"> Computer Science Engineering </h5>
+					<button type = "button" class = "btn pull-right"> Edit</button>
+
+					<h5 class = "userType"> Developer/Sponsor </h5>
+
+				</div>
+			</div>
+		</div>
+		<div class = "row-fluid">
+			<div class = "span8 offset2">
+				<div class = "well">
+					<h5>Bio</h5>
+					Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+				</div>
+			</div>
+		</div>
+		<div class = "row-fluid">
+			<div class = "span8 offset2">
+				<div class = "well">
+					<h5>Organization</h5>
+					Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+				</div>
+			</div>
+		</div>
+		<div class = "row-fluid">
+			<div class = "span8 offset2">
+				<div class = "well">
+					<h5>Skills</h5>
+					Android, Linux, HTML, CSS, JavaScript, C++, C, Matlab
+				</div>
+			</div>
+		</div>
+		<div class = "row-fluid">
+			<div class = "span8 offset2">
+				<div class = "well">
+					<h5>Projects</h5>
+					<ul>
+						<li> User has worked on no projects </li>
+					</ul>
+				</div>
+			</div>
+		</div>
+
+
+	</div>
+{% endblock %}

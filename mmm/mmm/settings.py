@@ -10,7 +10,7 @@ https://docs.djangoproject.com/en/1.6/ref/settings/
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
-BASE_DIR = os.path.dirname(os.path.dirname(__file__))
+BASE_DIR = os.path.dirname(__file__)
 
 
 # Quick-start development settings - unsuitable for production
@@ -23,7 +23,7 @@ SECRET_KEY = 'or0dn1+%45q0v^4c$trli019-ovw!4dk6n#vbz6ig0!u!6br(e'
 DEBUG = True
 
 TEMPLATE_DEBUG = True
-TEMPLATE_DIRS = (os.path.join(BASE_DIR, 'mmm/templates/'))
+TEMPLATE_DIRS = (os.path.join(BASE_DIR, 'templates/'))
 
 ALLOWED_HOSTS = []
 
@@ -63,7 +63,6 @@ DATABASES = {
         'NAME': 'mmmdb',
         'USER': 'userx',
         'PASSWORD': 'password',
-        #'PASSWORD': 'luojiaxi',
     }
 }
 
@@ -101,9 +100,10 @@ STATICFILES_DIRS = (
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
-# 'django.contrib.staticfiles.finders.DefaultStorageFinder',
+#    'django.contrib.staticfiles.finders.DefaultStorageFinder',
 )
 
 LOGIN_URL = '/login_form/'
 
 from settings_local import *
+
