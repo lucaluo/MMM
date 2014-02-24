@@ -18,6 +18,9 @@ class UserInfo(models.Model):
 	setting_1 = models.BooleanField()
 	setting_2 = models.BooleanField()
 
+	# bookmarked projects
+	bookmarks = models.ManyToManyField('Project', blank = True)
+
 	class Meta:
 		ordering = ['user']
 
@@ -57,9 +60,6 @@ class Sponsor(models.Model):
 		
 	# optional sponsor picture/logo
 	image = models.FileField("Sponsor Image", upload_to="images/sponsors/", blank=True)
-	
-	# projects that are sponsored by this sponsor
-	projects = models.ManyToManyField('Project', related_name = 'spons_proj_assoc', blank=True)
 
 	class Meta:
 		ordering = ['user']
@@ -87,15 +87,9 @@ class Project(models.Model):
 	flags = models.IntegerField()
 
 	image = models.FileField("Project Image", upload_to="images/projects/", blank=True)
-
-	# developers that are a part of the project
-	developers = models.ManyToManyField(User, related_name = 'proj_dev_assoc', blank=True)
 		
 	# sub-categorization of project
 	category_subs = models.ManyToManyField('Category_sub', blank=True) 
-	
-	# top level categorization of project
-	category_tops = models.ManyToManyField('Category_top', blank=True) 
 	
 	class Meta:
 		ordering = ['date_posted']
@@ -141,7 +135,7 @@ class Category_sub(models.Model):
 	name = models.CharField(max_length=100)
 
 	# the category_top this category_sub belongs to
-	top = models.ForeignKey(Category_top, max_length = 100, blank = False)	
+	category_top = models.ForeignKey(Category_top, max_length = 100, blank = False)	
 	
 	class Meta:
 		ordering = ['name']

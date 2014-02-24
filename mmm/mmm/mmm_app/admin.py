@@ -63,6 +63,9 @@ class UserInfoAdmin(userBaseAdmin):
 		('User Settings', {
 			'fields': ('setting_0', 'setting_1', 'setting_2',)
 		}),
+		('Bookmarked Projects', {
+			'fields': ('bookmarks',)
+		}),
 	)
 	
 	readonly_fields = ('user','first_name', 'last_name', 'email', 'is_active', 'is_staff',)
@@ -119,6 +122,12 @@ class ProjectAdmin(admin.ModelAdmin):
 		}),
 	)
 	
+	def category_tops(self, obj):
+		cs = (,)
+		for cat in obj.category_subs:
+			cs += (cat,)
+		return cs
+	
 	def sponsor_org_name(self, obj):
 		u = obj.sponsor
 		s = Sponsor.objects.get(user=u)
@@ -126,9 +135,9 @@ class ProjectAdmin(admin.ModelAdmin):
 	
 	list_display = ('title', 'sponsor_org_name', 'sponsor', 'status', 'show_in_gallery',)
 	
-	actions = [setStatusOpen, setStatusClosed, setStatusComp, setShowInGallery]
+	actions = [setStatusOpen, setStatusClosed, setStatusComp, setShowInGallery, deleteFlagged_3plus]
 	
-	search_fields = ['sponsor__username', 'sponsor__email', 'sponsor__first_name', 'sponsor__last_name', 'title', 'category_tops__name', 'category_subs__name'] # , 'sponsor_org_name']
+	search_fields = ['sponsor__username', 'sponsor__email', 'sponsor__first_name', 'sponsor__last_name', 'title', 'category_subs__name'] # , 'sponsor_org_name']
 		
 admin.site.register(Project, ProjectAdmin)
 

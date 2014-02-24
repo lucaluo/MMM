@@ -17,7 +17,7 @@ cat_t0 = Category_top(
 cat_t0.save()
 
 cat_t1 = Category_top(
-	name = 'Paid',
+	name = 'Pay',
 )
 cat_t1.save()
 
@@ -38,33 +38,51 @@ cat_t3.save()
 
 cat_s0 = Category_sub(
 	name = 'Android',
-	top = cat_t2,
+	category_top = cat_t2,
 )
 cat_s0.save()
 
 cat_s1 = Category_sub(
 	name = 'iOS',
-	top = cat_t2,
+	category_top = cat_t2,
 )
 cat_s1.save()
 
 cat_s2 = Category_sub(
 	name = 'C/C++',
-	top = cat_t0,
+	category_top = cat_t0,
 )
 cat_s2.save()
 
 cat_s3 = Category_sub(
 	name = 'Java',
-	top = cat_t0,
+	category_top = cat_t0,
 )
 cat_s3.save()
 
 cat_s4 = Category_sub(
 	name = 'Python',
-	top = cat_t0,
+	category_top = cat_t0,
 )
 cat_s4.save()
+
+cat_s5 = Category_sub(
+	name = 'Misc',
+	category_top = cat_t3,
+)
+cat_s5.save()
+
+cat_s6 = Category_sub(
+	name = 'Yes',
+	category_top = cat_t1,
+)
+cat_s6.save()
+
+cat_s7 = Category_sub(
+	name = 'No',
+	category_top = cat_t1,
+)
+cat_s7.save()
 
 #--------------------------------------
 # Users
@@ -155,6 +173,7 @@ d0 = Developer(
 	user = u0,
 	major = 'Computer Engineering',
 	bio = 'I am a cool person.',
+	skills = 'C++/C, Verliog HDL, Java',
 )
 d0.save()
 
@@ -162,6 +181,7 @@ d1 = Developer(
 	user = u1,
 	major = 'Computer Science',
 	bio = 'I love computers!!!!',
+	skills = 'C#, Objective C, database design',
 )
 d1.save()
 
@@ -169,9 +189,11 @@ d2 = Developer(
 	user = u3,
 	major = 'Computer Science',
 	bio = 'Im a cool person',
+	skills = 'Im good at everything really.',
 )
 d2.save()
 
+# projects will be added to developers after the projects are created
 
 #--------------------------------------
 # Sponsor
@@ -204,13 +226,9 @@ p0 = Project(
 	flags = 0,
 )
 p0.save()
-p0.developers.add(u0)
-p0.developers.add(u1)
-p0.developers.add(u3)
-p0.category_tops.add(cat_t0)
-p0.category_tops.add(cat_t2)
 p0.category_subs.add(cat_s0)
 p0.category_subs.add(cat_s3)
+p0.category_subs.add(cat_s7)
 p0.save()
 
 p1 = Project(
@@ -221,14 +239,18 @@ p1 = Project(
 	show_in_gallery = False,
 	description = 'We are going to get rich by stealing bitcoins.',
 	requirements = 'Must be a member of the theives guild.',
-	flags = 0,
+	flags = 1,
 )
 p1.save()
-p1.developers.add(u1)
-p1.developers.add(u3)
-p1.category_tops.add(cat_t1)
-p1.category_tops.add(cat_t3)
+p1.category_subs.add(cat_s5)
+p1.category_subs.add(cat_s6)
 p1.save()
+
+# add projects to the developers
+d0.projects.add(p0)
+d1.projects.add(p1)
+d2.projects.add(p1)
+d1.projects.add(p0)
 
 #--------------------------------------
 # Comment
@@ -253,3 +275,12 @@ c1 = Comment(
 )
 c1.save()
 
+c2 = Comment(
+	user = u1,
+	project = p0,
+	date_posted = timezone.now(),
+	title = 'Hello',
+	text = 'Hi folks. The FBI would like to speak with you...',
+	flags = 0,
+)
+c2.save()

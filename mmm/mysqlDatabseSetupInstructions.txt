@@ -1,4 +1,4 @@
-Database Setup Instructions (the user creation isn't working for some reason...)
+Database Setup Instructions
 
 1.	Install mysql-server on your machine. Make sure to note the root password.
 2.	Login to mysql with:
