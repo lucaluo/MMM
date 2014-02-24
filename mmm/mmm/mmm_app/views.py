@@ -95,7 +95,7 @@ def user_login_form(request):
         if request.user.is_authenticated():
             return redirect(next)
         else:
-            return render(request, 'login_form.html', {'next': next})
+            return render(request, 'login.html', {'next': next})
 
 
 def user_login(request):
@@ -129,19 +129,19 @@ def user_logout(request):
 
 @login_required
 def profile_form(request):
-    userInfo = UserInfo.objects.get(user=request.user)
-    if userInfo.is_sponsor:
-        # query sponsor info
-        sponsorInfo = Sponsor.objects.get(user=request.user)
-    else:
-        sponsorInfo = []
-    if userInfo.is_developer:
-        # query developer info
-        developerInfo = Developer.objects.get(user=request.user)
-    else:
-        developerInfo = []
-
+    # userInfo = UserInfo.objects.get(user=request.user)
+    # if userInfo.is_sponsor:
+    #     # query sponsor info
+    #     sponsorInfo = Sponsor.objects.get(user=request.user)
+    # else:
+    #     sponsorInfo = []
+    # if userInfo.is_developer:
+    #     # query developer info
+    #     developerInfo = Developer.objects.get(user=request.user)
+    # else:
+    #     developerInfo = []
     # render()
+    return render(request, 'profile.html')
 
 @login_required
 def update_profile(request):

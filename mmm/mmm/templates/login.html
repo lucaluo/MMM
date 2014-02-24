@@ -1,37 +1,24 @@
-<!DOCTYPE html>
-<html lang = "en">
-<head>
-	<title>MMM: Michigan Mobile Manufacturing</title>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<meta name="description" content="">
-	<meta name="author" content="">
-	<!-- Le styles -->
-	<link href="static/css/bootstrap.min.css" rel="stylesheet">
-	<link href="static/css/style.css" rel="stylesheet">
-	<link href="static/css/login.css" rel="stylesheet">
-	<!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
-<!--[if lt IE 9]>
-<script src="js/html5shiv.js"></script>
-<![endif]-->
+{% extends "base.html" %}
+{% block style %}
+	<link href="/static/css/login.css" rel="stylesheet">
+{% endblock %}
 
-</head>
-<body>
-
+{% block content %}
 	<div class="container">
-
-		<form class="form-signin">
+		<form class="form-signin" method="post" action="/login/">
 			<h2 class="form-signin-heading">MMM</h2>
-			<input type="text" class="input-block-level" placeholder="Uniqname">
-			<input type="password" class="input-block-level" placeholder="Password">
+			<input type="text" class="input-block-level" placeholder="Uniqname" name="username" value="{{ username }}">
+			<input type="password" class="input-block-level" placeholder="Password" name="password">
 			<label class="checkbox">
-				<input type="checkbox" value="remember-me"> Remember me
+				<input type="checkbox" value="remember_me" name="remember_me"> Remember me
 			</label>
-			<button class="btn btn-large btn-info signInBtn" type="submit">Sign in</button>
+			<button class="btn btn-large btn-info" type="submit">Sign in</button>
+			<p>{{ error }}</p>
 			<br />
 			<br />
-			<!-- <button class="btn btn-link" type="signUp"> Not a member? Sign up!</button> -->
-			<a href="#signUpModal" role = "button" data-toggle="modal"> Not a member? Sign up! </a>
+			<a href="#signUpModal" role="button" data-toggle="modal"> Not a member? Sign up! </a>
+			<input type="hidden" name="next" value="{{ next }}" />
+			{% csrf_token %}
 		</form>
 
 	</div> <!-- /container -->
@@ -53,10 +40,8 @@
 			<button class="btn btn-info">Submit</button>
 		</div>
 	</div>
-	<script src="static/js/jquery.min.js"></script>
-	<script src="static/js/bootstrap.min.js"></script>
-	<script src="static/js/login.js"></script>
-</body>
+{% endblock %}
 
-</html>
-
+{% block script %}
+	<script src="/static/js/login.js"></script>
+{% endblock %}
