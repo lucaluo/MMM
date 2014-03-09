@@ -37,18 +37,18 @@ def landing(request):
 
     return render(request, 'landing.html', {'current': 'home', 'loggined': loggined, 'projects': projects, 'category_list': category_list})
 
-def user_register_form(request):
-    if request.method == 'GET':
-        if request.GET.get('next'):
-            next = request.GET['next']
-        else:
-            next = HOMEPAGE_URL
-        if request.user.is_authenticated():
-            return redirect(next)
-        else:
-            return render(request, 'register_form.html', {'next': next})
-    else:
-        return redirect(REGISTER_URL)
+# def user_register_form(request):
+#     if request.method == 'GET':
+#         if request.GET.get('next'):
+#             next = request.GET['next']
+#         else:
+#             next = HOMEPAGE_URL
+#         if request.user.is_authenticated():
+#             return redirect(next)
+#         else:
+#             return render(request, 'register_form.html', {'next': next})
+#     else:
+#         return redirect(REGISTER_URL)
 
 def user_register(request):
     if request.method == 'POST':
