@@ -25,6 +25,7 @@ def landing(request):
     projects = Project.objects.filter(status='OP').order_by('-date_posted')
 
     # get all tags
+    category_subs = Category_sub.objects.all().order_by('category_top')
     category_top_list = Category_top.objects.all().order_by('name')
     category_list = []
     for category_top in category_top_list:
@@ -35,7 +36,7 @@ def landing(request):
 
     # category_sub = Category_sub.objects.all().order_by('name')
 
-    return render(request, 'landing.html', {'current': 'home', 'loggined': loggined, 'projects': projects, 'category_list': category_list})
+    return render(request, 'landing.html', {'current': 'home', 'loggined': loggined, 'projects': projects, 'category_list': category_list, 'category_subs': category_subs})
 
 # def user_register_form(request):
 #     if request.method == 'GET':
@@ -158,11 +159,11 @@ def settings_form(request):
 def update_settings(request):
     pass
 
-@login_required
-def new_project_form(request):
-    userInfo = UserInfo.objects.get(user=request.user)
-    tags = Category_sub.objects.all().order_by('top')
-    # render()
+# @login_required
+# def new_project_form(request):
+#     userInfo = UserInfo.objects.get(user=request.user)
+#     tags = Category_sub.objects.all().order_by('top')
+#     # render()
 
 @login_required
 def new_project(request):

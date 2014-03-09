@@ -73,13 +73,13 @@ cat_s5 = Category_sub(
 cat_s5.save()
 
 cat_s6 = Category_sub(
-	name = 'Yes',
+	name = 'Paid',
 	category_top = cat_t1,
 )
 cat_s6.save()
 
 cat_s7 = Category_sub(
-	name = 'No',
+	name = 'Unpaid',
 	category_top = cat_t1,
 )
 cat_s7.save()

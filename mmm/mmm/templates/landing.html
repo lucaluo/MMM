@@ -44,7 +44,7 @@
 						<div class= "feedItem">
 							{% if loggined %}
 							<p class = "feedText">{{ project.description }}</p>
-							<p><a class="btn" href="#" style = "bottom:0">View details &raquo;</a></p>
+							<p><a class="btn" href="project/{{ project.id }}" style = "bottom:0">View details &raquo;</a></p>
 							{% else %}
 							<div class = "prompt well">
 								<a href="./login_form">
@@ -68,39 +68,28 @@
 				<h3 id="myModalLabel">New Project</h3>
 
 			</div>
-			<div class="modal-body">
-				<input type="text" class="input-block" placeholder="Title"><br>
-				<div> 
-					<h5>Upload an image for your project</h5>
-					<input type = "file" class = "">
+			<form  method="post" action="/new_project/">
+				<div class="modal-body">
+					<input type="text" class="input-block" placeholder="Title"><br>
+					<div> 
+						<h5>Upload an image for your project</h5>
+						<input type = "file" class = "">
+					</div>
+					<h5>Check all categories this project falls under</h5>
+						<div class = "checkColumn">
+							{% for category_sub in category_subs %}
+							<input type="checkbox" name="category" value="{{ category_sub.id }}">{{ category_sub.name }} <br />
+							{% endfor %}
+						</div>
+					<textarea placeholder="Description"></textarea>
+					<textarea placeholder="Requirement"></textarea>
 				</div>
-				<h5>Check all categories this project falls under</h5>
-				<form action="">
-					<div class = "checkColumn"> 
-						<input type="checkbox" name="platform" value="Android">Android <br>
-						<input type="checkbox" name="platform" value="ios">iOS <br>
-						<input type="checkbox" name="platform" value="windows">Windows <br>
-						<input type="checkbox" name="category" value="social">Social <br>
-
-					</div>
-					<div class = "checkColumn">
-						<input type="checkbox" name="category" value="entertainment">Entertainment <br>
-						<input type="checkbox" name="category" value="educational">Educational <br>
-						<input type="checkbox" name="category" value="productivity">Productivity <br>
-						<input type="checkbox" name="category" value="utility">Utility <br>
-					</div>
-					<div class = "checkColumn">
-						<input type="checkbox" name="misc" value="paid">Paid <br>
-						<input type="checkbox" name="misc" value="university">University related <br>
-					</div>
-
-				</form>
-				<textarea placeholder="Description"></textarea>
-			</div>
-			<div class="modal-footer">
-				<button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
-				<button class="btn btn-info">Submit</button>
-			</div>
+				<div class="modal-footer">
+					<button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+					<button class="btn btn-info">Submit</button>
+				</div>
+				{% csrf_token %}
+			</form>
 		</div>
 		{% endif %}
 {% endblock %}
