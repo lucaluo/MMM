@@ -30,7 +30,7 @@ def landing(request):
     for category_top in category_top_list:
         category = {}
         category['category_top'] = category_top
-        category['category_sub_list'] = Category_sub.objects.filter(top=category_top)
+        category['category_sub_list'] = Category_sub.objects.filter(category_top=category_top)
         category_list.append(category)
 
     # category_sub = Category_sub.objects.all().order_by('name')
