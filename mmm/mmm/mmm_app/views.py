@@ -170,15 +170,21 @@ def new_project(request):
 
 @login_required
 def project_form(request, proj_id):
-    # redirect()
-    pass
+    try:
+        project = Project.objects.get(id=proj_id)
+    except Project.DoesNotExist:
+        raise Http404
+    category_subs = project.category_subs.all()
+    comments = Comment.objects.filter(project=project)
+    return render(request, 'projDetails.html', {'project': project, 'category_subs': category_subs, 'comments': comments})
+
     
 @login_required
 def edit_project(request, proj_id):
     projectInfo = Project.obejcts.get(id=proj_id)
     developers = proejctInfo.developers.all()
     tags = projectInfo.category_subs.all().order_by('top')
-    comments = Comment.objects.filter(proejct=proj_id)
+    comments = Comment.objects.filter(project=proj_id)
 
     # render()
 

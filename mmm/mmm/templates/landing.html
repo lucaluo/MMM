@@ -10,7 +10,7 @@
 				<div class="well sidebar-nav">
 					<ul class="nav nav-list">
 						<li class=" nav-header new-project-header"><h4>
-						{% if loggined %} 
+						{% if loggined %}
 							<button class = "btn-large btn-info btn" href="#newProjModal" data-toggle="modal">New Project</button>
 						{% else %}
 							<a href="./login_form">
@@ -42,15 +42,15 @@
 					<div class="span8" style = "margin-left:2%">
 						<h2>{{ project.title }}</h2>
 						<div class= "feedItem">
+							{% if loggined %}
+							<p class = "feedText">{{ project.description }}</p>
+							<p><a class="btn" href="#" style = "bottom:0">View details &raquo;</a></p>
+							{% else %}
 							<div class = "prompt well">
 								<a href="./login_form">
 									<button class = "btn btn-info">Log in to view details </button>
 								</a>
 							</div>
-							{% if loggined %}
-							<p class = "feedText">{{ project.description }}</p>
-							<p><a class="btn" href="#" style = "bottom:0">View details &raquo;</a></p>
-							{% else %}
 							<p class = "blur feedText"> Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. Donec id elit non mi porta gravida at eget metus Donec id elit non mi porta gravida at eget metus . Fusce dapibus, tellus ac cursus commodoDonec id elit non mi porta gravida at eget metus . Fusce dapibus, tellus ac cursus commodo. Fusce dapibus, tellus ac cursus commodo, torlkjtor mauris condimentum nibh, ut fermentum massa justo sit amet risus.  Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui . </p>
 							<p><a class="btn" href="#" style = "bottom:0">View details &raquo;</a></p>
 							{% endif %}

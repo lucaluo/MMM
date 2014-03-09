@@ -17,7 +17,7 @@ urlpatterns = patterns('',
     # url(r'^settings/$', settings),
     # url(r'^newproject/$', new_project),
     # url(r'^editproject/(?P<proj_id>\w+)/$', edit_project),
-    # url(r'^project/(?P<proj_id>\w+)/$', view_project),
+    url(r'^project/(?P<proj_id>\w+)/$', project_form),
     # url(r'^gallery/$', gallery),
     # url(r'^admin/$', admin),
     # handles media files
