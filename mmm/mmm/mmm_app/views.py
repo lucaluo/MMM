@@ -108,7 +108,7 @@ def user_login(request):
         else:
             next = HOMEPAGE_URL
         if not (username and password):
-            return render(request, 'login_form.html', {'next': next, 'username': username, 'error': 'Fields cannot be empty'})
+            return render(request, 'login.html', {'next': next, 'username': username, 'error': 'Fields cannot be empty'})
         user = authenticate(username=username, password=password)
         if user is not None:
             if user.is_active:
@@ -116,10 +116,10 @@ def user_login(request):
                 return redirect(next);
             else:
                 # Return a 'disabled account' error message
-                return render(request, 'login_form.html', {'next': next, 'username': username, 'error': 'Account Disabled!'})
+                return render(request, 'login.html', {'next': next, 'username': username, 'error': 'Account Disabled!'})
         else:
             # Return an 'invalid login' error message.
-            return render(request, 'login_form.html', {'next': next, 'username': username, 'error': 'Login Invalid'})
+            return render(request, 'login.html', {'next': next, 'username': username, 'error': 'Login Invalid'})
     else:
         return redirect(LOGIN_URL)
 
