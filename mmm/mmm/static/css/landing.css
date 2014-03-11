@@ -2,7 +2,7 @@
         padding-top: 60px;
         padding-bottom: 40px;
 
-        background: url(../img/myPictures/northCampusLight.jpg) no-repeat center center fixed; 
+        background: url(../img/myPictures/northCampusLight.jpg) no-repeat center center fixed;
   		-webkit-background-size: cover;
   		-moz-background-size: cover;
   		-o-background-size: cover;
@@ -17,11 +17,11 @@
 	padding:8px;
 	}
 	.feedText {
-	position:relative; 
+	position:relative;
 	z-index:3;
-	top:0px; 
+	top:0px;
 	width:auto;
-	max-height:30%; 
+	max-height:30%;
 	display:table;
 	}
 	.prompt{
@@ -38,7 +38,7 @@
 	position:absolute;
 	max-width:35%;
 	}
-		
+
       .sidebar-nav {
         padding: 9px 0;
         position: fixed;
@@ -92,6 +92,21 @@
           padding-left: 5px;
           padding-right: 5px;
         }
-        
+
       }
-      
+
+    * {
+    margin: 0;
+    }
+    html, body {
+    height: 100%;
+    }
+    .wrapper {
+    min-height: 100%;
+    height: auto !important;
+    height: 100%;
+    margin: 0 auto -4em;
+    }
+    .footer, .push {
+    height: 4em;
+    }
