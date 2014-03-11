@@ -1,17 +1,15 @@
 $(document).ready(function(){
-    	//logged = false;
 
   		$('.blur').bind("cut copy paste",function(e) {
     	  e.preventDefault();
   		});
   	
   		$('.feedItem').mouseover(function(){
-  		//if (!logged){
   		$(this).children('.prompt').show();
   		$(this).children('.blur').css("z-index", "1");
 
   		//$(this).children('.blur').hide();
-  		}
+  		
   		});
   		$('.feedItem').mouseout(function(){
   		$(this).children('.prompt').hide();
