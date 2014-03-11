@@ -1,14 +1,6 @@
 $(document).ready(function(){
     	logged = false;
-    	/* $(".my-username").click(function(){
-    		$("p").toggleClass("blur");
-    		if (logged == false){
-    		logged = true;
-    		} else {
-    		logged = false;
-    		}
-    		
-    	}); */
+
   		$('.blur').bind("cut copy paste",function(e) {
     	  e.preventDefault();
   		});
