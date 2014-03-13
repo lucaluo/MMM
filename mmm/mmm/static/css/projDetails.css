@@ -83,4 +83,19 @@ body {
    	display: inline-block; 
    	color:gray;
    	}
+   	   	textarea {
+   	width:99%;
+   	height:130px;
+   	}
+   	body .modal {
+      height: 40%;
+      left:0;
+      right:0;
+      margin-left: 30%;
+      margin-right: 30%;
+      width: 40%;
+      }
+      .modal.fade.in {
+      top: 30%;
+      }
    	

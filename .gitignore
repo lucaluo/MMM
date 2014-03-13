@@ -4,3 +4,7 @@
 mmm/mmm/__init__.pyc
 
 *.pyc
+
+mmm/mmm/static/css/.DS_Store
+
+mmm/mmm/static/css/.DS_Store
