@@ -14,7 +14,7 @@
 					<h3 class = "name"> {{ project.title }} </h3>
 					<h5 class = "sponsor"> {{ project.sponsor.first_name }} {{ project.sponsor.last_name }} </h5>
 					<h5 class = "date"> {{ project.date_posted }} </h5>
-					<button type = "button" class = "btn pull-right btn-info"> Apply</button>
+					<button type = "button" class = "btn pull-right btn-info" href="#applyModal" data-toggle="modal"> Apply</button>
 					<button type = "button" class = "btn pull-right favorite" > <i class="icon-star-empty pull-right"></i></button>
 					<h5 class = "status"> {% ifequal project.status 'OP' %} Open {% endifequal %}{% ifequal project.status 'CL' %} Closed {% endifequal %}{% ifequal project.status 'CO' %} Completed {% endifequal %} </h5>
 
