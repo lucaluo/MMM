@@ -39,13 +39,18 @@
 
 					<!-- if we use this hover pop up, we need to limit # of words/characters displayed in descripton -->
 					{% for project in projects %}
+					{% if loggined %}
 					<div class="span8" style = "margin-left:2%">
+					{% else %}
+					<div class="span8 span8absheight" style = "margin-left:2%">
+					{% endif %}
 						<h2>{{ project.title }}</h2>
-						<div class= "feedItem">
 							{% if loggined %}
+							<div class = "feeditemLogged"
 							<p class = "feedText">{{ project.description }}</p>
 							<p><a class="btn" href="project/{{ project.id }}" style = "bottom:0">View details &raquo;</a></p>
 							{% else %}
+							<div class= "feedItem">
 							<div class = "prompt well">
 								<a href="./login_form">
 									<button class = "btn btn-info">Log in to view details </button>
