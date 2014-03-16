@@ -19,9 +19,8 @@ urlpatterns = patterns('',
     # url(r'^editproject/(?P<proj_id>\w+)/$', edit_project),
     url(r'^project/(?P<proj_id>\w+)/$', project_form),
     # url(r'^gallery/$', gallery),
-    # url(r'^admin/$', admin),
     # handles media files
-    # url(r'^media/(?P<path>.*)/$', 'django.views.static.serve', {'document_root': settings.MEDIA_ROOT}), 
+    url(r'^media/(?P<path>.*)/$', 'django.views.static.serve', {'document_root': settings.MEDIA_ROOT}), 
     # handles static files
     url(r'^static/(?P<path>.*)/$', 'django.views.static.serve', {'document_root': settings.STATIC_ROOT}), 
 )

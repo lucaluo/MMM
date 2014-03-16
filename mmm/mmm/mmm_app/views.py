@@ -5,6 +5,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.core.mail import send_mail, BadHeaderError
 from models import *
+from forms import *
 import hashlib
 
 HOMEPAGE_URL = '/'
@@ -151,9 +152,9 @@ def update_profile(request):
 
 @login_required
 def settings_form(request):
-    userInfo = UserInfo.objects.get(user=request.user)
-
-    # render()
+    # userInfo = UserInfo.objects.get(user=request.user)
+    # return render()
+    pass
 
 @login_required
 def update_settings(request):
@@ -167,7 +168,29 @@ def update_settings(request):
 
 @login_required
 def new_project(request):
-    pass
+    if request.method == 'POST':
+        form = ProjectForm(request.POST, request.FILES)
+        if form.is_valid():
+            project = Project(
+                            title=form.cleaned_data['title'], 
+                            sponsor=request.user, 
+                            status='OP', 
+                            show_in_gallery=True, 
+                            description=form.cleaned_data['description'], 
+                            requirements=form.cleaned_data['requirements'],
+                            flags=0,
+                        )
+            project.save()
+            project.image=request.FILES['image']
+            for category_sub in form.cleaned_data['category_subs']:
+                project.category_subs.add(category_sub)
+            project.save()
+            return redirect(HOMEPAGE_URL)
+        else:
+            print 'not valid'
+    else:
+        return redirect(HOMEPAGE_URL)
+
 
 @login_required
 def project_form(request, proj_id):

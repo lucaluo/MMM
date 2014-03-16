@@ -73,25 +73,25 @@
 				<h3 id="myModalLabel">New Project</h3>
 
 			</div>
-			<form  method="post" action="/new_project/">
+			<form  method="post" action="/new_project/" enctype="multipart/form-data">
 				<div class="modal-body">
-					<input type="text" class="input-block" placeholder="Title"><br>
+					<input type="text" name="title" class="input-block" placeholder="Title"><br>
 					<div> 
 						<h5>Upload an image for your project</h5>
-						<input type = "file" class = "">
+						<input type = "file" class = "" name="image">
 					</div>
 					<h5>Check all categories this project falls under</h5>
 						<div class = "checkColumn">
 							{% for category_sub in category_subs %}
-							<input type="checkbox" name="category" value="{{ category_sub.id }}">{{ category_sub.name }} <br />
+							<input type="checkbox" name="category_subs" value="{{ category_sub.id }}">{{ category_sub.name }} <br />
 							{% endfor %}
 						</div>
-					<textarea placeholder="Description"></textarea>
-					<textarea placeholder="Requirement"></textarea>
+					<textarea name="description" placeholder="Description"></textarea>
+					<textarea name="requirements" placeholder="Requirement"></textarea>
 				</div>
 				<div class="modal-footer">
 					<button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
-					<button class="btn btn-info">Submit</button>
+					<input type="submit" class="btn btn-info" value="Submit" />
 				</div>
 				{% csrf_token %}
 			</form>
@@ -99,9 +99,9 @@
 		{% endif %}
 		</div>
 		</div>
-				<div class = "push"></div>
+		<div class = "push"></div>
 
-		<!-- essential for sticky footer --!>
+		<!-- essential for sticky footer -->
 {% endblock %}
 
 {% block script %}
