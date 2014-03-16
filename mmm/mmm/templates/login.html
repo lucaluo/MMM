@@ -25,23 +25,26 @@
 
 	<!-- sign up modal -->
 	<div id="signUpModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" >
-		<div class="modal-header">
-			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-			<h3 id="myModalLabel">Sign up for MMM</h3>
-		</div>
-		<div class="modal-body">
-			<input type="text" class="input-block-level" placeholder="Uniqname">
-			<input type="password" id="passwordBox" class="input-block-level" placeholder="New Password">
-			<input type="password" id="confirmer" class="input-block-level" placeholder="Confirm Password">
-			<p style = "color:gray;">Check your email for an activation link after submitting</p>
-			<div class="alert alert-danger" style="display:none">
-  			<strong>Passwords don't match!</strong> 
+		<form method="post" action="/register/">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+				<h3 id="myModalLabel">Sign up for MMM</h3>
 			</div>
-		</div>
-		<div class="modal-footer">
-			<button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
-			<button class="btn btn-info" id="register">Submit</button>
-		</div>
+			<div class="modal-body">
+				<input type="text" name="uniqname" class="input-block-level" placeholder="Uniqname">
+				<input type="password" name="password" id="passwordBox" class="input-block-level" placeholder="New Password">
+				<input type="password" name="confirm-password" id="confirmer" class="input-block-level" placeholder="Confirm Password">
+				<p style = "color:gray;">Check your email for an activation link after submitting</p>
+				<div class="alert alert-danger" style="display:none">
+	  			<strong>Passwords don't match!</strong> 
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+				<input class="btn btn-info" type="submit"  id="register"></input>
+			</div>
+			{% csrf_token %}
+		</form>
 	</div>
 {% endblock %}
 

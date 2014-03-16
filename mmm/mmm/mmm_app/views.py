@@ -53,19 +53,17 @@ def landing(request):
 
 def user_register(request):
     if request.method == 'POST':
-        username = request.POST['username']
-        password = request.POST['password']
         uniqname = request.POST['uniqname']
-        name = request.POST['name']
-        if not (username and password and uniqname):
-            return render(request, 'register_form.html', {'username': username, 'uniqname': uniqname, 'name': name, 'position': position})
-        if User.objects.filter(username=username).exists():
-            return render(request, 'register_form.html', {'username': username, 'uniqname': uniqname, 'name': name, 'position': position})
+        password = request.POST['password']
+        if not (password and uniqname):
+            return render(request, 'register_form.html')
+        if User.objects.filter(username=uniqname).exists():
+            return render(request, 'register_form.html')
         # TODO: Check legitimate username, password, uniqname, etc.
         email = uniqname + '@umich.edu'
-        user = User.objects.create_user(username=username, password=password, email=email, first_name=name)
+        user = User.objects.create_user(username=uniqname, password=password, email=email)
         user.is_active = False
-        send_verify_email(request, username, email)
+        send_verify_email(request, uniqname, email)
         user.save()
         return redirect('/thankyou/')
     else:
@@ -80,6 +78,8 @@ def user_activate(request, username, activation_code):
         user = User.objects.get(username=username)
         user.is_active = True
         user.save()
+        userInfo = UserInfo(user=user, is_sponsor=False, is_developer=False, setting_0=False, setting_1=False, setting_2=False)
+        userInfo.save()
         return redirect(LOGIN_URL)
     else:
         return redirect(REGISTER_URL)
