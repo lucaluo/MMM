@@ -6,9 +6,11 @@
 {% block content %}
 	<div class = "container">
 		<div class = "row-fluid headRow">
+			{% if project.image %}
 			<div class = "span4 picBox" >
-				<img src="/static/img/myPictures/android.jpg" class = "pull-right img-rounded projPic">
+				<img src="{{ project.image.url }}" class = "pull-right img-rounded projPic">
 			</div>
+			{% endif %}
 			<div class = "span8">
 				<div class = "well projTag">
 					<h3 class = "name"> {{ project.title }} </h3>
