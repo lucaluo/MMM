@@ -3,6 +3,13 @@ $("#editButton").click(function(){
 	var aboutText = $("#aboutBox").text();
 	var nameText = $(".name").text();
 	var majorText = $(".major").text();
+	$(".name").keyup(function(){
+	var checkName = $(".name").text();
+	checkName = $.trim(checkName);
+	if (checkName == ""){
+	$(".name").text(nameText);
+	}
+	});
 	$("#submitButton").show();
 	$("#cancelButton").show();
 	$(".infoBox").prop('contenteditable','true');
@@ -10,8 +17,6 @@ $("#editButton").click(function(){
 	$(".infoBox").addClass(".well");
 	$(this).hide();	
 	$("#cancelButton").click(function(){
-	//	$(".editFields").toggle();
-	//$(".infoBox").toggle();
 	$("#aboutBox").text(aboutText);
 	$(".name").text(nameText);
 	$(".major").text(majorText);
@@ -21,7 +26,7 @@ $("#editButton").click(function(){
 	$(".infoBox").prop('contenteditable','false');
 	$(".infoBox").css({"backgroundColor":"#F5F5F5", "color":"inherit", "padding-right":"0px", "padding-left":"0px", "-webkit-border-radius":"8px","-moz-border-radius":"8px","border-radius":"8px"});
 
-});
+	});
 	$("#submitButton").click(function(){
 	$("#editButton").show();
 	$(this).hide();	
@@ -33,12 +38,23 @@ $("#editButton").click(function(){
 	var defAbout = "About me..."
 	if (newName == ""){
 		$(".name").text(nameText);
+	} else {
+		$(".name").text($.trim(newName));
+		$("#hiddenName").val($.trim(newName));
 	}
 	if (newMajor == ""){
 		$(".major").text(defMajor);
+		$("#hiddenMajor").val(defMajor);
+	} else {
+		$(".major").text($.trim(newMajor));
+		$("#hiddenMajor").val($.trim(newMajor));
 	}
 	if (newAbout == ""){
 	$("#aboutBox").text(defAbout);
+	$("#hiddenAbout").val(defAbout);
+	} else {
+	$("#aboutBox").text($.trim(newAbout));
+	$("#hiddenAbout").val($.trim(newAbout));
 	}
 	
 	$(".infoBox").prop('contenteditable','false');
