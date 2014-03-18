@@ -33,9 +33,11 @@
       width:80%; 
       margin-left:2%; 
       margin-top:8%;
+      height:125px;
       }
       .major {
       margin-left:6%;
+      display:inline-block;
       }
       .userType {
       margin-left:6%;
