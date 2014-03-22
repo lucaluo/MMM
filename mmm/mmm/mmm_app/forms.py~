@@ -27,6 +27,6 @@ class ProfileForm(forms.Form):
 	org_bio = forms.CharField(max_length=500)
 	org_image = forms.FileField(required=False)
 	
-#class FilterForm(forms.Form):
+class FilterForm(forms.Form):
 		
 		

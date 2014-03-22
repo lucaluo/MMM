@@ -18,10 +18,6 @@ class UserInfo(models.Model):
 	# django user object id
 	user = models.ForeignKey(User, unique = True, max_length = 100, blank = False)
 
-	# is the user a sponsor or developer?
-	is_sponsor = models.BooleanField()
-	is_developer = models.BooleanField()
-
 	# any settings that we decdie to add
 	setting_0 = models.BooleanField()
 	setting_1 = models.BooleanField()
@@ -29,52 +25,27 @@ class UserInfo(models.Model):
 
 	# bookmarked projects
 	bookmarks = models.ManyToManyField('Project', blank = True)
-
-	class Meta:
-		ordering = ['user']
-
-	def __unicode__(self):
-		return u'%s: (%s %s)' %(self.user.username, self.user.first_name, self.user.last_name)
-
-# developers table
-class Developer(models.Model):
-	# django user object id
-	user = models.ForeignKey(User, unique = True, max_length = 100, blank = False)
-
+	
 	# developer information
-	major = models.CharField(max_length=100, blank=True)
+	major = models.CharField(max_length=100, blank=True) # major/department
 	bio = models.TextField()
-	skills = models.TextField()
-
-	# optional picture of developer
-	image = models.FileField("Developer Image", upload_to=path_and_rename("images/developers/"), blank=True)
 
 	# projects that the developer is a part of
-	projects = models.ManyToManyField('Project', related_name = 'dev_proj_assoc', blank=True)
-		
-	class Meta:
-		ordering = ['user']
-
-	def __unicode__(self):
-		return u'%s: (%s %s)' %(self.user.username, self.user.first_name, self.user.last_name)
-
-# sponsors table
-class Sponsor(models.Model):
-	# django user object id
-	user = models.ForeignKey(User, unique = True, max_length = 100, blank = False)
-
+	#projects = models.ManyToManyField('Project', related_name = 'dev_proj_assoc', blank=True)
+	
 	# sponsor information
 	org_name = models.CharField(max_length=100)
 	org_bio = models.TextField()
 		
-	# optional sponsor picture/logo
-	image = models.FileField("Sponsor Image", upload_to=path_and_rename("images/sponsors/"), blank=True)
-
+	# optional picture/logo
+	image = models.FileField("User Image", upload_to=path_and_rename("images/users/"), blank=True)	
+	
 	class Meta:
 		ordering = ['user']
 
 	def __unicode__(self):
-		return u'%s: %s (%s %s)' %(self.org_name, self.user.username, self.user.first_name, self.user.last_name)
+		return u'%s: (%s %s)' %(self.user.username, self.user.first_name, self.user.last_name)
+
 
 # projects table
 class Project(models.Model):
@@ -92,7 +63,6 @@ class Project(models.Model):
 	status = models.CharField(max_length=2, choices=STATUS_CHOICES, default='IN')
 	show_in_gallery = models.BooleanField() # show in gallery after competion
 	description = models.TextField()
-	requirements = models.TextField()
 	flags = models.IntegerField()
 
 	image = models.FileField("Project Image", upload_to=path_and_rename("images/projects/"), blank=True)
@@ -114,7 +84,6 @@ class Comment(models.Model):
 	# comment information
 	project = models.ForeignKey(Project, max_length = 100, blank = False)
 	date_posted = models.DateTimeField('date posted', auto_now_add=True)
-	title = models.CharField(max_length=100)
 	text = models.TextField()
 	flags = models.IntegerField()
 
