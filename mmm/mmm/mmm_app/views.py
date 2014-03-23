@@ -3,7 +3,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
-from django.core.mail import send_mail, BadHeaderError
+from django.core.mail import send_mail, BadHeaderError, EmailMessage
 from models import *
 from forms import *
 import hashlib
@@ -223,7 +223,13 @@ def apply_project(request):
                 project = Project.objects.get(id=proj_id)
             except Project.DoesNotExist:
                 raise Http404
-            # TODO send email
+            profile_url = request.build_absolute_uri('/profile/' + str(applier.id) + '/')
+            project_url = request.build_absolute_uri('/project/' + str(proj_id) + '/')
+            sponsor_email = EmailMessage('Project Application on Michigan Mobile Manufactory', render(request, 'email_sponsor.txt', {'message': message, 'project': project, 'applier': applier, 'sponsor': project.sponsor, 'profile_url': profile_url, 'project_url': project_url}).content, 'mmm.umich@gmail.com', [project.sponsor.email], [], headers = {'Reply-To': applier.email})
+            sponsor_email.send(fail_silently=False)
+            applier = EmailMessage('Confirmation of Project Application on Michigan Mobile Manufactory', render(request, 'email_applier.txt', {'message': message, 'project': project, 'applier': applier, 'sponsor': project.sponsor, 'profile_url': profile_url, 'project_url': project_url}).content, 'mmm.umich@gmail.com', [applier.email], [])
+            applier.send(fail_silently=False)
+            return redirect(HOMEPAGE_URL)
         else:
             return redirect(HOMEPAGE_URL)
     else:
