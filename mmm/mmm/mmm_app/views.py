@@ -130,20 +130,22 @@ def user_logout(request):
     return redirect(HOMEPAGE_URL)
 
 @login_required
-def profile_form(request):
-    # userInfo = UserInfo.objects.get(user=request.user)
-    # if userInfo.is_sponsor:
-    #     # query sponsor info
-    #     sponsorInfo = Sponsor.objects.get(user=request.user)
-    # else:
-    #     sponsorInfo = []
-    # if userInfo.is_developer:
-    #     # query developer info
-    #     developerInfo = Developer.objects.get(user=request.user)
-    # else:
-    #     developerInfo = []
-    # render()
-    return render(request, 'profile.html')
+def profile_form(request, prof_id):
+    userInfo = UserInfo.objects.get(user=prof_id)
+    user = User.objects.get(pk=prof_id)
+    if userInfo.is_sponsor:
+        # get sponsor info
+        sponsorInfo = Sponsor.objects.get(user=user)
+    else:
+        sponsorInfo = []
+    if userInfo.is_developer:
+        # get developer info
+        developerInfo = Developer.objects.get(user=user)
+        developerProjects = developerInfo.projects.all()
+    else:
+        developerInfo = []
+        developerProjects = []
+    return render(request, 'profile.html', {'user': user, 'userInfo': userInfo, 'sponsorInfo': sponsorInfo, 'developerInfo': developerInfo, 'developerProjects': developerProjects})
 
 @login_required
 def update_profile(request):

@@ -30,6 +30,9 @@ class UserInfo(models.Model):
 	# bookmarked projects
 	bookmarks = models.ManyToManyField('Project', blank = True)
 
+	# optional picture of developer/sponsor
+	image = models.FileField("Developer Image", upload_to=path_and_rename("images/userInfo/"), blank=True)
+
 	class Meta:
 		ordering = ['user']
 
@@ -45,9 +48,6 @@ class Developer(models.Model):
 	major = models.CharField(max_length=100, blank=True)
 	bio = models.TextField()
 	skills = models.TextField()
-
-	# optional picture of developer
-	image = models.FileField("Developer Image", upload_to=path_and_rename("images/developers/"), blank=True)
 
 	# projects that the developer is a part of
 	projects = models.ManyToManyField('Project', related_name = 'dev_proj_assoc', blank=True)
@@ -68,7 +68,7 @@ class Sponsor(models.Model):
 	org_bio = models.TextField()
 		
 	# optional sponsor picture/logo
-	image = models.FileField("Sponsor Image", upload_to=path_and_rename("images/sponsors/"), blank=True)
+	# image = models.FileField("Sponsor Image", upload_to=path_and_rename("images/sponsors/"), blank=True)
 
 	class Meta:
 		ordering = ['user']

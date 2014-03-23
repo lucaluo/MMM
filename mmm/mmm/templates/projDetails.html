@@ -14,13 +14,11 @@
 			<div class = "span8">
 				<div class = "well projTag">
 					<h3 class = "name"> {{ project.title }} </h3>
-					<h5 class = "sponsor"> {{ project.sponsor.first_name }} {{ project.sponsor.last_name }} </h5>
+					<h5 class = "sponsor"><a href="/profile/{{ project.sponsor.id }}/"> {{ project.sponsor.first_name }} {{ project.sponsor.last_name }} </a></h5>
 					<h5 class = "date"> {{ project.date_posted }} </h5>
 					<button type = "button" class = "btn pull-right btn-info" href="#applyModal" data-toggle="modal"> Apply</button>
 					<button type = "button" class = "btn pull-right favorite" > <i class="icon-star-empty pull-right"></i></button>
 					<h5 class = "status"> {% ifequal project.status 'OP' %} Open {% endifequal %}{% ifequal project.status 'CL' %} Closed {% endifequal %}{% ifequal project.status 'CO' %} Completed {% endifequal %} </h5>
-
-
 				</div>
 			</div>
 		</div>
@@ -72,7 +70,7 @@
 								<i class="icon-edit"></i>&nbsp<i class = "icon-trash"></i>&nbsp
 							</div>
 							{% endifequal %}
-							<h5 class="media-heading">{{ comment.user.first_name }} {{ comment.user.last_name }}</h5> <li class = "postDate" >- {{ comment.date_posted }}</li>
+							<h5 class="media-heading"><a href="/profile/{{ comment.user.id }}/"> {{ comment.user.first_name }} {{ comment.user.last_name }} </a></h5> <li class = "postDate" >- {{ comment.date_posted }}</li>
 							<p>{{ comment.text }}</p>
 						</div>
 					</div>
@@ -80,9 +78,6 @@
 				</div>
 			</div>
 		</div>
-
-	
-
 	</div>
 <div id="applyModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" >
 		<div class="modal-header">
