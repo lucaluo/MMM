@@ -144,7 +144,7 @@ def profile_form(request, prof_id):
     # get info
     	userInfo = UserInfo.objects.get(user=prof_id)
         # render form
-    	return render(request, 'profile.html', {'userInfoObj': userInfo, 'sponsorObj': sponsorInfo})
+    	return render(request, 'profile.html', {'userInfoObj': userInfo})
     else: #if request.method == 'POST':
     # make edits to db with form values
     	User.objects.get(user=request.user).update(first_name=x)

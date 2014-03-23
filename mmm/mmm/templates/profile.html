@@ -6,91 +6,41 @@
 {% block content %}
 	<div class = " container">
 		<div class = "row-fluid headRow">
-			{% if userInfo.image %}
 			<div class = "span4 picBox">
-				<img src="{{ userInfo.image.url }}" class = "pull-right img-rounded profPic">
+				<img src="{% if userInfoObj.image %}{{ userInfoObj.image.url }}{% else %}/static/img/myPictures/profile.png{% endif %}" class = "pull-right img-rounded profPic">
 			</div>
-			{% endif %}
 			<div class = "span8">
 				<div class = "well nametag">
-					<h3 class = "name"> {{ user.first_name }} {{ user.last_name }} </h3>
-					{% if userInfo.is_developer and developerInfo.major %}
-					<h5 class = "major"> {{ developerInfo.major }} </h5>
-					{% endif %}
-					{% if userInfo.is_sponsor and sponsorInfo.org_name %}
-					<h5 class = "org_name"> {{ sponsorInfo.org_name }} </h5>
-					{% endif %}
-					<button type = "button" class = "btn pull-right"> Edit</button>
-					{% if userInfo.is_developer and userInfo.is_sponsor %}
-					<h5 class = "userType"> Developer/Sponsor </h5>
-					{% else %}
-						{% if userInfo.is_developer %}
-					<h5 class = "userType"> Developer </h5>
-						{% endif %}
-						{% if userInfo.is_sponsor %}
-					<h5 class = "userType"> Sponsor </h5>
-						{% endif %}	
-					{% endif %}
-					<h3 class = "name infoBox"> Abraham Lincoln </h3>
-
-					<h5 class = "major infoBox"> Computer Science Engineering </h5>
-    <button type = "button" class = "btn pull-right" id="editButton"> Edit</button>
-    <button type="button" class = "btn pull-right editFields" id = "submitButton" style="display:none"> Submit </button>
-        <button type="button" class = "btn pull-right editFields" id = "cancelButton" style="display:none"> Cancel </button>
+					<h3 class = "name infoBox"> {{ user.first_name }} {{ user.last_name }} </h3>
+					<h5 class = "major infoBox"> {{ userInfoObj.major }} </h5>
+				    <button type = "button" class = "btn pull-right" id="editButton"> Edit</button>
+				    <button type="button" class = "btn pull-right editFields" id = "submitButton" style="display:none"> Submit </button>
+        			<button type="button" class = "btn pull-right editFields" id = "cancelButton" style="display:none"> Cancel </button>
 
 				</div>
 			</div>
 		</div>
-		{% if userInfo.is_developer and developerInfo.bio %}
 		<div class = "row-fluid">
 			<div class = "span8 offset2">
 				<div class = "well">
-					<h5>Bio</h5>
-					{{ developerInfo.bio }}
-
 					<h5>About</h5>
 					<div class="infoBox" id = "aboutBox">
-					Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+					{{ userInfoObj.bio }}
 					</div>
 				</div>
 			</div>
 		</div>
-		{% endif %}
 
-		{% if userInfo.is_sponsor and sponsorInfo.org_name and sponsorInfo.org_bio %}
+<!-- 		{% if userInfoObj.org_bio %}
 		<div class = "row-fluid">
 			<div class = "span8 offset2">
 				<div class = "well">
-					<h5>Organization: {{ sponsorInfo.org_name }}</h5>
-					{{ sponsorInfo.org_bio }}
+					<h5>Organization: {{ userInfoObj.org_name }}</h5>
+					{{ userInfoObj.org_bio }}
 				</div>
 			</div>
 		</div>
-		{% endif %}
-
-		{% if userInfo.is_developer and developerInfo.skills %}
-		<div class = "row-fluid">
-			<div class = "span8 offset2">
-				<div class = "well">
-					<h5>Skills</h5>
-					{{ developerInfo.skills }}
-				</div>
-			</div>
-		</div>
-		{% endif %}
-
-		<div class = "row-fluid">
-			<div class = "span8 offset2">
-				<div class = "well">
-					<h5>Sponsored projects</h5>
-					<ul>
-						{% for project in developerProjects %}
-						<li><a href="/project/{{ project.id }}/"> {{ project.title }} </a></li>
-						{% endfor %}
-					</ul>
-				</div>
-			</div>
-		</div>
+		{% endif %} -->
 
 	</div>
 	 <!-- THIS FORM BELOW IS FOR SUBMITTING CHANGES TO PROFILE, values are filled on click of submit -->
