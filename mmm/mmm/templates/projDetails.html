@@ -51,9 +51,9 @@
 					</div>
 					{% for comment in comments %}
 					<div class="media">
-					  		<a class="pull-left" href="#">
-    							<img class="media-object" src="/static/img/myPictures/profile.png" alt="..." >
-  							</a>
+				  		<a class="pull-left" href="#">
+							<img class="media-object" src="/static/img/myPictures/profile.png" alt="..." >
+						</a>
 						<div class="media-body">
 							<!-- edit/delete comment should only appear if you are signed in -->
 							{% ifequal request.user comment.user %}
@@ -70,20 +70,22 @@
 			</div>
 		</div>
 	</div>
-<div id="applyModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" >
+	<div id="applyModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" >
 		<div class="modal-header">
 			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
 			<h3 id="myModalLabel">Apply for this project</h3>
 		</div>
-		<div class="modal-body">
-						<textarea placeholder="Message to sponsor"></textarea>
-
-	
-		</div>
-		<div class="modal-footer">
-			<button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
-			<button class="btn btn-info">Submit</button>
-		</div>
+		<form method="post" action="/apply_project/">
+			<div class="modal-body">
+				<textarea name="message" placeholder="Message to sponsor"></textarea>
+			</div>
+			<div class="modal-footer">
+				<button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+				<input type="submit" class="btn btn-info" value="Submit" />
+			</div>
+			<input type="hidden" name="proj_id" value="{{ project.id }}"></input>
+			{% csrf_token %}
+		</form>
 	</div>
 
 {% endblock %}

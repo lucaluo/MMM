@@ -212,6 +212,22 @@ def project_form(request, proj_id):
     comments = Comment.objects.filter(project=project)
     return render(request, 'projDetails.html', {'project': project, 'category_subs': category_subs, 'comments': comments})
 
+@login_required
+def apply_project(request):
+    if request.method == 'POST':
+        if request.POST['message'] and request.POST['proj_id']:
+            message = request.POST['message']
+            proj_id = request.POST['proj_id']
+            applier = request.user
+            try:
+                project = Project.objects.get(id=proj_id)
+            except Project.DoesNotExist:
+                raise Http404
+            # TODO send email
+        else:
+            return redirect(HOMEPAGE_URL)
+    else:
+        return redirect(HOMEPAGE_URL)
     
 @login_required
 def edit_project(request, proj_id):
