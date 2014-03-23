@@ -1,5 +1,5 @@
- body { 	
-  		background: url(../img/myPictures/northCampusLight.jpg) no-repeat center center fixed; 
+ body {
+  		background: url(../img/myPictures/towerWhite1.jpg) no-repeat center center fixed; 
   		-webkit-background-size: cover;
   		-moz-background-size: cover;
   		-o-background-size: cover;
@@ -50,4 +50,3 @@
       form {
         margin-bottom: 0px;
       }
-      
