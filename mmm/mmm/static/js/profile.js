@@ -1,5 +1,8 @@
 $(document).ready(function(){
 $("#editButton").click(function(){
+	$(".profPic").click(function(){
+	$(".picChange").trigger("click");
+	});
 	var aboutText = $("#aboutBox").text();
 	var nameText = $(".name").text();
 	var majorText = $(".major").text();
@@ -17,6 +20,8 @@ $("#editButton").click(function(){
 	$(".infoBox").addClass(".well");
 	$(this).hide();	
 	$("#cancelButton").click(function(){
+		$(".profPic").unbind();
+
 	$("#aboutBox").text(aboutText);
 	$(".name").text(nameText);
 	$(".major").text(majorText);
@@ -28,6 +33,8 @@ $("#editButton").click(function(){
 
 	});
 	$("#submitButton").click(function(){
+		$(".profPic").unbind();
+
 	$("#editButton").show();
 	$(this).hide();	
 	$("#cancelButton").hide();
