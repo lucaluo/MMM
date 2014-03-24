@@ -62,6 +62,8 @@ $("#editButton").click(function(){
 	} else {
 	$("#aboutBox").text($.trim(newAbout));
 	$("#hiddenAbout").val($.trim(newAbout));
+	
+	// AFTER THIS, ALL SUBMITS ARE DONE
 	}
 	
 	$(".infoBox").prop('contenteditable','false');
