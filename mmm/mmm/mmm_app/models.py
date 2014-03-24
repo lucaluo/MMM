@@ -85,7 +85,7 @@ class Comment(models.Model):
 	flags = models.IntegerField()
 
 	class Meta:
-		ordering = ['date_posted']
+		ordering = ['-date_posted']
 
 	def __unicode__(self):
 		return u'%s -> %s' %(self.project, self.title)

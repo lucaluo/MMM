@@ -45,10 +45,14 @@
 			<div class = "span8 offset2">
 				<div class = "well">
 					<h4> Comments </h4>
-					<div>
-						<textarea class = "media" style = " width:98%" placeholder="New comment..."></textarea>
-						<button type = "button" class = "btn post"> Post</button>
-					</div>
+					<form method="post" action="/new_comment/">
+						<div>
+							<textarea name="comment" class = "media" style = " width:98%" placeholder="New comment..."></textarea>
+							<input type="submit" class = "btn post" value="Post"></input>
+						</div>
+						<input type="hidden" name="proj_id" value="{{ project.id }}"></input>
+						{% csrf_token %}
+					</form>
 					{% for comment in comments %}
 					<div class="media">
 				  		<a class="pull-left" href="#">

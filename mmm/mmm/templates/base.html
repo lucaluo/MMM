@@ -45,7 +45,7 @@
 					<ul class="nav">
 						<li {% ifequal request.path '/' %}class="active"{% endifequal %}><a href="/">Home</a></li>
 						{% if request.user.is_authenticated %}
-						<li {% ifequal request.path profile_url %}class="active"{% endifequal %}><a href="/profile/{{ request.user.id }}/">My Profile</a></li>
+						<li {% ifequal request.path|cut:'/profile/' request.user.id|slugify|add:'/' %}class="active"{% endifequal %}><a href="/profile/{{ request.user.id }}/">My Profile</a></li>
 						<li class="pull-right my-username dropdown">
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown">Logged in as {{ request.user.username }} <b class="caret"></b></a>
 				          	<ul class="dropdown-menu">

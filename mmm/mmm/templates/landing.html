@@ -66,6 +66,7 @@
 			</div><!--/span-->
 		</div><!--/row-->
 
+		<!-- New Project Modal -->
 		{% if request.user.is_authenticated %}
 		<div id="newProjModal" style="height:auto" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" >
 			<div class="modal-header">
@@ -81,9 +82,14 @@
 						<input type = "file" class = "" name="image">
 					</div>
 					<h5>Check all categories this project falls under</h5>
-						<div class = "checkColumn">
-							{% for category_sub in category_subs %}
-							<input type="checkbox" name="category_subs" value="{{ category_sub.id }}">{{ category_sub.name }} <br />
+						<div class = "row checkColumn">
+							{% for category in category_list %}
+							<div class="checkColumn">
+								<li class="nav-header">{{ category.category_top.name }}</li>
+								{% for category_sub in category.category_sub_list %}
+									<input type="checkbox" name="category_subs" value="{{ category_sub.id }}">{{ category_sub.name }} <br />
+								{% endfor %}
+							</div>
 							{% endfor %}
 						</div>
 					<textarea name="description" placeholder="Description"></textarea>

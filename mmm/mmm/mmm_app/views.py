@@ -11,7 +11,7 @@ import hashlib
 
 HOMEPAGE_URL = '/'
 LOGIN_URL = '/login_form/'
-REGISTER_URL = '/register_form/'
+REGISTER_URL = '/login_form/'
 
 def landing(request):
 	if request.user.is_authenticated():
@@ -24,7 +24,6 @@ def landing(request):
 		loggined = False
     		
     # get all tags
-	category_subs = Category_sub.objects.all().order_by('category_top')
 	category_top_list = Category_top.objects.all().order_by('name')
 	category_list = []
 	for category_top in category_top_list:
@@ -47,49 +46,40 @@ def landing(request):
 	#		f1 = Category_sub.objects.get(name='filter1')
 	#		projects.filter(Category_subs=f1
 	
-	return render(request, 'landing.html', {'projects': projects, 'category_list': category_list, 'category_subs': category_subs}, context_instance=RequestContext(request))
-
-# def user_register_form(request):
-#     if request.method == 'GET':
-#         if request.GET.get('next'):
-#             next = request.GET['next']
-#         else:
-#             next = HOMEPAGE_URL
-#         if request.user.is_authenticated():
-#             return redirect(next)
-#         else:
-#             return render(request, 'register_form.html', {'next': next})
-#     else:
-#         return redirect(REGISTER_URL)
+	return render(request, 'landing.html', {'projects': projects, 'category_list': category_list}, context_instance=RequestContext(request))
 
 def user_register(request):
     if request.method == 'POST':
         uniqname = request.POST['uniqname']
         password = request.POST['password']
-        if not (password and uniqname):
-            return render(request, 'register_form.html', context_instance=RequestContext(request))
+        firstname = request.POST['firstname']
+        lastname = request.POST['lastname']
+        if not (password and uniqname and firstname and lastname):
+            return redirect(REGISTER_URL)
         if User.objects.filter(username=uniqname).exists():
-            return render(request, 'register_form.html', context_instance=RequestContext(request))
+            return redirect(REGISTER_URL)
         # TODO: Check legitimate username, password, uniqname, etc.
         email = uniqname + '@umich.edu'
-        user = User.objects.create_user(username=uniqname, password=password, email=email)
+        user = User.objects.create_user(username=uniqname, password=password, email=email, first_name=firstname, last_name=lastname)
         user.is_active = False
         send_verify_email(request, uniqname, email)
         user.save()
         return redirect('/thankyou/')
     else:
-        return redirect(REGISTER_URL)
+        raise Http404
 
 def send_verify_email(request, username, email):
     activation_code = generate_actication_code(username)
-    send_mail('User Verification', request.build_absolute_uri('/activate/' + username + '/' + activation_code), 'mmm.umich@gmail.com', [email], fail_silently=False)
+    verify_url = request.build_absolute_uri('/activate/' + username + '/' + activation_code)
+    user = User.objects.get(username=username)
+    send_mail('Michigan Mobile Manufactory User Verification', render(request, 'email_verification.txt', {'user': user, 'verify_url': verify_url}).content, 'mmm.umich@gmail.com', [email], fail_silently=False)
 
 def user_activate(request, username, activation_code):
     if activation_code == generate_actication_code(username):
         user = User.objects.get(username=username)
         user.is_active = True
         user.save()
-        userInfo = UserInfo(user=user, is_sponsor=False, is_developer=False, setting_0=False, setting_1=False, setting_2=False)
+        userInfo = UserInfo(user=user, setting_0=False, setting_1=False, setting_2=False)
         userInfo.save()
         return redirect(LOGIN_URL)
     else:
@@ -132,7 +122,7 @@ def user_login(request):
             # Return an 'invalid login' error message.
             return render(request, 'login.html', {'next': next, 'username': username, 'error': 'Login Invalid'}, context_instance=RequestContext(request))
     else:
-        return redirect(LOGIN_URL)
+        raise Http404
 
 def user_logout(request):
     logout(request)
@@ -172,12 +162,6 @@ def settings_form(request): # merge with profile?
 def update_settings(request): # merge with profile?
     pass
 
-# @login_required
-# def new_project_form(request):
-#     userInfo = UserInfo.objects.get(user=request.user)
-#     tags = Category_sub.objects.all().order_by('top')
-#     # render()
-
 @login_required
 def new_project(request):
     if request.method == 'POST':
@@ -200,7 +184,7 @@ def new_project(request):
         else:
             print 'not valid'
     else:
-        return redirect(HOMEPAGE_URL)
+        raise Http404
 
 
 @login_required
@@ -234,7 +218,7 @@ def apply_project(request):
         else:
             return redirect(HOMEPAGE_URL)
     else:
-        return redirect(HOMEPAGE_URL)
+        raise Http404
     
 @login_required
 def edit_project(request, proj_id):
@@ -242,8 +226,39 @@ def edit_project(request, proj_id):
     developers = proejctInfo.developers.all()
     tags = projectInfo.category_subs.all().order_by('top')
     comments = Comment.objects.filter(project=proj_id)
-
     # render()
+
+@login_required
+def new_comment(request):
+    if request.method == 'POST':
+        if request.POST['comment'] and request.POST['proj_id']:
+            comment = request.POST['comment']
+            proj_id = request.POST['proj_id']
+            try:
+                project = Project.objects.get(id=proj_id)
+            except Project.DoesNotExist:
+                raise Http404
+            comment = Comment(user=request.user, project=project, text=comment, flags=0)
+            comment.save()
+            return redirect('/project/' + str(proj_id))
+        else:
+            return redirect(HOMEPAGE_URL)
+    else:
+        raise Http404
+
+
+@login_required
+def delete_comment(request):
+    if request.method == 'POST':
+        if request.POST['comment'] and request.POST['proj_id']:
+            comment = request.POST['comment']
+            proj_id = request.POST['proj_id']
+            # TODO
+            return redirect('/project/' + str(proj_id))
+        else:
+            return redirect(HOMEPAGE_URL)
+    else:
+        raise Http404
 
 def gallery(request):
 	pass
