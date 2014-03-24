@@ -1,0 +1,11 @@
+Hi {{ applier.first_name }} {{ applier.last_name }},
+
+Your application to {{ project.title }} on MMM (Michigan Mobile Manufactory) has been sent to {{ sponsor.first_name }} {{ sponsor.last_name }} with the following message:
+{{ message }}
+
+The project sponsor will contact you directly through email.
+
+At the mean time, you can review the project you applied at {{ project_url }} or modify your profile at {{ profile_url }}.
+
+Thanks!
+Michigan Mobile Manufactory team

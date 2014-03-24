@@ -24,6 +24,10 @@ DEBUG = True
 
 TEMPLATE_DEBUG = True
 TEMPLATE_DIRS = (os.path.join(BASE_DIR, 'templates/'))
+TEMPLATE_CONTEXT_PROCESSORS = (
+    'django.core.context_processors.request',
+    'django.contrib.auth.context_processors.auth',
+)
 
 ALLOWED_HOSTS = []
 
@@ -109,5 +113,5 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media').replace('\\','/')
 MEDIA_URL = '/media/'
 
 
-# from settings_local import *
+from settings_local import *
 # from mmm.settings import *

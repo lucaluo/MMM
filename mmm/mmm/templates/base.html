@@ -43,13 +43,18 @@
 				<div class="nav-collapse collapse">
 
 					<ul class="nav">
-
-						<li {% ifequal current 'home' %}class="active"{% endifequal %}><a href="/">Home</a></li>
-						<li><a href="#about" {% ifequal current 'gallery' %}class="active"{% endifequal %}>Gallery</a></li>
-						<li><a href="#contact" {% ifequal current 'settings' %}class="active"{% endifequal %}>Settings</a></li>
-						<li class=" pull-right my-username">
-							<a href="#" class="navbar-link" {% ifequal current 'username' %}class="active"{% endifequal %}>Username <i class="icon-chevron-down"></i></a>
+						<li {% ifequal request.path '/' %}class="active"{% endifequal %}><a href="/">Home</a></li>
+						{% if request.user.is_authenticated %}
+						<li {% ifequal request.path|cut:'/profile/' request.user.id|slugify|add:'/' %}class="active"{% endifequal %}><a href="/profile/{{ request.user.id }}/">My Profile</a></li>
+						<li class="pull-right my-username dropdown">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown">Logged in as {{ request.user.username }} <b class="caret"></b></a>
+				          	<ul class="dropdown-menu">
+					            <li><a href="/logout">Log Out</a></li>
+				          	</ul>
 						</li>
+						{% else %}
+						<li {% ifequal request.path '/login_form/' %}class="active"{% endifequal %}><a href="/login_form/">Log In</a></li>
+						{% endif %}
 					</ul>
 				</div><!--/.nav-collapse -->
 			</div>
