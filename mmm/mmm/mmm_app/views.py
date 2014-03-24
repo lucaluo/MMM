@@ -4,6 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.core.mail import send_mail, BadHeaderError, EmailMessage
+from django.template import RequestContext
 from models import *
 from forms import *
 import hashlib
@@ -46,7 +47,7 @@ def landing(request):
 	#		f1 = Category_sub.objects.get(name='filter1')
 	#		projects.filter(Category_subs=f1
 	
-	return render(request, 'landing.html', {'current': 'home', 'loggined': loggined, 'projects': projects, 'category_list': category_list, 'category_subs': category_subs})
+	return render(request, 'landing.html', {'projects': projects, 'category_list': category_list, 'category_subs': category_subs}, context_instance=RequestContext(request))
 
 # def user_register_form(request):
 #     if request.method == 'GET':
@@ -66,9 +67,9 @@ def user_register(request):
         uniqname = request.POST['uniqname']
         password = request.POST['password']
         if not (password and uniqname):
-            return render(request, 'register_form.html')
+            return render(request, 'register_form.html', context_instance=RequestContext(request))
         if User.objects.filter(username=uniqname).exists():
-            return render(request, 'register_form.html')
+            return render(request, 'register_form.html', context_instance=RequestContext(request))
         # TODO: Check legitimate username, password, uniqname, etc.
         email = uniqname + '@umich.edu'
         user = User.objects.create_user(username=uniqname, password=password, email=email)
@@ -106,7 +107,7 @@ def user_login_form(request):
         if request.user.is_authenticated():
             return redirect(next)
         else:
-            return render(request, 'login.html', {'next': next})
+            return render(request, 'login.html', {'next': next}, context_instance=RequestContext(request))
 
 
 def user_login(request):
@@ -118,7 +119,7 @@ def user_login(request):
         else:
             next = HOMEPAGE_URL
         if not (username and password):
-            return render(request, 'login.html', {'next': next, 'username': username, 'error': 'Fields cannot be empty'})
+            return render(request, 'login.html', {'next': next, 'username': username, 'error': 'Fields cannot be empty'}, context_instance=RequestContext(request))
         user = authenticate(username=username, password=password)
         if user is not None:
             if user.is_active:
@@ -126,10 +127,10 @@ def user_login(request):
                 return redirect(next);
             else:
                 # Return a 'disabled account' error message
-                return render(request, 'login.html', {'next': next, 'username': username, 'error': 'Account Disabled!'})
+                return render(request, 'login.html', {'next': next, 'username': username, 'error': 'Account Disabled!'}, context_instance=RequestContext(request))
         else:
             # Return an 'invalid login' error message.
-            return render(request, 'login.html', {'next': next, 'username': username, 'error': 'Login Invalid'})
+            return render(request, 'login.html', {'next': next, 'username': username, 'error': 'Login Invalid'}, context_instance=RequestContext(request))
     else:
         return redirect(LOGIN_URL)
 
@@ -144,7 +145,7 @@ def profile_form(request, prof_id):
     # get info
     	userInfo = UserInfo.objects.get(user=prof_id)
         # render form
-    	return render(request, 'profile.html', {'userInfoObj': userInfo})
+    	return render(request, 'profile.html', {'userInfoObj': userInfo}, context_instance=RequestContext(request))
     else: #if request.method == 'POST':
     # make edits to db with form values
     	User.objects.get(user=request.user).update(first_name=x)
@@ -210,7 +211,7 @@ def project_form(request, proj_id):
         raise Http404
     category_subs = project.category_subs.all()
     comments = Comment.objects.filter(project=project)
-    return render(request, 'projDetails.html', {'project': project, 'category_subs': category_subs, 'comments': comments})
+    return render(request, 'projDetails.html', {'project': project, 'category_subs': category_subs, 'comments': comments}, context_instance=RequestContext(request))
 
 @login_required
 def apply_project(request):

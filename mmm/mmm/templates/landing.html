@@ -10,10 +10,10 @@
 				<div class="well sidebar-nav" style = "position: relative; width:95%">
 					<ul class="nav nav-list">
 						<li class=" nav-header new-project-header"><h4>
-						{% if loggined %}
+						{% if request.user.is_authenticated %}
 							<button class = "btn-large btn-info btn" href="#newProjModal" data-toggle="modal">New Project</button>
 						{% else %}
-							<a href="./login_form">
+							<a href="/login_form">
 								<button class = "btn-large btn-info btn">New Project</button>
 							</a>
 						{% endif %}
@@ -39,13 +39,13 @@
 
 					<!-- if we use this hover pop up, we need to limit # of words/characters displayed in descripton -->
 					{% for project in projects %}
-					{% if loggined %}
+					{% if request.user.is_authenticated %}
 					<div class="span8" style = "margin-left:2%">
 					{% else %}
 					<div class="span8 span8absheight" style = "margin-left:2%">
 					{% endif %}
 						<h2>{{ project.title }}</h2>
-							{% if loggined %}
+							{% if request.user.is_authenticated %}
 							<div class = "feeditemLogged"
 							<p class = "feedText">{{ project.description }}</p>
 							<p><a class="btn" href="project/{{ project.id }}" style = "bottom:0">View details &raquo;</a></p>
@@ -66,7 +66,7 @@
 			</div><!--/span-->
 		</div><!--/row-->
 
-		{% if loggined %}
+		{% if request.user.is_authenticated %}
 		<div id="newProjModal" style="height:auto" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" >
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
