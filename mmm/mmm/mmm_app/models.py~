@@ -25,17 +25,17 @@ class UserInfo(models.Model):
 
 	# bookmarked projects
 	bookmarks = models.ManyToManyField('Project', blank = True)
-	
+
 	# developer information
-	major = models.CharField(max_length=100, blank=True)
+	major = models.CharField(max_length=100, blank=True) # major/department
 	bio = models.TextField()
 
-	# projects that the developer is a part of
-	#projects = models.ManyToManyField('Project', related_name = 'dev_proj_assoc', blank=True)
+	# full name
+	full_name = models.CharField(max_length=100, blank=False)
 	
-	# sponsor information
-	org_name = models.CharField(max_length=100)
-	org_bio = models.TextField()
+	# projects
+		# this is a one to many relationship. Projects belonging to a particular user
+		# are accessed by: projects = Project.objects.all().
 		
 	# optional picture/logo
 	image = models.FileField("User Image", upload_to=path_and_rename("images/users/"), blank=True)	
@@ -88,7 +88,7 @@ class Comment(models.Model):
 	flags = models.IntegerField()
 
 	class Meta:
-		ordering = ['date_posted']
+		ordering = ['-date_posted']
 
 	def __unicode__(self):
 		return u'%s -> %s' %(self.project, self.title)

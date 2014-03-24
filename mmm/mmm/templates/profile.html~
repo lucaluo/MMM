@@ -49,7 +49,7 @@
    	<input type="hidden" name = "nameData" id= "hiddenName" >
    	<input type="hidden" name = "majorData" id = "hiddenMajor" >
    	<textarea type="hidden" name = "aboutData" id = "hiddenAbout" ></textarea>
-   	<!-- fields for the form: first_name, last_name, major/department, bio, org_name, org_bio, setting0, setting1, setting2 -->
+   	<!-- fields for the form: first_name, last_name, major/department, bio, setting0, setting1, setting2 -->
    	</form>
    </div>
 {% endblock %}

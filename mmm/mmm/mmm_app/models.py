@@ -30,9 +30,12 @@ class UserInfo(models.Model):
 	major = models.CharField(max_length=100, blank=True) # major/department
 	bio = models.TextField()
 
-	# sponsor information
-	org_name = models.CharField(max_length=100)
-	org_bio = models.TextField()
+	# full name
+	full_name = models.CharField(max_length=100, blank=False)
+	
+	# projects
+		# this is a one to many relationship. Projects belonging to a particular user
+		# are accessed by: projects = Project.objects.filter(sponsor=user)
 		
 	# optional picture/logo
 	image = models.FileField("User Image", upload_to=path_and_rename("images/users/"), blank=True)	

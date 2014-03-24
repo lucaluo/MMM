@@ -91,8 +91,6 @@ u0 = User.objects.create_user(
 	'user0', 
 	'user0@fakemail.com', 
 	'user0_pswd',
-	first_name='User', 
-	last_name='Zero', 
 )
 u0.save()
 
@@ -100,8 +98,6 @@ u1 = User.objects.create_user(
 	'user1', 
 	'user1@fakemail.com', 
 	'user1_pswd',
-	first_name='User', 
-	last_name='One', 
 )
 u1.save()
 
@@ -109,8 +105,6 @@ u2 = User.objects.create_user(
 	'user2', 
 	'user2@fakemail.com', 
 	'user2_pswd',
-	first_name='User', 
-	last_name='Two', 
 )
 u2.save()
 
@@ -118,8 +112,6 @@ u3 = User.objects.create_user(
 	'user3', 
 	'user3@fakemail.com', 
 	'user3_pswd',
-	first_name='User', 
-	last_name='Three', 
 )
 u3.save()
 
@@ -133,6 +125,7 @@ ui0 = UserInfo(
 	setting_2=True,
 	major = 'Computer Engineering',
 	bio = 'I am a cool person.',
+	full_name = 'User Zero',
 )
 ui0.save()
 
@@ -143,6 +136,7 @@ ui1 = UserInfo(
 	setting_2=False,
 	major = 'Computer Science',
 	bio = 'I love computers!!!!',
+	full_name = 'User One',
 )
 ui1.save()
 
@@ -151,8 +145,8 @@ ui2 = UserInfo(
 	setting_0=False,
 	setting_1=False,
 	setting_2=False,
-	org_name = 'Really Cool Startup',
-	org_bio = 'We are the most cool and awesome startup in the entire city of Ann Arbor!',
+	full_name = 'The coolest Startup Ever',
+	bio = 'Ann Arbor based startup.',
 )
 ui2.save()
 
@@ -163,8 +157,7 @@ ui3 = UserInfo(
 	setting_2=False,
 	major = 'Computer Science',
 	bio = 'Im a cool person',
-	org_name = 'The Even More Cooler Startup',
-	org_bio = 'We build Android apps for everything.',
+	full_name = 'User Three',
 )
 ui3.save()
 

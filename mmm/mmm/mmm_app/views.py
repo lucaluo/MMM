@@ -31,8 +31,6 @@ def landing(request):
 		category['category_top'] = category_top
 		category['category_sub_list'] = Category_sub.objects.filter(category_top=category_top)
 		category_list.append(category)
-
-    # category_sub = Category_sub.objects.all().order_by('name')
     
     # get list of projects
 	projects = Project.objects.filter(status='OP').order_by('-date_posted')
@@ -129,38 +127,37 @@ def user_logout(request):
     # redirect to homepage
     return redirect(HOMEPAGE_URL)
 
+# doesn't work yet
 @login_required
 def profile_form(request, prof_id):
-    if request.method == 'GET':
-    # get info
-    	userInfo = UserInfo.objects.get(user=prof_id)
-        # render form
-    	return render(request, 'profile.html', {'userInfoObj': userInfo}, context_instance=RequestContext(request))
-    else: #if request.method == 'POST':
-    # make edits to db with form values
-    	User.objects.get(user=request.user).update(first_name=x)
-    		#more user stuff
-    	UserInfo.objects.get(user=request.user).update(setting_0 =x)
-    		#more userinfo stuff
-    	
-    	# redirect to same page but with a GET method
-    	return HttpResponseRedirect(PROFILE_FORM_URL)
+    if request.method == 'POST':
+    	# bound form
+    	form = ProfileForm(request.POST, request.FILES)
+    	if form.is_vaild():
+    		# get user and userInfo to edit
+    		userInfo = UserInfo.objects.get(user=request.user)
+    		# this is the cleaned data
+    		full_name = form.cleaned_data['full_name']
+    		major = form.cleaned_data['major']
+    		bio = form.cleaned_data['bio']
+    		# update models in db
+  			userInfo.full_name = full_name
+    		userInfo.major = major
+    		userInfo.bio = bio
+    		userInfo.save()
+    	# render
+    	return render( request, 'profile.html', {'userInfoObj': userInfo, 'profileEditForm':form}, context_instance=RequestContext(request) )
+    else:
+    	# unbound form
+    	form = ProfileForm()
+    	# get info
+    	userInfo = UserInfo.objects.get(user=request.user)
+        # render
+    	return render(request, 'profile.html', {'userInfoObj': userInfo, 'profileEditForm':form}, context_instance=RequestContext(request))
 
 @login_required
 def update_profile(request):
-   
-    # redirect to profile form
-    return redirect(PROFILE_FORM_URL)
-
-@login_required
-def settings_form(request): # merge with profile?
-    # userInfo = UserInfo.objects.get(user=request.user)
-    # return render()
-    pass
-
-@login_required
-def update_settings(request): # merge with profile?
-    pass
+   pass # is this view necessary?
 
 @login_required
 def new_project(request):
@@ -223,7 +220,7 @@ def apply_project(request):
 @login_required
 def edit_project(request, proj_id):
     projectInfo = Project.obejcts.get(id=proj_id)
-    developers = proejctInfo.developers.all()
+    #developers = proejctInfo.developers.all()
     tags = projectInfo.category_subs.all().order_by('top')
     comments = Comment.objects.filter(project=proj_id)
     # render()

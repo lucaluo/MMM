@@ -12,21 +12,10 @@ class ProjectForm(forms.Form):
 		)
 		
 class ProfileForm(forms.Form):
-	# in template use {{ ProfileForm.fieldName.as_hidden }} to make invisible
-	PROJ_CHOICES = Project.objects.filter(status='OP')
 	# user information
-	first_name = forms.CharField(max_length=50)
-	last_name = forms.CharField(max_length=50)
+	full_name = forms.CharField(max_length=50)
 	user_image = forms.FileField(required=False)
-	# developer information
-	bio = forms.CharField(max_length=500)
-	skills = forms.CharField(max_length=200)
-	projects = forms.MultipleChoiceField(choices=PROJ_CHOICES)
-	# sponsor information
-	org_name = forms.CharField(max_length=50)
-	org_bio = forms.CharField(max_length=500)
-	org_image = forms.FileField(required=False)
-	
-class FilterForm(forms.Form):
-		
-		
+	major = forms.CharField(max_length=50, required=False)
+	bio = forms.CharField(max_length=500, required=False)
+	projects = forms.ModelMultipleChoiceField(
+		queryset = Project.objects.filter(sponsor=	

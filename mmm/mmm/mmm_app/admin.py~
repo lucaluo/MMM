@@ -27,11 +27,6 @@ class userBaseAdmin(admin.ModelAdmin):
 		u = obj.user
 		return u.is_staff
 		
-class ProjectBaseAdmin(admin.ModelAdmin):
-	def org_name(self, obj):
-		u = UserInfo.objects.get(user=obj.sponsor)
-		return u.org_name
-		
 # Action for deleting flagged comments
 def deleteFlagged_3plus(modeladmin, request, queryset):
 	for obj in queryset:
@@ -70,7 +65,7 @@ class UserInfoAdmin(userBaseAdmin):
 			'fields': ('user', 'first_name', 'last_name', 'email', 'is_active', 'is_staff', 'setting_0', 'setting_1', 'setting_2',)
 		}),
 		('User Information', {
-			'fields': ('major', 'bio', 'org_name', 'org_bio', 'image',)
+			'fields': ('major', 'bio', 'image',)
 		}),
 		('Bookmarked Projects', {
 			'fields': ('bookmarks',)
@@ -87,18 +82,16 @@ admin.site.register(UserInfo, UserInfoAdmin)
 
 
 # Project
-class ProjectAdmin(ProjectBaseAdmin):
+class ProjectAdmin(admin.ModelAdmin):
 	fieldsets = (
 		('Project Information', {
-			'fields':('title', 'image', 'org_name', 'sponsor', 'date_posted', 'status', 'description', 'category_subs', 'show_in_gallery', 'flags',)
-		}),
+			'fields':('title', 'image', 'sponsor', 'status', 'description', 'category_subs', 'show_in_gallery', 'flags',)
+		}), #'date_posted', doesn't work inexplicably
 	)
 	
 	actions = [setStatusOpen, setStatusClosed, setStatusComp, setShowInGallery, deleteFlagged_3plus]
 	
-	search_fields = ['sponsor__username', 'sponsor__email', 'sponsor__first_name', 'sponsor__last_name', 'title', 'category_subs__name', 'org_name']
-	
-	readonly_fields = ['org_name']
+	search_fields = ['sponsor__username', 'sponsor__email', 'sponsor__first_name', 'sponsor__last_name', 'title', 'category_subs__name']
 		
 admin.site.register(Project, ProjectAdmin)
 

@@ -113,5 +113,5 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media').replace('\\','/')
 MEDIA_URL = '/media/'
 
 
-from settings_local import *
-# from mmm.settings import *
+#from settings_local import *
+from mmm.settings import *
