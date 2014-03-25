@@ -17,6 +17,8 @@
 					<h5 class = "date"> {{ project.date_posted }} </h5>
 					<button type = "button" class = "btn pull-right btn-info" href="#applyModal" data-toggle="modal"> Apply</button>
 					<button type = "button" class = "btn pull-right favorite" > <i class="icon-star-empty pull-right"></i></button>
+					<button type = "button" class = "btn pull-right edit" >Edit</button>
+
 					<h5 class = "status"> {% ifequal project.status 'OP' %} Open {% endifequal %}{% ifequal project.status 'CL' %} Closed {% endifequal %}{% ifequal project.status 'CO' %} Completed {% endifequal %} </h5>
 				</div>
 			</div>
