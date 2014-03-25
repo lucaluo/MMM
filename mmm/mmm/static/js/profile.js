@@ -45,6 +45,7 @@ $("#editButton").click(function(){
 	var defAbout = "About me..."
 	if (newName == ""){
 		$(".name").text(nameText);
+		$("#hiddenName").val($.trim(newName));
 	} else {
 		$(".name").text($.trim(newName));
 		$("#hiddenName").val($.trim(newName));
@@ -57,14 +58,14 @@ $("#editButton").click(function(){
 		$("#hiddenMajor").val($.trim(newMajor));
 	}
 	if (newAbout == ""){
-	$("#aboutBox").text(defAbout);
-	$("#hiddenAbout").val(defAbout);
-	} else {
-	$("#aboutBox").text($.trim(newAbout));
-	$("#hiddenAbout").val($.trim(newAbout));
-	
-	// AFTER THIS, ALL SUBMITS ARE DONE
+		$("#aboutBox").text(defAbout);
+		$("#hiddenAbout").val(defAbout);
+		} else {
+		$("#aboutBox").text($.trim(newAbout));
+		$("#hiddenAbout").val($.trim(newAbout));
 	}
+
+	$('form#profileEditForm').submit();
 	
 	$(".infoBox").prop('contenteditable','false');
 	$(".infoBox").css({"backgroundColor":"#F5F5F5", "color":"inherit", "padding-right":"0px", "padding-left":"0px", "-webkit-border-radius":"8px","-moz-border-radius":"8px","border-radius":"8px"});
