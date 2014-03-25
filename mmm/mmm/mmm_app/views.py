@@ -197,13 +197,22 @@ def new_project(request):
 
 @login_required
 def project(request, proj_id):
-	try:
-		project = Project.objects.get(id=proj_id)
-	except Project.DoesNotExist:
-		raise Http404
-	category_subs = project.category_subs.all()
-	comments = Comment.objects.filter(project=project)
-	return render(request, 'projDetails.html', {'project': project, 'category_subs': category_subs, 'comments': comments}, context_instance=RequestContext(request))
+	if request.method == 'POST':
+		# TODO edit project
+		pass
+	else:
+		try:
+			project = Project.objects.get(id=proj_id)
+		except Project.DoesNotExist:
+			raise Http404
+		sponsor = UserInfo.objects.get(id=project.sponsor.id)
+		category_subs = project.category_subs.all()
+		comments = Comment.objects.filter(project=project)
+		commentsObj = []
+		for comment in comments:
+			commentObj = {'comment': comment, 'commenter': UserInfo.objects.get(id=comment.user.id)}
+			commentsObj.append(commentObj)
+		return render(request, 'projDetails.html', {'project': project, 'sponsor': sponsor, 'category_subs': category_subs, 'commentsObj': commentsObj}, context_instance=RequestContext(request))
 
 @login_required
 def apply_project(request):
