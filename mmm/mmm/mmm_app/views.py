@@ -265,17 +265,23 @@ def new_comment(request):
 
 
 @login_required
-def delete_comment(request):
-	if request.method == 'POST':
-		if request.POST['comment'] and request.POST['proj_id']:
-			comment = request.POST['comment']
-			proj_id = request.POST['proj_id']
-			# TODO
-			return redirect('/project/' + str(proj_id))
+def delete_comment(request, proj_id, comm_id):
+	try:
+		comment = Comment.objects.get(id=comm_id)
+		if str(comment.project.id) != proj_id:
+			# TODO error message comment and proejct id not correspond
+			print "comment and proejct id not correspond"
+		elif comment.user != request.user:
+			# TODO no permission to delete this comment
+			print "no permission to delete this comment"
 		else:
-			return redirect(HOMEPAGE_URL)
-	else:
-		raise Http404
+			comment.delete()
+			return redirect('/project/' + proj_id + '/')
+	except Comment.DoesNotExist:
+		# TODO error message comment to delete not exists
+		print "error message comment to delete not exists"
+
+
 
 def gallery(request):
 	pass

@@ -64,7 +64,7 @@
 							<!-- edit/delete comment should only appear if you are signed in -->
 							{% ifequal request.user commentObj.comment.user %}
 							<div class = "pull-right">
-								<i class="icon-edit"></i>&nbsp<i class = "icon-trash"></i>&nbsp
+								<a href="/delete_comment/{{ project.id }}/{{ commentObj.comment.id }}/"><i class = "icon-trash"></i>&nbsp</a>
 							</div>
 							{% endifequal %}
 							<h5 class="media-heading"><a href="/profile/{{ commentObj.comment.user.id }}/"> {{ commentObj.commenter.full_name }} </a></h5> <li class = "postDate" >- {{ commentObj.comment.date_posted }}</li>
