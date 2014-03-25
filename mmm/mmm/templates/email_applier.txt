@@ -1,6 +1,6 @@
-Hi {{ applier.first_name }} {{ applier.last_name }},
+Hi {{ applierInfo.full_name }},
 
-Your application to {{ project.title }} on MMM (Michigan Mobile Manufactory) has been sent to {{ sponsor.first_name }} {{ sponsor.last_name }} with the following message:
+Your application to {{ project.title }} on MMM (Michigan Mobile Manufactory) has been sent to {{ sponsorInfo.full_name }} with the following message:
 {{ message }}
 
 The project sponsor will contact you directly through email.

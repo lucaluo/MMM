@@ -10,8 +10,8 @@ from forms import *
 import hashlib
 
 HOMEPAGE_URL = '/'
-LOGIN_URL = '/login_form/'
-REGISTER_URL = '/login_form/'
+LOGIN_URL = '/login/'
+REGISTER_URL = '/login/'
 
 def landing(request):
 	if request.user.is_authenticated():
@@ -50,19 +50,20 @@ def user_register(request):
 	if request.method == 'POST':
 		uniqname = request.POST['uniqname']
 		password = request.POST['password']
-		firstname = request.POST['firstname']
-		lastname = request.POST['lastname']
-		if not (password and uniqname and firstname and lastname):
+		full_name = request.POST['full_name']
+		if not (password and uniqname and full_name):
 			return redirect(REGISTER_URL)
 		if User.objects.filter(username=uniqname).exists():
 			return redirect(REGISTER_URL)
 		# TODO: Check legitimate username, password, uniqname, etc.
 		email = uniqname + '@umich.edu'
-		user = User.objects.create_user(username=uniqname, password=password, email=email, first_name=firstname, last_name=lastname)
+		user = User.objects.create_user(username=uniqname, password=password, email=email)
 		user.is_active = False
 		send_verify_email(request, uniqname, email)
 		user.save()
-		return redirect('/thankyou/')
+		userInfo = UserInfo(user=user, full_name=full_name, setting_0=False, setting_1=False, setting_2=False)
+		userInfo.save()
+		return redirect(HOMEPAGE_URL)
 	else:
 		raise Http404
 
@@ -70,33 +71,20 @@ def send_verify_email(request, username, email):
 	activation_code = generate_actication_code(username)
 	verify_url = request.build_absolute_uri('/activate/' + username + '/' + activation_code)
 	user = User.objects.get(username=username)
-	send_mail('Michigan Mobile Manufactory User Verification', render(request, 'email_verification.txt', {'user': user, 'verify_url': verify_url}).content, 'mmm.umich@gmail.com', [email], fail_silently=False)
+	userInfo = UserInfo.object.get(user=user)
+	send_mail('Michigan Mobile Manufactory User Verification', render(request, 'email_verification.txt', {'user': user, 'userInfo': userInfo, 'verify_url': verify_url}).content, 'mmm.umich@gmail.com', [email], fail_silently=False)
 
 def user_activate(request, username, activation_code):
 	if activation_code == generate_actication_code(username):
 		user = User.objects.get(username=username)
 		user.is_active = True
 		user.save()
-		userInfo = UserInfo(user=user, setting_0=False, setting_1=False, setting_2=False)
-		userInfo.save()
 		return redirect(LOGIN_URL)
 	else:
 		return redirect(REGISTER_URL)
 
 def generate_actication_code(username):
 	return hashlib.sha256(username[0] + username[-1] + username).hexdigest()
-
-def user_login_form(request):
-	if request.method == 'GET':
-		if request.GET.get('next'):
-			next = request.GET['next']
-		else:
-			next = HOMEPAGE_URL
-		if request.user.is_authenticated():
-			return redirect(next)
-		else:
-			return render(request, 'login.html', {'next': next}, context_instance=RequestContext(request))
-
 
 def user_login(request):
 	if request.method == 'POST':
@@ -120,7 +108,14 @@ def user_login(request):
 			# Return an 'invalid login' error message.
 			return render(request, 'login.html', {'next': next, 'username': username, 'error': 'Login Invalid'}, context_instance=RequestContext(request))
 	else:
-		raise Http404
+		if request.GET.get('next'):
+			next = request.GET['next']
+		else:
+			next = HOMEPAGE_URL
+		if request.user.is_authenticated():
+			return redirect(next)
+		else:
+			return render(request, 'login.html', {'next': next}, context_instance=RequestContext(request))
 
 def user_logout(request):
 	logout(request)
@@ -221,15 +216,17 @@ def apply_project(request):
 			message = request.POST['message']
 			proj_id = request.POST['proj_id']
 			applier = request.user
+			applierInfo = UserInfo.objects.get(user=applier)
 			try:
 				project = Project.objects.get(id=proj_id)
 			except Project.DoesNotExist:
 				raise Http404
+			sponsorInfo = UserInfo.objects.get(user=project.sponsor)
 			profile_url = request.build_absolute_uri('/profile/' + str(applier.id) + '/')
 			project_url = request.build_absolute_uri('/project/' + str(proj_id) + '/')
-			sponsor_email = EmailMessage('Project Application on Michigan Mobile Manufactory', render(request, 'email_sponsor.txt', {'message': message, 'project': project, 'applier': applier, 'sponsor': project.sponsor, 'profile_url': profile_url, 'project_url': project_url}).content, 'mmm.umich@gmail.com', [project.sponsor.email], [], headers = {'Reply-To': applier.email})
+			sponsor_email = EmailMessage('Project Application on Michigan Mobile Manufactory', render(request, 'email_sponsor.txt', {'message': message, 'project': project, 'applier': applier, 'sponsor': project.sponsor, 'profile_url': profile_url, 'project_url': project_url, 'applierInfo': applierInfo, 'sponsorInfo': sponsorInfo}).content, 'mmm.umich@gmail.com', [project.sponsor.email], [], headers = {'Reply-To': applier.email})
 			sponsor_email.send(fail_silently=False)
-			applier = EmailMessage('Confirmation of Project Application on Michigan Mobile Manufactory', render(request, 'email_applier.txt', {'message': message, 'project': project, 'applier': applier, 'sponsor': project.sponsor, 'profile_url': profile_url, 'project_url': project_url}).content, 'mmm.umich@gmail.com', [applier.email], [])
+			applier = EmailMessage('Confirmation of Project Application on Michigan Mobile Manufactory', render(request, 'email_applier.txt', {'message': message, 'project': project, 'applier': applier, 'sponsor': project.sponsor, 'profile_url': profile_url, 'project_url': project_url, 'applierInfo': applierInfo, 'sponsorInfo': sponsorInfo}).content, 'mmm.umich@gmail.com', [applier.email], [])
 			applier.send(fail_silently=False)
 			return redirect(HOMEPAGE_URL)
 		else:

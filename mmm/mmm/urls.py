@@ -7,7 +7,6 @@ admin.autodiscover()
 urlpatterns = patterns('',
     url(r'^admin/', include(admin.site.urls)),
     url(r'^$', landing),
-    url(r'^login_form/$', user_login_form),
     url(r'^login/$', user_login),
     url(r'^logout/$', user_logout),
     url(r'^register/$', user_register),

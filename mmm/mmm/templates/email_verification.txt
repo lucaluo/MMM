@@ -1,4 +1,4 @@
-Hi {{ user.first_name }} {{ user.last_name }},
+Hi {{ userInfo.full_name }},
 
 Thanks for registering with MMM!
 
