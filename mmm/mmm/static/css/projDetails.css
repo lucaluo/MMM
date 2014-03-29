@@ -72,6 +72,9 @@ body {
    	.edit {
    	margin-right:10px;
    	}
+   	  #submitButton {
+   	margin-left:10px;
+   	}
    	.post {
    	margin-left:90%;
    	}

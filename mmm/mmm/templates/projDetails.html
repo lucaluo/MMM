@@ -12,12 +12,14 @@
 			
 			<div class = "span8">
 				<div class = "well projTag">
-					<h3 class = "name"> {{ project.title }} </h3>
+					<h3 class = "name infoBox" id = "titleBox"> {{ project.title }} </h3>
 					<h5 class = "sponsor"><a href="/profile/{{ project.sponsor.id }}/"> {{ project.sponsor.first_name }} {{ project.sponsor.last_name }} </a></h5>
 					<h5 class = "date"> {{ project.date_posted }} </h5>
 					<button type = "button" class = "btn pull-right btn-info" href="#applyModal" data-toggle="modal"> Apply</button>
 					<button type = "button" class = "btn pull-right favorite" > <i class="icon-star-empty pull-right"></i></button>
 					<button type = "button" class = "btn pull-right edit" >Edit</button>
+					<button type="button" class = "btn pull-right editFields" id = "submitButton" style="display:none"> Submit </button>
+        				<button type="button" class = "btn pull-right editFields" id = "cancelButton" style="display:none"> Cancel </button>
 
 					<h5 class = "status"> {% ifequal project.status 'OP' %} Open {% endifequal %}{% ifequal project.status 'CL' %} Closed {% endifequal %}{% ifequal project.status 'CO' %} Completed {% endifequal %} </h5>
 				</div>
@@ -27,7 +29,9 @@
 			<div class = "span8 offset2">
 				<div class = "well">
 					<h5>Description</h5>
+					<div class = "infoBox" id = "descriptionBox">
 					{{ project.description }}
+					</div>
 				</div>
 			</div>
 		</div>
@@ -93,5 +97,13 @@
 			{% csrf_token %}
 		</form>
 	</div>
+	<div id="hiddenForm" style = "display:none">
+   	<form id="projectEditForm" method="post">
+   	<input type="hidden" name = "titleData" id= "hiddenTitle" >
+   	<textarea type="hidden" name = "descriptionData" id = "hiddenDescription" ></textarea>
+   	<input type = "file" class = "picChange" style="display:none">
+
+   	</form>
+   </div>
 
 {% endblock %}
