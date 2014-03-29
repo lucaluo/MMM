@@ -1,10 +1,10 @@
-Hi {{ sponsor.first_name }} {{ sponsor.last_name }},
+Hi {{ sponsorInfo.full_name }},
 
-{{ applier.first_name }} {{ applier.last_name }} ({{ applier.email }}) has applied for your {{ project.title }} on MMM (Michigan Mobile Manufactory).
+{{ applierInfo.full_name }} ({{ applier.email }}) has applied for your {{ project.title }} on MMM (Michigan Mobile Manufactory).
 Here is her/his message to you:
 {{ message }}
 
-You can look at {{ applier.first_name }} {{ applier.last_name }}'s profile at {{ profile_url }} or review your project at {{ project_url }}.
+You can look at {{ applierInfo.full_name }}'s profile at {{ profile_url }} or review your project at {{ project_url }}.
 
 Thanks!
 Michigan Mobile Manufactory team

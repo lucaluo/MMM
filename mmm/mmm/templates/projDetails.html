@@ -13,7 +13,7 @@
 			<div class = "span8">
 				<div class = "well projTag">
 					<h3 class = "name infoBox" id = "titleBox"> {{ project.title }} </h3>
-					<h5 class = "sponsor"><a href="/profile/{{ project.sponsor.id }}/"> {{ project.sponsor.first_name }} {{ project.sponsor.last_name }} </a></h5>
+					<h5 class = "sponsor"><a href="/profile/{{ project.sponsor.id }}/"> {{ sponsor.full_name }} </a></h5>
 					<h5 class = "date"> {{ project.date_posted }} </h5>
 					<button type = "button" class = "btn pull-right btn-info" href="#applyModal" data-toggle="modal"> Apply</button>
 					<button type = "button" class = "btn pull-right favorite" > <i class="icon-star-empty pull-right"></i></button>
@@ -59,20 +59,20 @@
 						<input type="hidden" name="proj_id" value="{{ project.id }}"></input>
 						{% csrf_token %}
 					</form>
-					{% for comment in comments %}
+					{% for commentObj in commentsObj %}
 					<div class="media">
 				  		<a class="pull-left" href="#">
 							<img class="media-object" src="/static/img/myPictures/profile.png" alt="..." >
 						</a>
 						<div class="media-body">
 							<!-- edit/delete comment should only appear if you are signed in -->
-							{% ifequal request.user comment.user %}
+							{% ifequal request.user commentObj.comment.user %}
 							<div class = "pull-right">
-								<i class="icon-edit"></i>&nbsp<i class = "icon-trash"></i>&nbsp
+								<a href="/delete_comment/{{ project.id }}/{{ commentObj.comment.id }}/"><i class = "icon-trash"></i>&nbsp</a>
 							</div>
 							{% endifequal %}
-							<h5 class="media-heading"><a href="/profile/{{ comment.user.id }}/"> {{ comment.user.first_name }} {{ comment.user.last_name }} </a></h5> <li class = "postDate" >- {{ comment.date_posted }}</li>
-							<p>{{ comment.text }}</p>
+							<h5 class="media-heading"><a href="/profile/{{ commentObj.comment.user.id }}/"> {{ commentObj.commenter.full_name }} </a></h5> <li class = "postDate" >- {{ commentObj.comment.date_posted }}</li>
+							<p>{{ commentObj.comment.text }}</p>
 						</div>
 					</div>
 					{% endfor %}

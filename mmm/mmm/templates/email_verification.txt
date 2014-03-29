@@ -1,0 +1,9 @@
+Hi {{ userInfo.full_name }},
+
+Thanks for registering with MMM!
+
+Please click the following link to activate your account:
+{{ verify_url }}
+
+Thanks!
+Michigan Mobile Manufactory team
