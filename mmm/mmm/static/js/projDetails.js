@@ -1,5 +1,6 @@
 $(document).ready(function(){
 $("#editButton").click(function(){
+alert("?");
 	$(".projPic").click(function(){
 	$(".picChange").trigger("click");
 	});
