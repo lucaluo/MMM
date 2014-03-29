@@ -22,6 +22,11 @@
         				<button type="button" class = "btn pull-right editFields" id = "cancelButton" style="display:none"> Cancel </button>
 
 					<h5 class = "status"> {% ifequal project.status 'OP' %} Open {% endifequal %}{% ifequal project.status 'CL' %} Closed {% endifequal %}{% ifequal project.status 'CO' %} Completed {% endifequal %} </h5>
+					<form class = "statusForm" method="post" style = "margin-left:3%; display:none">
+					<input type="radio" name="status" value="open" style = "margin:0">Open &nbsp
+					<input type="radio" name="status" value="closed" style = "margin:0">Closed <br>
+ 					<input type="checkbox" name="gallery" value="galleryDisplay" style = "margin:0">Display in gallery
+					</form>
 				</div>
 			</div>
 		</div>

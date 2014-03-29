@@ -14,6 +14,8 @@ $("#editButton").click(function(){
 	});
 	$("#submitButton").show();
 	$("#cancelButton").show();
+	$(".statusForm").show();
+	$(".status").hide();
 	$(".infoBox").prop('contenteditable','true');
 	$(".infoBox").css({"backgroundColor":"white", "color":"gray", "padding-right":"5px", "padding-left":"5px", "-webkit-border-radius":"8px","-moz-border-radius":"8px","border-radius":"8px"});
 	$(".infoBox").addClass(".well");
@@ -23,7 +25,8 @@ $("#editButton").click(function(){
 	$("#cancelButton").click(function(){
 	// NEW
 	$(".projPic").unbind();
-
+	$(".statusForm").hide();
+	$(".status").show();
 	$("#descriptionBox").text(aboutText);
 	$(".name").text(nameText);
 	$("#editButton").show();
@@ -38,6 +41,8 @@ $("#editButton").click(function(){
 	$("#submitButton").click(function(){
 	$(".projPic").unbind();
 	$("#editButton").show();
+	$(".statusForm").hide();
+	$(".status").show();
 	$(this).hide();	
 	$("#cancelButton").hide();
 	$("#applyButton").show();
@@ -66,4 +71,4 @@ $("#editButton").click(function(){
 });
 
 });
-    	
+    		
