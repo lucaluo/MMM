@@ -13,7 +13,7 @@
 				<div class = "well nametag">
 					<h3 class = "name infoBox"> {{ userInfoObj.full_name }} </h3>
 					<h5 class = "major infoBox"> {{ userInfoObj.major }} </h5>
-					{% ifequal userInfoObj.id request.user.id %}
+					{% ifequal userInfoObj.user.id request.user.id %}
 				    <button type = "button" class = "btn pull-right" id="editButton"> Edit</button>
 				    <button type="button" class = "btn pull-right editFields" id = "submitButton" style="display:none"> Submit </button>
         			<button type="button" class = "btn pull-right editFields" id = "cancelButton" style="display:none"> Cancel </button>
@@ -51,10 +51,11 @@
 	{% ifequal userInfoObj.id request.user.id %}
 	 <!-- THIS FORM BELOW IS FOR SUBMITTING CHANGES TO PROFILE, values are filled on click of submit -->
    <div id="hiddenForm" style = "display:none">
-   	<form id="profileEditForm" method="post" action="/profile/{{ userInfoObj.user.id }}/" enctype="multipart/form-data">
+   	<form id="profileEditForm" method="post" action="/profile/{{ userInfoObj.id }}/" enctype="multipart/form-data">
    	<input type = "file" name="image" class="picChange" style="display:none">
    	<input type="hidden" name = "full_name" id= "hiddenName" >
    	<input type="hidden" name = "major" id = "hiddenMajor" >
+    <input type="submit"/>
    	<textarea type="hidden" name = "bio" id = "hiddenAbout" ></textarea>
    	<!-- fields for the form: full_name, major/department, bio, setting0?, setting1?, setting2? -->
    	{% csrf_token %}
@@ -63,5 +64,5 @@
    {% endifequal %}
 {% endblock %}
 {% block script %}
-	<script src="/static/js/profile.js"></script>
+	<script src="/static/js/profile.js" type="text/javascript"></script>
 {% endblock %}

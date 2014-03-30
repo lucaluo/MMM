@@ -133,8 +133,12 @@ def profile(request, prof_id):
 			# bound form
 			form = ProfileForm(request.POST, request.FILES)
 			if form.is_valid():
-				# get user and userInfo to edit
-				userInfo = UserInfo.objects.get(user=request.user)
+				try:
+					# get user and userInfo to edit
+					userInfo = UserInfo.objects.get(id=prof_id)
+				except UserInfo.DoesNotExist:
+					raise Http404
+					
 				# this is the cleaned data
 				full_name = form.cleaned_data['full_name']
 				major = form.cleaned_data['major']
@@ -152,6 +156,7 @@ def profile(request, prof_id):
 				print form.errors
 		else:
 			# TODO pass error message to template
+			# print error
 			print request.user.id
 	else:
 		# unbound form
@@ -231,13 +236,13 @@ def project(request, proj_id):
 			project = Project.objects.get(id=proj_id)
 		except Project.DoesNotExist:
 			raise Http404
-		sponsor = UserInfo.objects.get(id=project.sponsor.id)
+		sponsor = UserInfo.objects.get(user=project.sponsor)
 		category_subs = project.category_subs.all()
 		category_sub_ids = [category_sub.id for category_sub in category_subs]
 		comments = Comment.objects.filter(project=project)
 		commentsObj = []
 		for comment in comments:
-			commentObj = {'comment': comment, 'commenter': UserInfo.objects.get(id=comment.user.id)}
+			commentObj = {'comment': comment, 'commenter': UserInfo.objects.get(user=comment.user)}
 			commentsObj.append(commentObj)
 		category_list = getAllCategories()
 		return render(request, 'projDetails.html', {'project': project, 'sponsor': sponsor, 'category_subs': category_subs, 'commentsObj': commentsObj, 'category_list': category_list, 'category_sub_ids': category_sub_ids}, context_instance=RequestContext(request))
