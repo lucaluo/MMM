@@ -175,14 +175,18 @@ def new_project(request):
 			project = Project(
 							title=form.cleaned_data['title'], 
 							sponsor=request.user, 
-							status='OP', 
-							show_in_gallery=True, 
+							status='OP',
+							show_in_gallery=True,
 							description=form.cleaned_data['description'], 
 							flags=0,
 						)
 			project.save()
 			if request.FILES.get('image'):
 				project.image = request.FILES['image']
+			if request.POST.get('in_gallery'):
+				project.show_in_gallery = True
+			else:
+				project.show_in_gallery = False
 			for category_sub in form.cleaned_data['category_subs']:
 				project.category_subs.add(category_sub)
 			project.save()

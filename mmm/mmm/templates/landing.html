@@ -75,7 +75,7 @@
 
 			</div>
 			<form  method="post" action="/new_project/" enctype="multipart/form-data">
-				<div class="modal-body">
+				<div class="modal-body" style="max-height: none;">
 					<input type="text" name="title" class="input-block" placeholder="Title"><br>
 					<div> 
 						<h5>Upload an image for your project</h5>
@@ -92,7 +92,8 @@
 							</div>
 							{% endfor %}
 						</div>
-					<textarea name="description" placeholder="Description"></textarea>
+					<textarea name="description" placeholder="Description"></textarea><br />
+					<input checked type="checkbox" name="in_gallery" value="true"> Show in Gallery after Completed <br />
 				</div>
 				<div class="modal-footer">
 					<button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
