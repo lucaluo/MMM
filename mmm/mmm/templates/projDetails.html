@@ -5,80 +5,82 @@
 
 {% block content %}
 	<div class = "container">
-		<div class = "row-fluid headRow">
-			<div class = "span4 picBox" >
-				<img src="{% if project.image %}{{ project.image.url }}{% else %}/static/img/myPictures/android.jpg{% endif %}" class = "pull-right img-rounded projPic">
-			</div>
-			
-			<div class = "span8">
-				<div class = "well projTag">
-					<h3 class = "name infoBox" id = "titleBox"> {{ project.title }} </h3>
-					<h5 class = "sponsor"><a href="/profile/{{ project.sponsor.id }}/"> {{ sponsor.full_name }} </a></h5>
-					<h5 class = "date"> {{ project.date_posted }} </h5>
-					<button type = "button" class = "btn pull-right btn-info" href="#applyModal" data-toggle="modal" id = "applyButton"> Apply</button>
-					<button type = "button" class = "btn pull-right favorite" id = "favoriteButton" > <i class="icon-star-empty pull-right"></i></button>
-					<button type = "button" class = "btn pull-right edit" id = "editButton" >Edit</button>
-					<button type="button" class = "btn pull-right editFields" id = "submitButton" style="display:none"> Submit </button>
-        				<button type="button" class = "btn pull-right editFields" id = "cancelButton" style="display:none"> Cancel </button>
-
-					<h5 class = "status"> {% ifequal project.status 'OP' %} Open {% endifequal %}{% ifequal project.status 'CL' %} Closed {% endifequal %}{% ifequal project.status 'CO' %} Completed {% endifequal %} </h5>
-					<form class = "statusForm" method="post" style = "margin-left:3%; display:none">
-					<input type="radio" name="status" value="open" style = "margin:0">Open &nbsp
-					<input type="radio" name="status" value="closed" style = "margin:0">Closed <br>
- 					<input type="checkbox" name="gallery" value="galleryDisplay" style = "margin:0">Display in gallery
-					</form>
+		<form id="projectEditForm" method="post" action="/project/{{ project.id }}/" enctype="multipart/form-data">
+			<div class = "row-fluid headRow">
+				<div class = "span4 picBox" >
+					<img src="{% if project.image %}{{ project.image.url }}{% else %}/static/img/myPictures/android.jpg{% endif %}" class = "pull-right img-rounded projPic">
 				</div>
-			</div>
-		</div>
-		<div class = "row-fluid">
-			<div class = "span8 offset2">
-				<div class = "well">
-					<h5>Description</h5>
-					<div class = "infoBox" id = "descriptionBox">
-					{{ project.description }}
+				
+				<div class = "span8">
+					<div class = "well projTag">
+						<h3 class = "name infoBox" id = "titleBox"> {{ project.title }} </h3>
+						<h5 class = "sponsor"><a href="/profile/{{ project.sponsor.id }}/"> {{ sponsor.full_name }} </a></h5>
+						<h5 class = "date"> {{ project.date_posted }} </h5>
+						<button type = "button" class = "btn pull-right btn-info" href="#applyModal" data-toggle="modal" id = "applyButton"> Apply</button>
+						<button type = "button" class = "btn pull-right favorite" id = "favoriteButton" > <i class="icon-star-empty pull-right"></i></button>
+
+						{% if request.user == project.sponsor %}
+						<button type = "button" class = "btn pull-right edit" id = "editButton" >Edit</button>
+						<button type="button" class = "btn pull-right editFields" id = "submitButton" style="display:none"> Submit </button>
+	        			<button type="button" class = "btn pull-right editFields" id = "cancelButton" style="display:none"> Cancel </button>
+	        			{% endif %}
+
+						<h5 class = "status"> {% ifequal project.status 'OP' %} Open {% endifequal %}{% ifequal project.status 'CL' %} Closed {% endifequal %}{% ifequal project.status 'CO' %} Completed {% endifequal %} </h5>
+						<div class = "statusForm" style = "margin-left:3%; display:none">
+							<input {% ifequal project.status 'OP' %}checked{% endifequal %} type="radio" name="status" value="OP" style = "margin:0">Open &nbsp
+							<input {% ifequal project.status 'CL' %}checked{% endifequal %} type="radio" name="status" value="CL" style = "margin:0">Closed
+							<input {% ifequal project.status 'CO' %}checked{% endifequal %} type="radio" name="status" value="CO" style = "margin:0">Completed <br>
+		 					<input {{ project.show_in_gallery|yesno:"checked," }} type="checkbox" name="in_gallery" value="true" style = "margin:0">Display in gallery
+						</div>
 					</div>
 				</div>
 			</div>
-		</div>
-		<div class = "row-fluid">
-			<div class = "span8 offset2">
-				<div class = "well" id = "filters">
-					<h5>Filters</h5>
-					<ul>
-					{% for category_sub in category_subs %}
-						<li> {{ category_sub.name }} </li>
-					{% endfor %}
-					</ul>
+			<div class = "row-fluid">
+				<div class = "span8 offset2">
+					<div class = "well">
+						<h5>Description</h5>
+						<div class = "infoBox" id = "descriptionBox">
+						{{ project.description }}
+						</div>
+					</div>
 				</div>
-				  <div class = "well " id = "filterOptions" style = "display:none">
-  					<div class = "checkColumn"> 
-					<input type="checkbox" name="platform" value="Android">Android <br>
-            				<input type="checkbox" name="platform" value="ios">iOS <br>
-            				<input type="checkbox" name="platform" value="windows">Windows <br>
-            				<input type="checkbox" name="category" value="social">Social <br>
-            
-              			</div>
-            			<div class = "checkColumn">
-			  		<input type="checkbox" name="category" value="entertainment">Entertainment <br>
-			  		<input type="checkbox" name="category" value="educational">Educational <br>
-			  		<input type="checkbox" name="category" value="productivity">Productivity <br>
-			  		<input type="checkbox" name="category" value="utility">Utility <br>
-			 	 </div>
-				<div class = "checkColumn">
-			  		<input type="checkbox" name="misc" value="paid">Paid <br>
-			  		<input type="checkbox" name="misc" value="university">University related <br>
-			  	</div>
-			  </div>
 			</div>
-		</div>
+			<div class = "row-fluid">
+				<div class = "span8 offset2">
+					<div class = "well" id = "filters">
+						<h5>Filters</h5>
+						<ul>
+						{% for category_sub in category_subs %}
+							<li> {{ category_sub.name }} </li>
+						{% endfor %}
+						</ul>
+					</div>
+				  	<div class="well" id ="filterOptions" style ="display:none; overflow:hidden">
+				  		<h5>Filters</h5>
+				  		{% for category in category_list %}
+	  					<div class = "checkColumn" style="float:left; margin-right:10px">
+	  						<li class="nav-header">{{ category.category_top.name }}</li>
+								{% for category_sub in category.category_sub_list %}
+									<input {% if category_sub.id in category_sub_ids %}checked{% endif %} type="checkbox" name="category_subs" value="{{ category_sub.id }}">{{ category_sub.name }} <br />
+								{% endfor %}
+	          			</div>
+	          			{% endfor %}
+				  	</div>
+				</div>
+			</div>
+			<input type="hidden" name="title" id="hiddenTitle" >
+		   	<textarea type="hidden" name="description" id="hiddenDescription" style="display:none"></textarea>
+		   	<input type="file" name="image" class="picChange" style="display:none">
+		   	{% csrf_token %}
+	   	</form>
 		<div class = "row-fluid">
 			<div class = "span8 offset2">
 				<div class = "well">
 					<h4> Comments </h4>
 					<form method="post" action="/new_comment/">
 						<div>
-							<textarea name="comment" class = "media" style = " width:98%" placeholder="New comment..."></textarea>
-							<input type="submit" class = "btn post" value="Post"></input>
+							<textarea name="comment" class="media" style="width:98%" placeholder="New comment..."></textarea>
+							<input type="submit" class="btn post" value="Post"></input>
 						</div>
 						<input type="hidden" name="proj_id" value="{{ project.id }}"></input>
 						{% csrf_token %}
@@ -121,14 +123,6 @@
 			{% csrf_token %}
 		</form>
 	</div>
-	<div id="hiddenForm" style = "display:none">
-   	<form id="projectEditForm" method="post">
-   	<input type="hidden" name = "titleData" id= "hiddenTitle" >
-   	<textarea type="hidden" name = "descriptionData" id = "hiddenDescription" ></textarea>
-   	<input type = "file" class = "picChange" style="display:none">
-
-   	</form>
-   </div>
 
 
 {% endblock %}

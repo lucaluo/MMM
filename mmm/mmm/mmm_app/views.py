@@ -24,13 +24,7 @@ def landing(request):
 		loggined = False
 			
 	# get all tags
-	category_top_list = Category_top.objects.all().order_by('name')
-	category_list = []
-	for category_top in category_top_list:
-		category = {}
-		category['category_top'] = category_top
-		category['category_sub_list'] = Category_sub.objects.filter(category_top=category_top)
-		category_list.append(category)
+	category_list = getAllCategories()
 	
 	# get list of projects
 	projects = Project.objects.filter(status='OP').order_by('-date_posted')
@@ -45,6 +39,16 @@ def landing(request):
 	#		projects.filter(Category_subs=f1
 	
 	return render(request, 'landing.html', {'projects': projects, 'category_list': category_list}, context_instance=RequestContext(request))
+
+def getAllCategories():
+	category_top_list = Category_top.objects.all().order_by('name')
+	category_list = []
+	for category_top in category_top_list:
+		category = {}
+		category['category_top'] = category_top
+		category['category_sub_list'] = Category_sub.objects.filter(category_top=category_top)
+		category_list.append(category)
+	return category_list
 
 def user_register(request):
 	if request.method == 'POST':
@@ -122,7 +126,6 @@ def user_logout(request):
 	# redirect to homepage
 	return redirect(HOMEPAGE_URL)
 
-# doesn't work yet
 @login_required
 def profile(request, prof_id):
 	if request.method == 'POST':
@@ -193,21 +196,47 @@ def new_project(request):
 @login_required
 def project(request, proj_id):
 	if request.method == 'POST':
-		# TODO edit project
-		pass
-	else:
+		form = ProjectForm(request.POST, request.FILES)
+		if form.is_valid():
+			try:
+				project = Project.objects.get(id=proj_id)
+			except Project.DoesNotExist:
+				raise Http404
+			if project.sponsor == request.user:
+				project.title = form.cleaned_data['title']
+				project.description = form.cleaned_data['description']
+				if request.POST.get('status'):
+					project.status = request.POST['status']
+				if request.POST.get('in_gallery'):
+					project.show_in_gallery = True
+				else:
+					project.show_in_gallery = False
+				if request.FILES.get('image'):
+					project.image = request.FILES['image']
+				project.category_subs.through.objects.all().delete()
+				for category_sub in form.cleaned_data['category_subs']:
+					project.category_subs.add(category_sub)
+				project.save()
+				return redirect('/project/' + proj_id + "/")
+			else:
+				print 'no permission'
+		else:
+			print 'not valid'
+	else: # GET
 		try:
 			project = Project.objects.get(id=proj_id)
 		except Project.DoesNotExist:
 			raise Http404
 		sponsor = UserInfo.objects.get(id=project.sponsor.id)
 		category_subs = project.category_subs.all()
+		category_sub_ids = [category_sub.id for category_sub in category_subs]
 		comments = Comment.objects.filter(project=project)
 		commentsObj = []
 		for comment in comments:
 			commentObj = {'comment': comment, 'commenter': UserInfo.objects.get(id=comment.user.id)}
 			commentsObj.append(commentObj)
-		return render(request, 'projDetails.html', {'project': project, 'sponsor': sponsor, 'category_subs': category_subs, 'commentsObj': commentsObj}, context_instance=RequestContext(request))
+		category_list = getAllCategories()
+		return render(request, 'projDetails.html', {'project': project, 'sponsor': sponsor, 'category_subs': category_subs, 'commentsObj': commentsObj, 'category_list': category_list, 'category_sub_ids': category_sub_ids}, context_instance=RequestContext(request))
 
 @login_required
 def apply_project(request):
