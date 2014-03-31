@@ -12,7 +12,7 @@
 			<div class = "span8">
 				<div class = "well nametag">
 					<h3 class = "name infoBox"> {{ userInfoObj.full_name }} </h3>
-					<h5 class = "major infoBox"> {{ userInfoObj.major }} </h5>
+					<h5 class = "major infoBox"> {{ userInfoObj.major|default:"major/department" }} </h5>
 					{% ifequal userInfoObj.user.id request.user.id %}
 				    <button type = "button" class = "btn pull-right" id="editButton"> Edit</button>
 				    <button type="button" class = "btn pull-right editFields" id = "submitButton" style="display:none"> Submit </button>
@@ -27,7 +27,7 @@
 				<div class = "well">
 					<h5>About</h5>
 					<div class="infoBox" id = "aboutBox">
-					{{ userInfoObj.bio }}
+					{{ userInfoObj.bio|default:"About me..." }}
 					</div>
 				</div>
 			</div>
