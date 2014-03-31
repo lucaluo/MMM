@@ -20,7 +20,7 @@
 						</h4></li>
 						<hr style = "border-width:2px">
 						<li class="nav-header"><h6>Add/Remove filters</h6></li>
-						<form id="filterForm" method="post" action="/" enctype="multipart/form-data">
+						<form id="filterForm" method="get" action="/" enctype="multipart/form-data">
 						{% for category in category_list %}
 							<li class="nav-header">{{ category.category_top.name }}</li>	
 							{% for category_sub in category.category_sub_list %}
@@ -35,7 +35,7 @@
 						<input type="text" class="input-block searchBox" name='additional_filter' placeholder="Additional filters">
 						<br />
 						<input type="submit" style="position: absolute; left: -9999px; width: 1px; height: 1px;" />
-						{% csrf_token %}
+						<!-- {% csrf_token %} -->
 						</form>
 					</ul>
 				</div><!--/.well -->
