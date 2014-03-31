@@ -17,7 +17,7 @@
 						<h5 class = "sponsor"><a href="/profile/{{ project.sponsor.id }}/"> {{ sponsor.full_name }} </a></h5>
 						<h5 class = "date"> {{ project.date_posted }} </h5>
 						<button type = "button" class = "btn pull-right btn-info" href="#applyModal" data-toggle="modal" id = "applyButton"> Apply</button>
-						<button type = "button" class = "btn pull-right favorite" id = "favoriteButton" > <i class="icon-star-empty pull-right"></i></button>
+						<a type = "button" class = "btn pull-right favorite" id = "favoriteButton" href="/{{ is_bookmarked|yesno:"unbookmark,bookmark" }}/{{ project.id }}/"> <i class="{{ is_bookmarked|yesno:"icon-star,icon-star-empty" }} pull-right"></i></a>
 
 						{% if request.user == project.sponsor %}
 						<button type = "button" class = "btn pull-right edit" id = "editButton" >Edit</button>

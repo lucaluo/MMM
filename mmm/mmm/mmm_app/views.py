@@ -269,7 +269,11 @@ def project(request, proj_id):
 			commentObj = {'comment': comment, 'commenter': UserInfo.objects.get(user=comment.user)}
 			commentsObj.append(commentObj)
 		category_list = getAllCategories()
-		return render(request, 'projDetails.html', {'project': project, 'sponsor': sponsor, 'category_subs': category_subs, 'commentsObj': commentsObj, 'category_list': category_list, 'category_sub_ids': category_sub_ids}, context_instance=RequestContext(request))
+		if project in UserInfo.objects.get(user=request.user).bookmarks.all():
+			is_bookmarked = True
+		else:
+			is_bookmarked = False
+		return render(request, 'projDetails.html', {'project': project, 'sponsor': sponsor, 'category_subs': category_subs, 'commentsObj': commentsObj, 'category_list': category_list, 'category_sub_ids': category_sub_ids, 'is_bookmarked': is_bookmarked}, context_instance=RequestContext(request))
 
 @login_required
 def apply_project(request):
@@ -340,7 +344,28 @@ def delete_comment(request, proj_id, comm_id):
 		# TODO error message comment to delete not exists
 		print "error message comment to delete not exists"
 
+@login_required
+def bookmark(request, proj_id):
+	try:
+		project = Project.objects.get(id=proj_id)
+	except Project.DoesNotExist:
+		raise Http404
+	userInfo = UserInfo.objects.get(user=request.user)
+	if project not in userInfo.bookmarks.all():
+		userInfo.bookmarks.add(project)
+	return redirect('/project/' + proj_id + '/')
 
+
+@login_required
+def unbookmark(request, proj_id):
+	try:
+		project = Project.objects.get(id=proj_id)
+	except Project.DoesNotExist:
+		raise Http404
+	userInfo = UserInfo.objects.get(user=request.user)
+	if project in userInfo.bookmarks.all():
+		userInfo.bookmarks.remove(project)
+	return redirect('/project/' + proj_id + '/')
 
 def gallery(request):
 	pass

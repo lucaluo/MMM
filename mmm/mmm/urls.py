@@ -22,6 +22,8 @@ urlpatterns = patterns('',
     # url(r'^update_comment/(?P<comm_id>\w+)/$', update_comment),
     url(r'^delete_comment/(?P<proj_id>\w+)/(?P<comm_id>\w+)/$', delete_comment),
     # url(r'^gallery/$', gallery),
+    url(r'^bookmark/(?P<proj_id>\w+)/$', bookmark),
+    url(r'^unbookmark/(?P<proj_id>\w+)/$', unbookmark),
     # handles media files
     url(r'^media/(?P<path>.*)/$', 'django.views.static.serve', {'document_root': settings.MEDIA_ROOT}), 
     # handles static files
