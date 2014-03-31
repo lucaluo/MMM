@@ -59,7 +59,14 @@ def landing(request):
 							projects = projects.filter(category_subs=cs)
 							match = True
 				if not match:
-					projects = projects.filter(description__icontains=form.cleaned_data['additional_filter'])
+					newprojects = projects.filter(title__icontains=form.cleaned_data['additional_filter'])
+					if not newprojects:
+						projects = projects.filter(description__icontains=form.cleaned_data['additional_filter'])
+					else:
+						projects = newprojects
+			if not projects:
+				mcontent = "No projects matched your filters"
+				mtype = 'alert-danger'
 				
 			print "printing project titles"
 			for p in projects:
