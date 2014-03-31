@@ -24,17 +24,17 @@
 						{% for category in category_list %}
 							<li class="nav-header">{{ category.category_top.name }}</li>	
 							{% for category_sub in category.category_sub_list %}
-								<input type="checkbox" name="f_category_subs" id="{{ category_sub.id }}">{{ category_sub.name }} 
+								<input type="checkbox" name="f_category_subs" value="{{ category_sub.id }}" id="filter-checkbox">{{ category_sub.name }} 
 								<br />
 							{% endfor %}
 						{% endfor %}
 						<br />
 						<li class="nav-header">Custom Filters</li>
-						<input type="checkbox" name="bookmarked" id="bookmearked-checkbox">Bookmarked Projects <br />
+						<input type="checkbox" name="bookmarked" id="bookmarked-checkbox">Bookmarked<br />
 						<br />
 						<input type="text" class="input-block searchBox" name='additional_filter' placeholder="Additional filters">
 						<br />
-						<input type="submit" /> <!-- style="position: absolute; left: -9999px; width: 1px; height: 1px;" -->
+						<input type="submit" style="position: absolute; left: -9999px; width: 1px; height: 1px;" />
 						{% csrf_token %}
 						</form>
 					</ul>

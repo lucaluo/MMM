@@ -47,8 +47,16 @@ $(document).ready(function(){
     		$(this).parent().parent().height($(this).parent().height() + 50);
 		};
 		});
-		
-  		
+  	
+  		$('input:checkbox').filter('#filter-checkbox').change(function() {
+			//submit form if any checkbox is changed
+			$('form#filterForm').submit();
+		});
+
+		$("#bookmarked-checkbox").change(function() {
+    		//submit form if any checkbox is changed
+			$('form#filterForm').submit();
+		});	
   	
 	});
 	

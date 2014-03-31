@@ -37,21 +37,18 @@ def landing(request):
 	if request.method == "POST" and request.POST:
 		form = FilterForm(data=request.POST)
 		if form.is_valid():
-			# checkbox filters
-			f_cat_subs = form.cleaned_data['f_category_subs']
-			
-			for cs in f_cat_subs:
-				print "printing category sub"
-				print cs
-				
-			for cat_sub in f_cat_subs:
-				if False: # corresponds to checkbox being checked
-					print "applying filter category_sub"
-					projects = projects.exclude(Category_subs=cat_sub)
-			
 			# bookmarked projects
 			if form.cleaned_data['bookmarked']:
 				projects = UserInfo.objects.get(user=request.user).bookmarks.all()
+		
+			# checkbox filters
+			f_cat_subs = form.cleaned_data['f_category_subs']
+			print f_cat_subs
+				
+			for cat_sub in f_cat_subs:
+				# corresponds to checkbox being checked
+				print "applying filter category_sub"
+				projects = projects.filter(category_subs=cat_sub)
 			
 			# search box
 			af = form.cleaned_data['additional_filter']

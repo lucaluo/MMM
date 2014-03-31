@@ -35,7 +35,9 @@ class FilterForm(forms.Form):
 			queryset = Category_sub.objects.all(),
 			required = False,
 		)
-	
+	#def __init__(self, *args, **kwargs):
+	#	f_category_sub_list = kwargs.pop('category_list', None)
+	#	super(FilterForm, self).__init__(*args, **kwargs)
 	
 	# cd is a dictionary containing two entries:
 	#	category_top: category_top_name
