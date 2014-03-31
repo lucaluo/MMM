@@ -26,22 +26,54 @@ def landing(request):
 	# get all tags
 	category_list = getAllCategories()
 	
-	# get list of projects
-	projects = Project.objects.filter(status='OP').order_by('-date_posted')
-	
-	# apply filters
-	#if filter0: # corresponds to checkbox being checked
-	#	f0 = Category_sub.objects.get(name='filter0')
-	#	projects.filter(Category_subs=f0)
-	#if filter1:
-	#	f1 = Category_sub.objects.get(name='filter1')
-	#	projects.filter(Category_subs=f1
-	
 	# message color and contents
 	mtype = 'none'
 	mcontents = ''
 	
-	return render(request, 'landing.html', {'projects': projects, 'category_list': category_list, 'message_type': mtype, 'message_contents': mcontents}, context_instance=RequestContext(request))
+	# get list of projects
+	projects = Project.objects.filter(status='OP').order_by('-date_posted')
+	
+	# filtering on post method
+	if request.method == "POST" and request.POST:
+		form = FilterForm(data=request.POST)
+		if form.is_valid():
+			# checkbox filters
+			f_cat_subs = form.cleaned_data['f_category_subs']
+			
+			for cs in f_cat_subs:
+				print "printing category sub"
+				print cs
+				
+			for cat_sub in f_cat_subs:
+				if False: # corresponds to checkbox being checked
+					print "applying filter category_sub"
+					projects.exclude(Category_subs=cat_sub)
+					
+			# search box
+			af = form.cleaned_data['additional_filter']
+			match = False
+			if af:
+				for cd in category_list:
+					for cs in cd['category_sub_list']:
+						if cs.name == af:
+							projects = projects.filter(category_subs=cs)
+							match = True
+				if not match:
+					projects = projects.filter(description__icontains=form.cleaned_data['additional_filter'])
+				
+			print "printing project titles"
+			for p in projects:
+				print p.title
+		else:
+			print "invalid form"
+			mtype = 'alert-danger'
+			mcontents = 'Invalid filters'
+			projects = []	
+				
+		return render(request, 'landing.html', {'filterForm': form, 'projects': projects, 'category_list': category_list, 'message_type': mtype, 'message_contents': mcontents}, context_instance=RequestContext(request))
+	else:
+		form = FilterForm()
+		return render(request, 'landing.html', {'filterForm': form, 'projects': projects, 'category_list': category_list, 'message_type': mtype, 'message_contents': mcontents}, context_instance=RequestContext(request))
 
 def getAllCategories():
 	category_top_list = Category_top.objects.all().order_by('name')
