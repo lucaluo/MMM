@@ -60,8 +60,10 @@
 			</div>
 		</div>
 	</div>
-	    <div class="alert alert-success" style = "width:80%; margin-left:10%; margin-right:10%">Here is that error/ success message. Change the class alert-success to alert-danger or alert-warning to change color to yellow or red </div>
-
+		{% if message_type != 'none' %}
+		<div class={{message_type}} style = "width:80%; margin-left:10%; margin-right:10%"> {{ message_contents }} </div>
+	    {% endif %}
+	    
 	{% endblock %}
 
 	{% block content %}{% endblock %}

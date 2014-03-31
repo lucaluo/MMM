@@ -30,15 +30,18 @@ def landing(request):
 	projects = Project.objects.filter(status='OP').order_by('-date_posted')
 	
 	# apply filters
-	#if request.method == 'POST':
-	#	if filter0: # corresponds to checkbox being checked
-	#		f0 = Category_sub.objects.get(name='filter0')
-	#		projects.filter(Category_subs=f0)
-	#	if filter1:
-	#		f1 = Category_sub.objects.get(name='filter1')
-	#		projects.filter(Category_subs=f1
+	#if filter0: # corresponds to checkbox being checked
+	#	f0 = Category_sub.objects.get(name='filter0')
+	#	projects.filter(Category_subs=f0)
+	#if filter1:
+	#	f1 = Category_sub.objects.get(name='filter1')
+	#	projects.filter(Category_subs=f1
 	
-	return render(request, 'landing.html', {'projects': projects, 'category_list': category_list}, context_instance=RequestContext(request))
+	# message color and contents
+	mtype = 'none'
+	mcontents = ''
+	
+	return render(request, 'landing.html', {'projects': projects, 'category_list': category_list, 'message_type': mtype, 'message_contents': mcontents}, context_instance=RequestContext(request))
 
 def getAllCategories():
 	category_top_list = Category_top.objects.all().order_by('name')
@@ -150,11 +153,19 @@ def profile(request, prof_id):
 				userInfo.bio = bio
 				if request.FILES.get('image'):
 					userInfo.image = request.FILES['image']
-				userInfo.save()
+				try:
+					userInfo.save()
+					# message color and contents
+					mtype = 'alert-success'
+					mcontents = 'Profile successfully updated'
+				except userInfo.DoesNotExist: # what other errors could occur?
+					# message color and contents
+					mtype = 'alert-danger'
+					mcontents = 'Profile could not be updated'
 				# get sponsored projects
 				projects = Project.objects.filter(sponsor=prof_id)
 				#return redirect('/profile/' + prof_id + '/')
-				return render(request, 'profile.html', {'userInfoObj': userInfo, 'profileEditForm':form, 'projects': projects}, context_instance=RequestContext(request))
+				return render(request, 'profile.html', {'userInfoObj': userInfo, 'profileEditForm':form, 'projects': projects, 'message_type': mtype, 'message_contents': mcontents}, context_instance=RequestContext(request))
 			else:
 				# TODO pass error message to template
 				print form.errors
@@ -164,14 +175,22 @@ def profile(request, prof_id):
 			print request.user.id
 	else:
 		print "profile form get"
+		try:
+			# get user and userInfo to edit
+			userInfo = UserInfo.objects.get(user=request.user)
+		except UserInfo.DoesNotExist:
+			raise Http404
 		# unbound form
 		form = ProfileForm()
 		# get info
 		userInfo = UserInfo.objects.get(user=prof_id)
 		# get sponsored projects
 		projects = Project.objects.filter(sponsor=prof_id)
+		# message color and contents
+		mtype = 'none'
+		mcontents = ''
 		# render
-		return render(request, 'profile.html', {'userInfoObj': userInfo, 'profileEditForm':form, 'projects': projects}, context_instance=RequestContext(request))
+		return render(request, 'profile.html', {'userInfoObj': userInfo, 'profileEditForm':form, 'projects': projects, 'message_type': mtype, 'message_contents': mcontents}, context_instance=RequestContext(request))
 
 # @login_required
 # def update_profile(request):

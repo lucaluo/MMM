@@ -17,8 +17,4 @@ class ProfileForm(forms.Form):
 	user_image = forms.FileField(required=False)
 	major = forms.CharField(max_length=50, required=False)
 	bio = forms.CharField(max_length=500, required=False)
-	projects = forms.ModelMultipleChoiceField(
-		queryset = Project.objects.all(),
-		required = False,
-	)
-		
+	
