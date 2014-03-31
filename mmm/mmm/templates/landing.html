@@ -20,16 +20,20 @@
 						</h4></li>
 						<hr style = "border-width:2px">
 						<li class="nav-header"><h6>Add/Remove filters</h6></li>
+						<form id="filterForm" method="post" action="/" enctype="multipart/form-data">
 						{% for category in category_list %}
 							<li class="nav-header">{{ category.category_top.name }}</li>	
 							{% for category_sub in category.category_sub_list %}
-								<input type="checkbox" name="{{ category.category_top.name }}" value="{{ category_sub.name }}">{{ category_sub.name }} 
+								<input type="checkbox" name="f_category_subs" id="{{ category_sub.id }}">{{ category_sub.name }} 
 								<br />
 							{% endfor %}
 						{% endfor %}
 						<br />
-						<input type="text" class="input-block searchBox" placeholder="Additional filters">
+						<input type="text" class="input-block searchBox" name='additional_filter' placeholder="Additional filters">
 						<br />
+						<input type="submit" /> <!-- style="position: absolute; left: -9999px; width: 1px; height: 1px;" -->
+						{% csrf_token %}
+						</form>
 					</ul>
 				</div><!--/.well -->
 			</div><!--/span-->
