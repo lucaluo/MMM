@@ -129,13 +129,14 @@ def user_logout(request):
 @login_required
 def profile(request, prof_id):
 	if request.method == 'POST':
+		print "profile page post"
 		if prof_id == str(request.user.id):
 			# bound form
 			form = ProfileForm(request.POST, request.FILES)
 			if form.is_valid():
 				try:
 					# get user and userInfo to edit
-					userInfo = UserInfo.objects.get(id=prof_id)
+					userInfo = UserInfo.objects.get(user=request.user)
 				except UserInfo.DoesNotExist:
 					raise Http404
 					
@@ -150,7 +151,10 @@ def profile(request, prof_id):
 				if request.FILES.get('image'):
 					userInfo.image = request.FILES['image']
 				userInfo.save()
-				return redirect('/profile/' + prof_id + '/')
+				# get sponsored projects
+				projects = Project.objects.filter(sponsor=prof_id)
+				#return redirect('/profile/' + prof_id + '/')
+				return render(request, 'profile.html', {'userInfoObj': userInfo, 'profileEditForm':form, 'projects': projects}, context_instance=RequestContext(request))
 			else:
 				# TODO pass error message to template
 				print form.errors
@@ -159,6 +163,7 @@ def profile(request, prof_id):
 			# print error
 			print request.user.id
 	else:
+		print "profile form get"
 		# unbound form
 		form = ProfileForm()
 		# get info
