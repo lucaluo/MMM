@@ -47,8 +47,12 @@ def landing(request):
 			for cat_sub in f_cat_subs:
 				if False: # corresponds to checkbox being checked
 					print "applying filter category_sub"
-					projects.exclude(Category_subs=cat_sub)
-					
+					projects = projects.exclude(Category_subs=cat_sub)
+			
+			# bookmarked projects
+			if form.cleaned_data['bookmarked']:
+				projects = UserInfo.objects.get(user=request.user).bookmarks.all()
+			
 			# search box
 			af = form.cleaned_data['additional_filter']
 			match = False
@@ -64,13 +68,14 @@ def landing(request):
 						projects = projects.filter(description__icontains=form.cleaned_data['additional_filter'])
 					else:
 						projects = newprojects
+						
 			if not projects:
-				mcontent = "No projects matched your filters"
+				print "not projects"
+				print projects
+				# WHY DOESNT THIS SHOW UP?
 				mtype = 'alert-danger'
+				mcontent = 'No projects matched'
 				
-			print "printing project titles"
-			for p in projects:
-				print p.title
 		else:
 			print "invalid form"
 			mtype = 'alert-danger'

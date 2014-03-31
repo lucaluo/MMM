@@ -29,11 +29,11 @@ class ProfileForm(forms.Form):
 	bio = forms.CharField(max_length=500, required=False)
 	
 class FilterForm(forms.Form):
+	bookmarked = forms.BooleanField(required=False)
 	additional_filter = forms.CharField(max_length=50, required=False)
 	f_category_subs = forms.ModelMultipleChoiceField(
 			queryset = Category_sub.objects.all(),
 			required = False,
-			widget=forms.CheckboxSelectMultiple
 		)
 	
 	
