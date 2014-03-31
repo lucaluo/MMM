@@ -112,10 +112,10 @@ def user_register(request):
 		email = uniqname + '@umich.edu'
 		user = User.objects.create_user(username=uniqname, password=password, email=email)
 		user.is_active = False
-		send_verify_email(request, uniqname, email)
 		user.save()
 		userInfo = UserInfo(user=user, full_name=full_name, setting_0=False, setting_1=False, setting_2=False)
 		userInfo.save()
+		send_verify_email(request, uniqname, email)
 		return redirect(HOMEPAGE_URL)
 	else:
 		raise Http404
@@ -124,7 +124,7 @@ def send_verify_email(request, username, email):
 	activation_code = generate_actication_code(username)
 	verify_url = request.build_absolute_uri('/activate/' + username + '/' + activation_code)
 	user = User.objects.get(username=username)
-	userInfo = UserInfo.object.get(user=user)
+	userInfo = UserInfo.objects.get(user=user)
 	send_mail('Michigan Mobile Manufactory User Verification', render(request, 'email_verification.txt', {'user': user, 'userInfo': userInfo, 'verify_url': verify_url}).content, 'mmm.umich@gmail.com', [email], fail_silently=False)
 
 def user_activate(request, username, activation_code):

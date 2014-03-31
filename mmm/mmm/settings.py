@@ -81,7 +81,7 @@ EMAIL_HOST_PASSWORD = 'mmm@umich.edu'
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'America/Detroit'
 
 USE_I18N = True
 
