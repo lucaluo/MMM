@@ -32,22 +32,31 @@ def landing(request):
 	
 	# get list of projects
 	projects = Project.objects.filter(status='OP').order_by('-date_posted')
+	bookmarked = False
+	f_cat_subs_dict = {}
+	for x in category_list:
+		for cs in x['category_sub_list']:
+			f_cat_subs_dict[cs] = False
+	af = ''
 	
-	# filtering on post method
+	# filtering on get method
 	form = FilterForm(data=request.GET)
-	if form.is_valid():
+
+	if loggined and form.is_valid():
 		# bookmarked projects
-		if form.cleaned_data['bookmarked']:
+		b = form.cleaned_data['bookmarked']
+		if b:
 			projects = UserInfo.objects.get(user=request.user).bookmarks.all()
+			bookmarked = True
 	
 		# checkbox filters
 		f_cat_subs = form.cleaned_data['f_category_subs']
-		print f_cat_subs
 			
 		for cat_sub in f_cat_subs:
 			# corresponds to checkbox being checked
 			print "applying filter category_sub"
 			projects = projects.filter(category_subs=cat_sub)
+			f_cat_subs_dict[cat_sub] = True
 		
 		# search box
 		af = form.cleaned_data['additional_filter']
@@ -72,13 +81,13 @@ def landing(request):
 			mtype = 'alert-danger'
 			mcontent = 'No projects matched'
 			
-	else:
+	elif loggined:
 		print "invalid form"
 		mtype = 'alert-danger'
 		mcontents = 'Invalid filters'
 		projects = []
 			
-	return render(request, 'landing.html', {'filterForm': form, 'projects': projects, 'category_list': category_list, 'message_type': mtype, 'message_contents': mcontents}, context_instance=RequestContext(request))
+	return render(request, 'landing.html', {'filterForm': form, 'projects': projects, 'category_list': category_list, 'message_type': mtype, 'message_contents': mcontents, 'cat_sub_checked_dict': f_cat_subs_dict, 'bookmarked': bookmarked, 'additional_filter': af}, context_instance=RequestContext(request))
 
 def getAllCategories():
 	category_top_list = Category_top.objects.all().order_by('name')
