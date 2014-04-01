@@ -26,9 +26,7 @@
 							{% for category_sub in category.category_sub_list %}
 							{% for key,value in cat_sub_checked_dict.items %}
 							{% if key == category_sub %}
-							<! -- trying this out --!>
 							{% if request.user.is_authenticated %}
-							<!-- end of trying out --!>
 								{% if value %}
 								<input type="checkbox" name="f_category_subs" value="{{ category_sub.id }}" id="filter-checkbox" checked>{{ category_sub.name }} 
 								{% else %}
