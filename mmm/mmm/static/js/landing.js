@@ -57,6 +57,11 @@ $(document).ready(function(){
     		//submit form if any checkbox is changed
 			$('form#filterForm').submit();
 		});	
+
+    $("#additional-filter").focusout(function() {
+        //submit form if any checkbox is changed
+      $('form#filterForm').submit();
+    });
   	
 	});
 	

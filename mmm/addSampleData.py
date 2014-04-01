@@ -12,22 +12,22 @@ from django.utils import timezone
 # Category_top
 
 cat_t0 = Category_top(
-	name = 'Language',
+	name = 'Platform',
 )
 cat_t0.save()
 
 cat_t1 = Category_top(
-	name = 'Pay',
+	name = 'Language',
 )
 cat_t1.save()
 
 cat_t2 = Category_top(
-	name = 'Platform',
+	name = 'Category',
 )
 cat_t2.save()
 
 cat_t3 = Category_top(
-	name = 'Misc',
+	name = 'Pay',
 )
 cat_t3.save()
 
@@ -38,51 +38,107 @@ cat_t3.save()
 
 cat_s0 = Category_sub(
 	name = 'Android',
-	category_top = cat_t2,
+	category_top = cat_t0,
 )
 cat_s0.save()
 
 cat_s1 = Category_sub(
 	name = 'iOS',
-	category_top = cat_t2,
+	category_top = cat_t0,
 )
 cat_s1.save()
 
 cat_s2 = Category_sub(
-	name = 'C/C++',
+	name = 'Windows Phone',
 	category_top = cat_t0,
 )
 cat_s2.save()
 
 cat_s3 = Category_sub(
-	name = 'Java',
+	name = 'Web App',
 	category_top = cat_t0,
 )
 cat_s3.save()
 
 cat_s4 = Category_sub(
-	name = 'Python',
-	category_top = cat_t0,
+	name = 'C',
+	category_top = cat_t1,
 )
 cat_s4.save()
 
 cat_s5 = Category_sub(
-	name = 'Misc',
-	category_top = cat_t3,
+	name = 'C++',
+	category_top = cat_t1,
 )
 cat_s5.save()
 
 cat_s6 = Category_sub(
-	name = 'Paid',
+	name = 'Java',
 	category_top = cat_t1,
 )
 cat_s6.save()
 
 cat_s7 = Category_sub(
-	name = 'Unpaid',
+	name = 'Objective C',
 	category_top = cat_t1,
 )
 cat_s7.save()
+
+cat_s8 = Category_sub(
+	name = 'Education',
+	category_top = cat_t2,
+)
+cat_s8.save()
+
+cat_s9 = Category_sub(
+	name = 'Research',
+	category_top = cat_t2,
+)
+cat_s9.save()
+
+cat_s10 = Category_sub(
+	name = 'Medical',
+	category_top = cat_t2,
+)
+cat_s10.save()
+
+cat_s11 = Category_sub(
+	name = 'Entertainment',
+	category_top = cat_t2,
+)
+cat_s11.save()
+
+cat_s12 = Category_sub(
+	name = 'Media',
+	category_top = cat_t2,
+)
+cat_s12.save()
+
+cat_s13 = Category_sub(
+	name = 'Productivity',
+	category_top = cat_t2,
+)
+cat_s13.save()
+
+cat_s14 = Category_sub(
+	name = 'Transportation',
+	category_top = cat_t2,
+)
+cat_s14.save()
+
+cat_s15 = Category_sub(
+	name = 'Paid',
+	category_top = cat_t3,
+)
+cat_s15.save()
+
+cat_s16 = Category_sub(
+	name = 'Unpaid',
+	category_top = cat_t3,
+)
+cat_s16.save()
+
+
 
 #--------------------------------------
 # Users
@@ -183,7 +239,7 @@ p1 = Project(
 	title = 'Bitcoin Mining Operation',
 	date_posted = timezone.now(),
 	sponsor = u3,
-	status = 'CL',
+	status = 'OP',
 	show_in_gallery = False,
 	description = 'We are going to get rich by stealing bitcoins.',
 	flags = 1,

@@ -77,9 +77,8 @@ def landing(request):
 		if not projects:
 			print "not projects"
 			print projects
-			# WHY DOESNT THIS SHOW UP?
 			mtype = 'alert-danger'
-			mcontent = 'No projects matched'
+			mcontents = 'No projects matched'
 			
 	elif loggined:
 		print "invalid form"
@@ -90,7 +89,7 @@ def landing(request):
 	return render(request, 'landing.html', {'filterForm': form, 'projects': projects, 'category_list': category_list, 'message_type': mtype, 'message_contents': mcontents, 'cat_sub_checked_dict': f_cat_subs_dict, 'bookmarked': bookmarked, 'additional_filter': af}, context_instance=RequestContext(request))
 
 def getAllCategories():
-	category_top_list = Category_top.objects.all().order_by('name')
+	category_top_list = Category_top.objects.all().order_by('pk')
 	category_list = []
 	for category_top in category_top_list:
 		category = {}
@@ -105,9 +104,13 @@ def user_register(request):
 		password = request.POST['password']
 		full_name = request.POST['full_name']
 		if not (password and uniqname and full_name):
-			return redirect(REGISTER_URL)
+			mtype = 'alert-danger'
+			mcontents = 'Please fill all register fields!'
+			return render(request, 'login.html', {'username': uniqname, 'message_type': mtype, 'message_contents': mcontents}, context_instance=RequestContext(request))
 		if User.objects.filter(username=uniqname).exists():
-			return redirect(REGISTER_URL)
+			mtype = 'alert-danger'
+			mcontents = 'Uniqname has been registered!'
+			return render(request, 'login.html', {'username': uniqname, 'message_type': mtype, 'message_contents': mcontents}, context_instance=RequestContext(request))
 		# TODO: Check legitimate username, password, uniqname, etc.
 		email = uniqname + '@umich.edu'
 		user = User.objects.create_user(username=uniqname, password=password, email=email)
@@ -116,9 +119,11 @@ def user_register(request):
 		userInfo = UserInfo(user=user, full_name=full_name, setting_0=False, setting_1=False, setting_2=False)
 		userInfo.save()
 		send_verify_email(request, uniqname, email)
-		return redirect(HOMEPAGE_URL)
+		mtype = 'alert-success'
+		mcontents = 'Please check your email for an activation link!'
+		return render(request, 'login.html', {'username': uniqname, 'message_type': mtype, 'message_contents': mcontents}, context_instance=RequestContext(request))
 	else:
-		raise Http404
+		return redirect(REGISTER_URL)
 
 def send_verify_email(request, username, email):
 	activation_code = generate_actication_code(username)
@@ -143,23 +148,27 @@ def user_login(request):
 	if request.method == 'POST':
 		username = request.POST['username']
 		password = request.POST['password']
-		if request.POST['next']:
+		if request.POST.get('next'):
 			next = request.POST['next']
 		else:
 			next = HOMEPAGE_URL
 		if not (username and password):
-			return render(request, 'login.html', {'next': next, 'username': username, 'error': 'Fields cannot be empty'}, context_instance=RequestContext(request))
+			mtype = 'alert-danger'
+			mcontents = 'Please fill your uniqname and password!'
+			return render(request, 'login.html', {'next': next, 'username': username, 'message_type': mtype, 'message_contents': mcontents}, context_instance=RequestContext(request))
 		user = authenticate(username=username, password=password)
 		if user is not None:
 			if user.is_active:
 				login(request, user)
 				return redirect(next);
 			else:
-				# Return a 'disabled account' error message
-				return render(request, 'login.html', {'next': next, 'username': username, 'error': 'Account Disabled!'}, context_instance=RequestContext(request))
+				mtype = 'alert-danger'
+				mcontents = 'Account is not activated!'
+				return render(request, 'login.html', {'next': next, 'username': username, 'message_type': mtype, 'message_contents': mcontents}, context_instance=RequestContext(request))
 		else:
-			# Return an 'invalid login' error message.
-			return render(request, 'login.html', {'next': next, 'username': username, 'error': 'Login Invalid'}, context_instance=RequestContext(request))
+			mtype = 'alert-danger'
+			mcontents = 'The user does not exists!'
+			return render(request, 'login.html', {'next': next, 'username': username, 'message_type': mtype, 'message_contents': mcontents}, context_instance=RequestContext(request))
 	else:
 		if request.GET.get('next'):
 			next = request.GET['next']
@@ -177,6 +186,8 @@ def user_logout(request):
 
 @login_required
 def profile(request, prof_id):
+	mtype = 'none'
+	mcontents = ''
 	if request.method == 'POST':
 		print "profile page post"
 		if prof_id == str(request.user.id):
@@ -213,34 +224,29 @@ def profile(request, prof_id):
 				#return redirect('/profile/' + prof_id + '/')
 				return render(request, 'profile.html', {'userInfoObj': userInfo, 'profileEditForm':form, 'projects': projects, 'message_type': mtype, 'message_contents': mcontents}, context_instance=RequestContext(request))
 			else:
-				# TODO pass error message to template
+				mtype = 'alert-danger'
+				mcontents = 'Edit is not valid!'
 				print form.errors
 		else:
-			# TODO pass error message to template
-			# print error
+			mtype = 'alert-danger'
+			mcontents = 'User does not have permission to edit!'
 			print request.user.id
-	else:
-		print "profile form get"
-		try:
-			# get user and userInfo to edit
-			userInfo = UserInfo.objects.get(user=request.user)
-		except UserInfo.DoesNotExist:
-			raise Http404
-		# unbound form
-		form = ProfileForm()
-		# get info
-		userInfo = UserInfo.objects.get(user=prof_id)
-		# get sponsored projects
-		projects = Project.objects.filter(sponsor=prof_id)
-		# message color and contents
-		mtype = 'none'
-		mcontents = ''
-		# render
-		return render(request, 'profile.html', {'userInfoObj': userInfo, 'profileEditForm':form, 'projects': projects, 'message_type': mtype, 'message_contents': mcontents}, context_instance=RequestContext(request))
-
-# @login_required
-# def update_profile(request):
-#    pass # is this view necessary?
+	# GET request
+	print "profile form get"
+	try:
+		# get user and userInfo to edit
+		userInfo = UserInfo.objects.get(user=request.user)
+	except UserInfo.DoesNotExist:
+		raise Http404
+	# unbound form
+	form = ProfileForm()
+	# get info
+	userInfo = UserInfo.objects.get(user=prof_id)
+	# get sponsored projects
+	projects = Project.objects.filter(sponsor=prof_id)
+	# message color and contents
+	# render
+	return render(request, 'profile.html', {'userInfoObj': userInfo, 'profileEditForm':form, 'projects': projects, 'message_type': mtype, 'message_contents': mcontents}, context_instance=RequestContext(request))
 
 @login_required
 def new_project(request):
@@ -268,8 +274,9 @@ def new_project(request):
 			return redirect(HOMEPAGE_URL)
 		else:
 			print 'not valid'
+			return redirect(HOMEPAGE_URL)
 	else:
-		raise Http404
+		return redirect(HOMEPAGE_URL)
 
 
 @login_required

@@ -102,7 +102,7 @@ class Category_top(models.Model):
 	# category_subs = models.ManyToManyField('Category_sub', blank=True) 
 
 	class Meta:
-		ordering = ['name']
+		ordering = ['pk']
 
 	def __unicode__(self):
 		return u'%s' %(self.name)
@@ -116,7 +116,7 @@ class Category_sub(models.Model):
 	category_top = models.ForeignKey(Category_top, max_length = 100, blank = False)	
 	
 	class Meta:
-		ordering = ['name']
+		ordering = ['pk']
 
 	def __unicode__(self):
 		return u'%s -> %s' %(self.category_top.name, self.name)

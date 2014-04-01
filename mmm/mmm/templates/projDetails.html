@@ -8,7 +8,7 @@
 		<form id="projectEditForm" method="post" action="/project/{{ project.id }}/" enctype="multipart/form-data">
 			<div class = "row-fluid headRow">
 				<div class = "span4 picBox" >
-					<img src="{% if project.image %}{{ project.image.url }}{% else %}/static/img/myPictures/android.jpg{% endif %}" class = "pull-right img-rounded projPic">
+					<img src="{% if project.image %}{{ project.image.url }}{% else %}/static/img/myPictures/defaultProjectPic.jpg{% endif %}" class = "pull-right img-rounded projPic">
 				</div>
 				
 				<div class = "span8">
@@ -88,7 +88,7 @@
 					{% for commentObj in commentsObj %}
 					<div class="media">
 				  		<a class="pull-left" href="/profile/{{ commentObj.comment.user.id }}/">
-							<img class="media-object" src="{% if commentObj.commenter.image %}{{ commentObj.commenter.image.url }}{% else %}/static/img/myPictures/profile.png{% endif %}" alt="..." >
+							<img class="media-object" src="{% if commentObj.commenter.image %}{{ commentObj.commenter.image.url }}{% else %}/static/img/myPictures/defaultProfPic.jpg{% endif %}" alt="..." >
 						</a>
 						<div class="media-body">
 							<!-- edit/delete comment should only appear if you are signed in -->
