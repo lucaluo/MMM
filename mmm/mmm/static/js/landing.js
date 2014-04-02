@@ -1,6 +1,5 @@
 $(document).ready(function(){
 $('.dropbox').click(function(event){
-alert("test");
     event.stopPropagation();
 });
   		$('.blur').bind("cut copy paste",function(e) {
