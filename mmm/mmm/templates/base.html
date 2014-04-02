@@ -92,6 +92,54 @@
 		 					<li><a href="#">Clear all</a></li>
 						</ul>		
 						<li {% ifequal request.path '/' %}class="active"{% endifequal %}><a href="/">Home</a></li>
+						 <li class="pull-right project-filters dropdown">
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown">Filter projects <b class="caret"></b></a>
+						<ul class="dropdown-menu">
+		              			<li class="nav-header"><h6>Add/Remove filters</h6></li>
+						<form id="filterForm" method="get" action="/" enctype="multipart/form-data">
+						{% for category in category_list %}
+							<li class="nav-header">{{ category.category_top.name }}</li>	
+							{% for category_sub in category.category_sub_list %}
+							{% for key,value in cat_sub_checked_dict.items %}
+							{% if key == category_sub %}
+							{% if request.user.is_authenticated %}
+								{% if value %}
+								<input type="checkbox" name="f_category_subs" value="{{ category_sub.id }}" id="filter-checkbox" checked>{{ category_sub.name }} 
+								{% else %}
+								<input type="checkbox" name="f_category_subs" value="{{ category_sub.id }}" id="filter-checkbox" >{{ category_sub.name }}
+								{% endif %}
+								{% else %}
+								<input type="checkbox" name="f_category_subs" value="{{ category_sub.id }}" id="filter-checkbox" disabled>{{ category_sub.name }}
+								{% endif %}
+								{% endif %}
+							{% endfor %}
+								<br />
+							{% endfor %}
+						{% endfor %}
+						<br />
+						<li class="nav-header">Custom Filters</li>
+						{% if bookmarked %}
+						<input type="checkbox" name="bookmarked" id="bookmarked-checkbox" checked>Bookmarked<br />
+						{% else %}
+						<input type="checkbox" name="bookmarked" id="bookmarked-checkbox">Bookmarked<br />
+						{% endif %}
+						<br />
+						{% if additional_filter %}
+						<input type="text" class="input-block searchBox" name="additional_filter" id="additional-filter" placeholder="Additional filter" value="{{ additional_filter }}">
+						{% else %}
+						<input type="text" class="input-block searchBox" name="additional_filter" id="additional-filter" placeholder="Additional filter">
+						{% endif %}
+						<br />
+						<input type="submit" style="position: absolute; left: -9999px; width: 1px; height: 1px;" />
+						<!-- {% csrf_token %} -->
+						</form>
+					
+
+	
+	
+            
+		 					<li><a href="#">Clear all</a></li>
+						</ul>		
 						{% if request.user.is_authenticated %}
 						<li {% ifequal request.path|cut:'/profile/' request.user.id|slugify|add:'/' %}class="active"{% endifequal %}><a href="/profile/{{ request.user.id }}/">My Profile</a></li>
 						<li class="pull-right my-username dropdown">
