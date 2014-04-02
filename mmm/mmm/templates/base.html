@@ -46,26 +46,45 @@
 					        <li class="pull-right project-filters dropdown">
 						<a href="#" class="dropdown-toggle" data-toggle="dropdown">Filter projects <b class="caret"></b></a>
 						<ul class="dropdown-menu">
-		              				<li class="nav-header">Platform</li>
-
-              						<input class="dropbox" type="checkbox" name="platform" value="Android">Android <br>
-              						<input type="checkbox" class = "dropbox" name="platform" value="ios">iOS <br>
-             						 <input type="checkbox" class = "dropbox" name="platform" value="windows">Windows <br>
-              						<li class="nav-header">Category</li>
-
-			  				<input class = "dropbox" type="checkbox" name="category" value="social">Social <br>
-			 				 <input class = "dropbox" type="checkbox" name="category" value="entertainment">Entertainment <br>
-			  				<input  class = "dropbox" type="checkbox" name="category" value="educational">Educational <br>
-			  				<input  class = "dropbox" type="checkbox" name="category" value="productivity">Productivity <br>
-			 				 <input  class = "dropbox" type="checkbox" name="category" value="utility">Utility <br>
-
-			  
-             						 <li class="nav-header">Misc</li>
-
-			  				<input  class = "dropbox" type="checkbox" name="misc" value="paid">Paid <br>
-			  				<input  class = "dropbox" type="checkbox" name="misc" value="university">University related <br>
-			  				<br>
-							<input style = "margin-left:4%; width:80%"type="text" class="input-block searchBox dropbox" placeholder="Additional filters">
+		              			<li class="nav-header"><h6>Add/Remove filters</h6></li>
+						<form id="filterForm" method="get" action="/" enctype="multipart/form-data">
+						{% for category in category_list %}
+							<li class="nav-header">{{ category.category_top.name }}</li>	
+							{% for category_sub in category.category_sub_list %}
+							{% for key,value in cat_sub_checked_dict.items %}
+							{% if key == category_sub %}
+							{% if request.user.is_authenticated %}
+								{% if value %}
+								<input type="checkbox" name="f_category_subs" value="{{ category_sub.id }}" id="filter-checkbox" checked>{{ category_sub.name }} 
+								{% else %}
+								<input type="checkbox" name="f_category_subs" value="{{ category_sub.id }}" id="filter-checkbox" >{{ category_sub.name }}
+								{% endif %}
+								{% else %}
+								<input type="checkbox" name="f_category_subs" value="{{ category_sub.id }}" id="filter-checkbox" disabled>{{ category_sub.name }}
+								{% endif %}
+								{% endif %}
+							{% endfor %}
+								<br />
+							{% endfor %}
+						{% endfor %}
+						<br />
+						<li class="nav-header">Custom Filters</li>
+						{% if bookmarked %}
+						<input type="checkbox" name="bookmarked" id="bookmarked-checkbox" checked>Bookmarked<br />
+						{% else %}
+						<input type="checkbox" name="bookmarked" id="bookmarked-checkbox">Bookmarked<br />
+						{% endif %}
+						<br />
+						{% if additional_filter %}
+						<input type="text" class="input-block searchBox" name="additional_filter" id="additional-filter" placeholder="Additional filter" value="{{ additional_filter }}">
+						{% else %}
+						<input type="text" class="input-block searchBox" name="additional_filter" id="additional-filter" placeholder="Additional filter">
+						{% endif %}
+						<br />
+						<input type="submit" style="position: absolute; left: -9999px; width: 1px; height: 1px;" />
+						<!-- {% csrf_token %} -->
+						</form>
+					</ul>
 
 	
 	
