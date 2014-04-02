@@ -59,10 +59,7 @@
   height: 240px;
   width: 200px;
 }
-	.checkColumn {
-	float: left;
-	padding:8px;
-	}
+
 .imgDescription {
   position: absolute;
   top: 0;
