@@ -42,7 +42,7 @@
 				<a class="brand" href="/">Michigan Mobile Manufactory</a>
 				<div class="nav-collapse collapse">
 
-					<ul class="nav">
+					<ul class="nav nav-tabs nav-justified">
 						<li {% ifequal request.path '/' %}class="active"{% endifequal %}><a href="/">Home</a></li>
 						{% if request.user.is_authenticated %}
 						<li {% ifequal request.path|cut:'/profile/' request.user.id|slugify|add:'/' %}class="active"{% endifequal %}><a href="/profile/{{ request.user.id }}/">My Profile</a></li>
