@@ -76,6 +76,10 @@
   -webkit-transition: visibility opacity 0.2s;
   
 }
+:focus {
+  outline-color: transparent;
+  outline-style: none;
+}
 
 
 .imgWrap:hover .imgDescription {
