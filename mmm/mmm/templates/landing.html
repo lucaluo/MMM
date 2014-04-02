@@ -29,7 +29,7 @@
 							{% if request.user.is_authenticated %}
 							<div class = "feeditemLogged"
 							<p class = "feedText">{{ project.description }}</p>
-							                        <p style = "display:inline-block"><strong>Sponsor:</strong> Humza</p>  
+							                        <p style = "display:inline-block"><strong>Sponsor:</strong> {{ sponsor.full_name }}</p>  
 
 							<p><a class="btn" href="project/{{ project.id }}" style = "bottom:0">View details &raquo;</a></p>
 							{% else %}
