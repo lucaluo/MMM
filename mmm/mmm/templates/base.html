@@ -57,6 +57,7 @@
 						{% else %}
 						<li {% ifequal request.path '/login/' %}class="active"{% endifequal %}><a href="/login/">Log In</a></li>
 						{% endif %}
+						{% if request.user.is_authenticated %}
 						 <li class="pull-right project-filters dropdown">
 						<a href="#" class="dropdown-toggle" data-toggle="dropdown">Filter projects <b class="caret"></b></a>
 						<ul class="dropdown-menu">
@@ -104,7 +105,8 @@
 	
             
 		 					<li><a href="#">Clear all</a></li>
-						</ul>		
+						</ul>	
+						{% endif %}	
 					</ul>
 				</div><!--/.nav-collapse -->
 			</div>
