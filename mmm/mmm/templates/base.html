@@ -92,6 +92,18 @@
 		 					<li><a href="#">Clear all</a></li>
 						</ul>		
 						<li {% ifequal request.path '/' %}class="active"{% endifequal %}><a href="/">Home</a></li>
+						
+						{% if request.user.is_authenticated %}
+						<li {% ifequal request.path|cut:'/profile/' request.user.id|slugify|add:'/' %}class="active"{% endifequal %}><a href="/profile/{{ request.user.id }}/">My Profile</a></li>
+						<li class="pull-right my-username dropdown">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown">Logged in as {{ request.user.username }} <b class="caret"></b></a>
+				          	<ul class="dropdown-menu">
+					            <li><a href="/logout">Log Out</a></li>
+				          	</ul>
+						</li>
+						{% else %}
+						<li {% ifequal request.path '/login/' %}class="active"{% endifequal %}><a href="/login/">Log In</a></li>
+						{% endif %}
 						 <li class="pull-right project-filters dropdown">
 						<a href="#" class="dropdown-toggle" data-toggle="dropdown">Filter projects <b class="caret"></b></a>
 						<ul class="dropdown-menu">
@@ -140,17 +152,6 @@
             
 		 					<li><a href="#">Clear all</a></li>
 						</ul>		
-						{% if request.user.is_authenticated %}
-						<li {% ifequal request.path|cut:'/profile/' request.user.id|slugify|add:'/' %}class="active"{% endifequal %}><a href="/profile/{{ request.user.id }}/">My Profile</a></li>
-						<li class="pull-right my-username dropdown">
-							<a href="#" class="dropdown-toggle" data-toggle="dropdown">Logged in as {{ request.user.username }} <b class="caret"></b></a>
-				          	<ul class="dropdown-menu">
-					            <li><a href="/logout">Log Out</a></li>
-				          	</ul>
-						</li>
-						{% else %}
-						<li {% ifequal request.path '/login/' %}class="active"{% endifequal %}><a href="/login/">Log In</a></li>
-						{% endif %}
 					</ul>
 				</div><!--/.nav-collapse -->
 			</div>
