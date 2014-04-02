@@ -10,7 +10,7 @@
 		<div class = "span8 offset2">
 		  <div class = "well nametag" style = "margin-bottom:0; width:93.5%">
 
-			<img src="{% if userInfoObj.image %}{{ userInfoObj.image.url }}{% else %}/static/img/myPictures/defaultProfPic.jpg{% endif %}" class = "pull-right img-rounded profPic" title = "Click here to edit picture in edit mode...">
+			<img src="{% if userInfoObj.image %}{{ userInfoObj.image.url }}{% else %}/static/img/myPictures/defaultProfPic.jpg{% endif %}" class = "pull-left img-rounded profPic" title = "Click here to edit picture in edit mode...">
 					<h3 class = "name infoBox"> {{ userInfoObj.full_name }} </h3>
 					<h5 class = "major infoBox"> {{ userInfoObj.major|default:"major/department" }} </h5>
 					{% ifequal userInfoObj.user.id request.user.id %}
