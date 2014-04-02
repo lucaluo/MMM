@@ -46,6 +46,9 @@
 			</div>
 		</div>
 		{% endif %}
+		   		<div class = "push"></div>
+
+	</div>
 
 	{% ifequal userInfoObj.user.id request.user.id %}
 	 <!-- THIS FORM BELOW IS FOR SUBMITTING CHANGES TO PROFILE, values are filled on click of submit -->
@@ -61,7 +64,6 @@
    	</form>
    </div>
    {% endifequal %}
-   		<div class = "push"></div>
 
 		<!-- essential for sticky footer -->
 {% endblock %}
