@@ -104,3 +104,7 @@ body {
       .modal.fade.in {
       top: 30%;
       }
+      	.checkColumn {
+	float: left;
+	padding:8px;
+	}
