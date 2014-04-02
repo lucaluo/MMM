@@ -45,6 +45,12 @@
 					<ul class="nav nav-tabs nav-justified">
 
 						<li {% ifequal request.path '/' %}class="active"{% endifequal %}><a href="/">Home</a></li>
+						{% if request.user.is_authenticated %}
+						<li><a href="#newProjModal" data-toggle="modal">New Project</a></li>
+						{% else %}
+						<li><a href="/login">New Project</a></li>
+						{% endif %} 
+
 						
 						{% if request.user.is_authenticated %}
 						<li {% ifequal request.path|cut:'/profile/' request.user.id|slugify|add:'/' %}class="active"{% endifequal %}><a href="/profile/{{ request.user.id }}/">My Profile</a></li>
