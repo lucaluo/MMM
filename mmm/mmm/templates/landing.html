@@ -7,21 +7,30 @@
 	<div class="container-fluid">
 		<div class="row-fluid">
 
-			<div class="span7">
+			<div class="span7" style = "margin:0; margin-top:.2%">
 
-				<div class="row-fluid my-news-feed">
+				<div class="row-fluid my-news-feed" style = "margin-left:37%">
 
 					<!-- if we use this hover pop up, we need to limit # of words/characters displayed in descripton -->
 					{% for project in projects %}
 					{% if request.user.is_authenticated %}
-					<div class="span8" style = "margin-left:2%">
+					<div class="span8" style = "margin-left:2%; width:100%">
 					{% else %}
-					<div class="span8 span8absheight" style = "margin-left:2%">
+					<div class="span8 span8absheight" style = "margin-left:2%; width:100%">
 					{% endif %}
+					<div class = "span4 picBox" >
+  
+        					<img src="static/img/myPictures/defaultProjectPic" class = "pull-right img-rounded projPic" title="edit">
+        
+  						</div>
+  	                        		<i class = "icon-flag pull-right"></i>
+
 						<h2>{{ project.title }}</h2>
 							{% if request.user.is_authenticated %}
 							<div class = "feeditemLogged"
 							<p class = "feedText">{{ project.description }}</p>
+							                        <p style = "display:inline-block"><strong>Sponsor:</strong> Humza</p>  
+
 							<p><a class="btn" href="project/{{ project.id }}" style = "bottom:0">View details &raquo;</a></p>
 							{% else %}
 							<div class= "feedItem">
@@ -31,6 +40,8 @@
 								</a>
 							</div>
 							<p class = "blur feedText"> Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. Donec id elit non mi porta gravida at eget metus Donec id elit non mi porta gravida at eget metus. </p>
+							                        <p style = "display:inline-block"><strong>Sponsor:</strong> Humza</p>  
+
 							<p><a class="btn" href="project/{{ project.id }}" style = "bottom:0">View details &raquo;</a></p>
 							{% endif %}
 						</div>
