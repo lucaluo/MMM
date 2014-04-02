@@ -43,6 +43,35 @@
 				<div class="nav-collapse collapse">
 
 					<ul class="nav nav-tabs nav-justified">
+					        <li class="pull-right project-filters dropdown">
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown">Filter projects <b class="caret"></b></a>
+						<ul class="dropdown-menu">
+		              				<li class="nav-header">Platform</li>
+
+              						<input class="dropbox" type="checkbox" name="platform" value="Android">Android <br>
+              						<input type="checkbox" class = "dropbox" name="platform" value="ios">iOS <br>
+             						 <input type="checkbox" class = "dropbox" name="platform" value="windows">Windows <br>
+              						<li class="nav-header">Category</li>
+
+			  				<input class = "dropbox" type="checkbox" name="category" value="social">Social <br>
+			 				 <input class = "dropbox" type="checkbox" name="category" value="entertainment">Entertainment <br>
+			  				<input  class = "dropbox" type="checkbox" name="category" value="educational">Educational <br>
+			  				<input  class = "dropbox" type="checkbox" name="category" value="productivity">Productivity <br>
+			 				 <input  class = "dropbox" type="checkbox" name="category" value="utility">Utility <br>
+
+			  
+             						 <li class="nav-header">Misc</li>
+
+			  				<input  class = "dropbox" type="checkbox" name="misc" value="paid">Paid <br>
+			  				<input  class = "dropbox" type="checkbox" name="misc" value="university">University related <br>
+			  				<br>
+							<input style = "margin-left:4%;"type="text" class="input-block searchBox dropbox" placeholder="Additional filters">
+
+	
+	
+            
+		 					<li><a href="#">Clear all</a></li>
+						</ul>		
 						<li {% ifequal request.path '/' %}class="active"{% endifequal %}><a href="/">Home</a></li>
 						{% if request.user.is_authenticated %}
 						<li {% ifequal request.path|cut:'/profile/' request.user.id|slugify|add:'/' %}class="active"{% endifequal %}><a href="/profile/{{ request.user.id }}/">My Profile</a></li>
