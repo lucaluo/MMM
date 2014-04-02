@@ -8,7 +8,7 @@
 		<form id="projectEditForm" method="post" action="/project/{{ project.id }}/" enctype="multipart/form-data">
 			<div class = "row-fluid headRow">
 				<div class = "span4 picBox" >
-					<img src="{% if project.image %}{{ project.image.url }}{% else %}/static/img/myPictures/defaultProjectPic.jpg{% endif %}" class = "pull-right img-rounded projPic">
+					<img src="{% if project.image %}{{ project.image.url }}{% else %}/static/img/myPictures/defaultProjectPic.jpg{% endif %}" class = "pull-right img-rounded projPic" title = "Click here to edit picture in edit mode...">
 				</div>
 				
 				<div class = "span8">
