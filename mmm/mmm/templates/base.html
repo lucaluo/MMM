@@ -66,7 +66,7 @@
 						{% if request.user.is_authenticated %}
 						 <li class="pull-right project-filters dropdown">
 						<a href="#" class="dropdown-toggle" data-toggle="dropdown">Filter projects <b class="caret"></b></a>
-						<ul class="dropdown-menu">
+						<ul class="dropdown-menu" style = "max-height:320px; overflow-y:scroll">
 		              			<li class="nav-header"><h6>Add/Remove filters</h6></li>
 						<form id="filterForm" method="get" action="/" enctype="multipart/form-data">
 						{% for category in category_list %}
