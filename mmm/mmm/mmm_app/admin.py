@@ -53,6 +53,11 @@ setStatusComp.short_description = "Set project statuses to Completed"
 def setShowInGallery(modeladmin, request, queryset):
 	queryset.update(show_in_gallery=True)
 setShowInGallery.short_description = "Set show_in_gallery to True"
+
+# Action for approving selected projects
+def setApproved(modeladmin, request, queryset):
+	queryset.update(approved=True)
+setApproved.short_description = "Approve selected projects"
 	
 # inline class for editing sub categories
 class CategorySubInline(admin.TabularInline):
@@ -62,7 +67,7 @@ class CategorySubInline(admin.TabularInline):
 class UserInfoAdmin(userBaseAdmin):
 	fieldsets = (
 		('Account Information', {
-			'fields': ('user', 'first_name', 'last_name', 'email', 'is_active', 'is_staff', 'setting_0', 'setting_1', 'setting_2',)
+			'fields': ('user', 'first_name', 'last_name', 'email', 'is_active', 'is_staff', 'weekly_email',)
 		}),
 		('User Information', {
 			'fields': ('full_name', 'major', 'bio', 'image',)
@@ -85,11 +90,11 @@ admin.site.register(UserInfo, UserInfoAdmin)
 class ProjectAdmin(admin.ModelAdmin):
 	fieldsets = (
 		('Project Information', {
-			'fields':('title', 'image', 'sponsor', 'status', 'description', 'category_subs', 'show_in_gallery', 'flags',)
+			'fields':('title', 'image', 'sponsor', 'status', 'approved', 'description', 'category_subs', 'show_in_gallery', 'flags',)
 		}), #'date_posted', doesn't work inexplicably
 	)
 	
-	actions = [setStatusOpen, setStatusClosed, setStatusComp, setShowInGallery, deleteFlagged_3plus]
+	actions = [setApproved, setStatusOpen, setStatusClosed, setStatusComp, setShowInGallery, deleteFlagged_3plus]
 	
 	search_fields = ['sponsor__username', 'sponsor__email', 'sponsor__first_name', 'sponsor__last_name', 'title', 'category_subs__name']
 		

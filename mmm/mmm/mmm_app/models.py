@@ -18,10 +18,8 @@ class UserInfo(models.Model):
 	# django user object id
 	user = models.ForeignKey(User, unique = True, max_length = 100, blank = False)
 
-	# any settings that we decdie to add
-	setting_0 = models.BooleanField()
-	setting_1 = models.BooleanField()
-	setting_2 = models.BooleanField()
+	# does the user receive weekly updates via email?
+	weekly_email = models.BooleanField()
 
 	# bookmarked projects
 	bookmarks = models.ManyToManyField('Project', blank = True)
@@ -62,6 +60,7 @@ class Project(models.Model):
 	sponsor = models.ForeignKey(User, max_length = 100, blank = False)
 	status = models.CharField(max_length=2, choices=STATUS_CHOICES, default='IN')
 	show_in_gallery = models.BooleanField() # show in gallery after competion
+	approved = models.BooleanField() # has the project been reviewed and approved by admin?
 	description = models.TextField()
 	flags = models.IntegerField()
 
@@ -98,9 +97,6 @@ class Category_top(models.Model):
 	# the category name
 	name = models.CharField(max_length=100)
 
-	# sub-categorization of project
-	# category_subs = models.ManyToManyField('Category_sub', blank=True) 
-
 	class Meta:
 		ordering = ['pk']
 
@@ -120,3 +116,4 @@ class Category_sub(models.Model):
 
 	def __unicode__(self):
 		return u'%s -> %s' %(self.category_top.name, self.name)
+		

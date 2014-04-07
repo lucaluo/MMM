@@ -31,7 +31,7 @@ def landing(request):
 	mcontents = ''
 	
 	# get list of projects
-	projects = Project.objects.filter(status='OP').order_by('-date_posted')
+	projects = Project.objects.filter(status='OP', approved=True).order_by('-date_posted')
 	bookmarked = False
 	f_cat_subs_dict = {}
 	for x in category_list:
@@ -54,7 +54,6 @@ def landing(request):
 			
 		for cat_sub in f_cat_subs:
 			# corresponds to checkbox being checked
-			print "applying filter category_sub"
 			projects = projects.filter(category_subs=cat_sub)
 			f_cat_subs_dict[cat_sub] = True
 		
@@ -75,13 +74,10 @@ def landing(request):
 					projects = newprojects
 					
 		if not projects:
-			print "not projects"
-			print projects
 			mtype = 'alert-danger'
 			mcontents = 'No projects matched'
 			
 	elif loggined:
-		print "invalid form"
 		mtype = 'alert-danger'
 		mcontents = 'Invalid filters'
 		projects = []
@@ -189,7 +185,6 @@ def profile(request, prof_id):
 	mtype = 'none'
 	mcontents = ''
 	if request.method == 'POST':
-		print "profile page post"
 		if prof_id == str(request.user.id):
 			# bound form
 			form = ProfileForm(request.POST, request.FILES)
@@ -204,10 +199,12 @@ def profile(request, prof_id):
 				full_name = form.cleaned_data['full_name']
 				major = form.cleaned_data['major']
 				bio = form.cleaned_data['bio']
+				weekly_email = form.cleaned_data['weekly_email']
 				# update models in db
 				userInfo.full_name = full_name
 				userInfo.major = major
 				userInfo.bio = bio
+				userInfor.weekly_email = weekly_email
 				if request.FILES.get('image'):
 					userInfo.image = request.FILES['image']
 				try:
@@ -232,7 +229,6 @@ def profile(request, prof_id):
 			mcontents = 'User does not have permission to edit!'
 			print request.user.id
 	# GET request
-	print "profile form get"
 	try:
 		# get user and userInfo to edit
 		userInfo = UserInfo.objects.get(user=request.user)
@@ -244,7 +240,6 @@ def profile(request, prof_id):
 	userInfo = UserInfo.objects.get(user=prof_id)
 	# get sponsored projects
 	projects = Project.objects.filter(sponsor=prof_id)
-	# message color and contents
 	# render
 	return render(request, 'profile.html', {'userInfoObj': userInfo, 'profileEditForm':form, 'projects': projects, 'message_type': mtype, 'message_contents': mcontents}, context_instance=RequestContext(request))
 
@@ -258,6 +253,7 @@ def new_project(request):
 							sponsor=request.user, 
 							status='OP',
 							show_in_gallery=True,
+							approved=False,
 							description=form.cleaned_data['description'], 
 							flags=0,
 						)

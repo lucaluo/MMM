@@ -176,9 +176,7 @@ u3.save()
 
 ui0 = UserInfo(
 	user = u0,
-	setting_0=True,
-	setting_1=True,
-	setting_2=True,
+	weekly_email=True,
 	major = 'Computer Engineering',
 	bio = 'I am a cool person.',
 	full_name = 'User Zero',
@@ -187,9 +185,7 @@ ui0.save()
 
 ui1 = UserInfo(
 	user = u1,
-	setting_0=False,
-	setting_1=True,
-	setting_2=False,
+	weekly_email=True,
 	major = 'Computer Science',
 	bio = 'I love computers!!!!',
 	full_name = 'User One',
@@ -198,9 +194,7 @@ ui1.save()
 
 ui2 = UserInfo(
 	user = u2,
-	setting_0=False,
-	setting_1=False,
-	setting_2=False,
+	weekly_email=True,
 	full_name = 'The coolest Startup Ever',
 	bio = 'Ann Arbor based startup.',
 )
@@ -208,9 +202,7 @@ ui2.save()
 
 ui3 = UserInfo(
 	user = u3,
-	setting_0=False,
-	setting_1=False,
-	setting_2=False,
+	weekly_email=True,
 	major = 'Computer Science',
 	bio = 'Im a cool person',
 	full_name = 'User Three',
@@ -226,6 +218,7 @@ p0 = Project(
 	sponsor = u2,
 	status = 'OP',
 	show_in_gallery = True,
+	approved = False,
 	description = 'A talented team of Java developers are making the next Angry Bird game for Android!',
 	flags = 0,
 )
@@ -241,6 +234,7 @@ p1 = Project(
 	sponsor = u3,
 	status = 'OP',
 	show_in_gallery = False,
+	approved = False,
 	description = 'We are going to get rich by stealing bitcoins.',
 	flags = 1,
 )
