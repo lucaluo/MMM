@@ -1,0 +1,6 @@
+#! /usr/bin/bash
+cd /home/steven/programming/urop/MMM
+. bin/activate
+cd mmm
+python manage.py sendWeeklyEmail
+deactivate

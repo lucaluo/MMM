@@ -13,6 +13,8 @@ HOMEPAGE_URL = '/'
 LOGIN_URL = '/login/'
 REGISTER_URL = '/login/'
 
+
+# landing page
 def landing(request):
 	if request.user.is_authenticated():
 		# get user info
@@ -84,6 +86,8 @@ def landing(request):
 			
 	return render(request, 'landing.html', {'filterForm': form, 'projects': projects, 'category_list': category_list, 'message_type': mtype, 'message_contents': mcontents, 'cat_sub_checked_dict': f_cat_subs_dict, 'bookmarked': bookmarked, 'additional_filter': af}, context_instance=RequestContext(request))
 
+
+# returns list of dicts containing the categories
 def getAllCategories():
 	category_top_list = Category_top.objects.all().order_by('pk')
 	category_list = []
@@ -94,6 +98,8 @@ def getAllCategories():
 		category_list.append(category)
 	return category_list
 
+
+# register page
 def user_register(request):
 	if request.method == 'POST':
 		uniqname = request.POST['uniqname']
@@ -112,7 +118,7 @@ def user_register(request):
 		user = User.objects.create_user(username=uniqname, password=password, email=email)
 		user.is_active = False
 		user.save()
-		userInfo = UserInfo(user=user, full_name=full_name, setting_0=False, setting_1=False, setting_2=False)
+		userInfo = UserInfo(user=user, full_name=full_name, weekly_email=True,)
 		userInfo.save()
 		send_verify_email(request, uniqname, email)
 		mtype = 'alert-success'
@@ -121,6 +127,8 @@ def user_register(request):
 	else:
 		return redirect(REGISTER_URL)
 
+
+# send the account verification email
 def send_verify_email(request, username, email):
 	activation_code = generate_actication_code(username)
 	verify_url = request.build_absolute_uri('/activate/' + username + '/' + activation_code)
@@ -128,6 +136,9 @@ def send_verify_email(request, username, email):
 	userInfo = UserInfo.objects.get(user=user)
 	send_mail('Michigan Mobile Manufactory User Verification', render(request, 'email_verification.txt', {'user': user, 'userInfo': userInfo, 'verify_url': verify_url}).content, 'mmm.umich@gmail.com', [email], fail_silently=False)
 
+
+
+# activate user function
 def user_activate(request, username, activation_code):
 	if activation_code == generate_actication_code(username):
 		user = User.objects.get(username=username)
@@ -137,9 +148,15 @@ def user_activate(request, username, activation_code):
 	else:
 		return redirect(REGISTER_URL)
 
+
+
+# getnerate activation code function
 def generate_actication_code(username):
 	return hashlib.sha256(username[0] + username[-1] + username).hexdigest()
 
+
+
+# login the user
 def user_login(request):
 	if request.method == 'POST':
 		username = request.POST['username']
@@ -175,11 +192,17 @@ def user_login(request):
 		else:
 			return render(request, 'login.html', {'next': next}, context_instance=RequestContext(request))
 
+
+
+#logout the user
 def user_logout(request):
 	logout(request)
 	# redirect to homepage
 	return redirect(HOMEPAGE_URL)
 
+
+
+# profile page
 @login_required
 def profile(request, prof_id):
 	mtype = 'none'
@@ -204,7 +227,7 @@ def profile(request, prof_id):
 				userInfo.full_name = full_name
 				userInfo.major = major
 				userInfo.bio = bio
-				userInfor.weekly_email = weekly_email
+				userInfo.weekly_email = weekly_email
 				if request.FILES.get('image'):
 					userInfo.image = request.FILES['image']
 				try:
@@ -243,6 +266,9 @@ def profile(request, prof_id):
 	# render
 	return render(request, 'profile.html', {'userInfoObj': userInfo, 'profileEditForm':form, 'projects': projects, 'message_type': mtype, 'message_contents': mcontents}, context_instance=RequestContext(request))
 
+
+
+# new project page
 @login_required
 def new_project(request):
 	if request.method == 'POST':
@@ -275,6 +301,8 @@ def new_project(request):
 		return redirect(HOMEPAGE_URL)
 
 
+
+# project details page
 @login_required
 def project(request, proj_id):
 	if request.method == 'POST':
@@ -324,6 +352,9 @@ def project(request, proj_id):
 			is_bookmarked = False
 		return render(request, 'projDetails.html', {'project': project, 'sponsor': sponsor, 'category_subs': category_subs, 'commentsObj': commentsObj, 'category_list': category_list, 'category_sub_ids': category_sub_ids, 'is_bookmarked': is_bookmarked}, context_instance=RequestContext(request))
 
+
+
+# apply to project function
 @login_required
 def apply_project(request):
 	if request.method == 'POST':
@@ -348,15 +379,10 @@ def apply_project(request):
 			return redirect(HOMEPAGE_URL)
 	else:
 		raise Http404
-	
-# @login_required
-# def edit_project(request, proj_id):
-# 	projectInfo = Project.obejcts.get(id=proj_id)
-# 	#developers = proejctInfo.developers.all()
-# 	tags = projectInfo.category_subs.all().order_by('top')
-# 	comments = Comment.objects.filter(project=proj_id)
-# 	# render()
 
+
+
+# post new comment function
 @login_required
 def new_comment(request):
 	if request.method == 'POST':
@@ -376,6 +402,8 @@ def new_comment(request):
 		raise Http404
 
 
+
+# delete existing comment function
 @login_required
 def delete_comment(request, proj_id, comm_id):
 	try:
@@ -393,6 +421,9 @@ def delete_comment(request, proj_id, comm_id):
 		# TODO error message comment to delete not exists
 		print "error message comment to delete not exists"
 
+
+
+# bookmark project function
 @login_required
 def bookmark(request, proj_id):
 	try:
@@ -405,6 +436,8 @@ def bookmark(request, proj_id):
 	return redirect('/project/' + proj_id + '/')
 
 
+
+# unbookmark project function
 @login_required
 def unbookmark(request, proj_id):
 	try:
@@ -416,7 +449,10 @@ def unbookmark(request, proj_id):
 		userInfo.bookmarks.remove(project)
 	return redirect('/project/' + proj_id + '/')
 
+
+
+# gallery page (unimplemented)
+@login_required
 def gallery(request):
 	pass
-
 

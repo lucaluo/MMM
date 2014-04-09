@@ -1,0 +1,3 @@
+MAILTO="sloboste@umich.edu"
+* * * * 0 /home/steven/programming/urop/MMM/sendWeeklyEmailScript
+

@@ -1,0 +1,15 @@
+Hello {{ user.username }},
+
+{% if unapproved %}Following are the projects that need approval:{% else %}There are no projects that need approval at this time.{% endif %}
+
+{% for p in unapproved %}
+     {{ p.title }}
+     - Date Posted: {{ p.date_posted }}
+     - Status:      {% if p.status == 'OP' %}Open{% elif p.status == 'CL' %}Closed{% else %}Completed{% endif %}
+     - Sponsor:     {{ p.sponsor }}
+     - Description: {{ p.description }}
+     
+{% endfor %}
+
+*End of project list*
+

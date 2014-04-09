@@ -1,0 +1,7 @@
+1.	Change MAILTO and appropriate paths in MMM/mmm/weeklyEmailCron.txt
+2.	Change appropriate paths in MMM/sendWeeklyEmailScript
+3.	Make sure MMM/sendWeeklyEmailScript has appropriate permissions
+4.	cd to MMM
+5.	Run the following command: 
+		$ crontab weeklyEmailCron.txt
+6.	The script should run automatically now

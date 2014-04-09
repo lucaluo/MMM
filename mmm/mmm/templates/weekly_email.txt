@@ -1,0 +1,59 @@
+Hi {{ userinfo.full_name }},
+
+{% if new_projects %}
+Projects posted since {{ cutoff_date }}:
+
+{% for p in new_projects %}
+     {{ p.title }}
+     - Date Posted: {{ p.date_posted }}
+     - Status:      {% if p.status == 'OP' %}Open{% elif p.status == 'CL' %}Closed{% else %}Completed{% endif %}
+     - Sponsor:     {{ p.sponsor }} <-- NEEDS TO BE FIXED
+     - Description: {{ p.description }}
+     
+{% endfor %}
+{% else %}
+No projects have been posted since {{ cutoff_date }}.
+{% endif %}
+
+{% if bookmarked %}
+Bookmarked projects with comments since {{ cutoff_date }}:
+
+{% for p in bookmarked %}
+     {{ p.title }}
+     - Date Posted: {{ p.date_posted }}
+     - Status:      {% if p.status == 'OP' %}Open{% elif p.status == 'CL' %}Closed{% else %}Completed{% endif %}}
+     - Sponsor:     {{ p.sponsor }} <-- NEEDS TO BE FIXED
+     - Description: {{ p.description }}
+     - COMMENTS GO HERE
+     
+{% endfor %}
+{% else %}
+No bookmarked projects have comments since {{ cutoff_date }}.
+{% endif %}
+
+{% if sponsored %}
+Sponsored projects with comments since {{ cutoff_date }}:
+
+{% for p in sponsored %}
+     {{ p.title }}
+     - Date Posted: {{ p.date_posted }}
+     - Status:      {% if p.status == 'OP' %}Open{% elif p.status == 'CL' %}Closed{% else %}Completed{% endif %}
+     - Description: {{ p.description }}
+     - COMMENTS GO HERE
+     
+{% endfor %}
+{% else %}
+No sponsored projects have comments since {{ cutoff_date }}.
+{% endif %}
+
+
+*End of weekly update*
+
+Enjoy your week!
+- the Michigan Mobile Manufactory team
+
+
+----------------------------------------------------------------
+If you no longer want to recieve these emails, login to the
+Michigan Mobile Manufactory website and uncheck the weekly email
+checkbox on your profile edit page.
