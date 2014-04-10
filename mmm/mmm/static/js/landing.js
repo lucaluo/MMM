@@ -49,6 +49,14 @@ $('.dropbox').click(function(event){
     		$(this).parent().parent().height($(this).parent().height() + 50);
 		};
 		});
+		
+		 		var divHeight = $('#filtersDrop').height(); 
+		$('#filterPusher').css('min-height', divHeight+'px');
+		
+		$("#filterTrigger").click(function() {
+		$("#filtersDrop").toggle();
+		$("#filterPusher").toggle();
+		});
   	
   		$('input:checkbox').filter('#filter-checkbox').change(function() {
 			//submit form if any checkbox is changed
