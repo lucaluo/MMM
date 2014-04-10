@@ -123,7 +123,6 @@
 			</div>
 			<div id = "filtersDrop" style = "width:100%; background-color:black; margin-top:0;display:none">
 			
-			<li class="nav-header"><h6>Add/Remove filters</h6></li>
 						<form id="filterForm" method="get" action="/" enctype="multipart/form-data">
 						{% for category in category_list %}
 						<div style = "display:inline-block">
@@ -146,14 +145,13 @@
 							{% endfor %}
 							</div></br>
 						{% endfor %}
-						<br />
 						<li class="nav-header">Custom Filters</li>
 						{% if bookmarked %}
 						<input type="checkbox" class = "dropbox" name="bookmarked" id="bookmarked-checkbox" checked>Bookmarked<br />
 						{% else %}
 						<input type="checkbox" class = "dropbox" name="bookmarked" id="bookmarked-checkbox">Bookmarked<br />
 						{% endif %}
-						<br />
+						
 						{% if additional_filter %}
 						<input type="text" style = "margin-left:1%; width:20%" class="input-block searchBox" name="additional_filter" id="additional-filter" placeholder="Additional filter" value="{{ additional_filter }}">
 						{% else %}
