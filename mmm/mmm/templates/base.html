@@ -73,6 +73,7 @@
 		              			<li class="nav-header"><h6>Add/Remove filters</h6></li>
 						<form id="filterForm" method="get" action="/" enctype="multipart/form-data">
 						{% for category in category_list %}
+						<div style = "display:inline-block">
 							<li class="nav-header">{{ category.category_top.name }}</li>	
 							{% for category_sub in category.category_sub_list %}
 							{% for key,value in cat_sub_checked_dict.items %}
@@ -87,6 +88,7 @@
 								<input type="checkbox"  class = "dropbox" name="f_category_subs" value="{{ category_sub.id }}" id="filter-checkbox" disabled>{{ category_sub.name }}
 								{% endif %}
 								{% endif %}
+								</div>
 							{% endfor %}
 								<br />
 							{% endfor %}
