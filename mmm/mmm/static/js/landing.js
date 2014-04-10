@@ -1,6 +1,6 @@
 $(document).ready(function(){
 $('#filterTrigger').click(function(event){
-    event.stopPropagation();
+    event.preventDefault();
 });
   		$('.blur').bind("cut copy paste",function(e) {
     	  e.preventDefault();
