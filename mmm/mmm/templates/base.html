@@ -126,7 +126,7 @@
 						<form id="filterForm" method="get" action="/" enctype="multipart/form-data">
 						{% for category in category_list %}
 						<div style = "display:inline-block">
-							<li class="nav-header">{{ category.category_top.name }}</li>	
+							<li class="nav-header" style = "display:inline-block">{{ category.category_top.name }}</li>	
 							{% for category_sub in category.category_sub_list %}
 							{% for key,value in cat_sub_checked_dict.items %}
 							{% if key == category_sub %}
