@@ -1,5 +1,5 @@
 $(document).ready(function(){
-$('.dropbox').click(function(event){
+$('#filterTrigger').click(function(event){
     event.stopPropagation();
 });
   		$('.blur').bind("cut copy paste",function(e) {
