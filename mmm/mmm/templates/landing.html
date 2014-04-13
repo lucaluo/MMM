@@ -23,7 +23,9 @@
 					<img src="{% if project.image %}{{ project.image.url }}{% else %}/static/img/myPictures/defaultProjectPic.jpg{% endif %}" class = "pull-right img-rounded projPic">
         
   						</div>
-  	                        		<i class = "icon-flag pull-right"></i>
+  	                        		<i class = "icon-flag pull-right" style = "margin-left: 8px"></i>
+  	                        		 <i class = "icon-star-empty pull-right"></i>
+
 
 						<h2>{{ project.title }}</h2>
 							{% if request.user.is_authenticated %}
