@@ -3,6 +3,7 @@ $("#editButton").click(function(){
 	$(".profPic").click(function(){
 	$(".picChange").trigger("click");
 	});
+	$(".profPic").css({"border":"gray dotted"});
 	var aboutText = $("#aboutBox").text();
 	var nameText = $(".name").text();
 	var majorText = $(".major").text();
@@ -21,6 +22,8 @@ $("#editButton").click(function(){
 	$(this).hide();	
 	$("#cancelButton").click(function(){
 		$(".profPic").unbind();
+					$(".profPic").css({"border":"none"});
+
 
 	$("#aboutBox").text(aboutText);
 	$(".name").text(nameText);
@@ -34,6 +37,8 @@ $("#editButton").click(function(){
 	});
 	$("#submitButton").click(function(){
 		$(".profPic").unbind();
+			$(".profPic").css({"border":"none"});
+
 
 	$("#editButton").show();
 	$(this).hide();	
