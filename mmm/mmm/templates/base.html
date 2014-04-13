@@ -133,43 +133,6 @@
 	{% block content %}{% endblock %}
 
 	{% block footer %}
-	<!-- New Project Modal -->
-		{% if request.user.is_authenticated %}
-		<div id="newProjModal" style="height:auto" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" >
-			<div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-				<h3 id="myModalLabel">New Project</h3>
-
-			</div>
-			<form  method="post" action="/new_project/" enctype="multipart/form-data">
-				<div class="modal-body" style="max-height: none;">
-					<input type="text" name="title" class="input-block" placeholder="Title"><br>
-					<div> 
-						<h5>Upload an image for your project</h5>
-						<input type = "file" class = "" name="image">
-					</div>
-					<h5>Check all categories this project falls under</h5>
-						<div class = "row checkColumn">
-							{% for category in category_list %}
-							<div class="checkColumn">
-								<li class="nav-header">{{ category.category_top.name }}</li>
-								{% for category_sub in category.category_sub_list %}
-									<input type="checkbox" name="category_subs" value="{{ category_sub.id }}">{{ category_sub.name }} <br />
-								{% endfor %}
-							</div>
-							{% endfor %}
-						</div>
-					<textarea name="description" placeholder="Description"></textarea><br />
-					<input checked type="checkbox" name="in_gallery" value="true"> Show in Gallery after Completed <br />
-				</div>
-				<div class="modal-footer">
-					<button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
-					<input type="submit" class="btn btn-info" value="Submit" />
-				</div>
-				{% csrf_token %}
-			</form>
-		</div>
-		{% endif %}
 	<div id="passwordChange" style=" height: auto;left:0;right:0;margin-left: 35%;margin-right: 35%;width: 30%;" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" >
 		<div class="modal-header">
 			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
