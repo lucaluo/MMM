@@ -3,6 +3,8 @@ $(document).ready(function(){
 		$(".projPic").click(function(){
 			$(".picChange").trigger("click");
 		});
+			$(".projPic").css({"border":"gray dotted"});
+
 		var aboutText = $("#descriptionBox").text();
 		var nameText = $(".name").text();
 		$(".name").keyup(function(){
@@ -25,7 +27,8 @@ $(document).ready(function(){
 		$("#favoriteButton").hide();
 		$("#applyButton").hide();
 		$("#cancelButton").click(function(){
-			// NEW
+			$(".profPic").css({"border":"none"});
+
 			$(".projPic").unbind();
 			$("#filterOptions").hide();
 			$("#filters").show();
@@ -43,6 +46,7 @@ $(document).ready(function(){
 
 		});
 		$("#submitButton").click(function(){
+			$(".profPic").css({"border":"none"});
 			$(".projPic").unbind();
 			$("#editButton").show();
 			$(".statusForm").hide();
