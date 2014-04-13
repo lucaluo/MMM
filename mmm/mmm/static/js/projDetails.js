@@ -27,7 +27,7 @@ $(document).ready(function(){
 		$("#favoriteButton").hide();
 		$("#applyButton").hide();
 		$("#cancelButton").click(function(){
-			$(".profPic").css({"border":"none"});
+			$(".projPic").css({"border":"none"});
 
 			$(".projPic").unbind();
 			$("#filterOptions").hide();
@@ -46,7 +46,7 @@ $(document).ready(function(){
 
 		});
 		$("#submitButton").click(function(){
-			$(".profPic").css({"border":"none"});
+			$(".projPic").css({"border":"none"});
 			$(".projPic").unbind();
 			$("#editButton").show();
 			$(".statusForm").hide();
