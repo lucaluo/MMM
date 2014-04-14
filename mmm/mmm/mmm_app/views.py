@@ -450,6 +450,26 @@ def unbookmark(request, proj_id):
 	return redirect('/project/' + proj_id + '/')
 
 
+# settings page
+@login_required
+def editSettings(request):
+	try:
+		userInfo = UserInfo.objects.get(user=request.user)
+	except UserInfo.DoesNotExist:
+		raise Http404
+		
+	if request.method == 'POST':
+		form = SettingsForm(request.POST)
+		if form.is_valid():
+			userInfo.weekly_email = form.cleaned_data['weekly_email']
+			userInfo.save()
+		else:
+			print 'invlaid settings form'
+			return redirect(HOMEPAGE_URL)
+	else:
+		form = SettingsForm()
+		return redirect(HOMEPAGE_URL)
+
 
 # gallery page (unimplemented)
 @login_required
