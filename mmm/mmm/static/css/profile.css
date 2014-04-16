@@ -26,7 +26,7 @@
       .name {
       	text-align: center;
       }
-      .submitButton {
+      #submitButton {
       margin-left:10px;
       }
       .picBox {
