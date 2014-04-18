@@ -34,7 +34,15 @@ def landing(request):
 	
 	# get list of projects
 	projects = Project.objects.filter(status='OP', approved=True).order_by('-date_posted')
+	# get filters of projects and sponsor
+	project_filters = []
+	project_sponsors = []
+	for project in projects:
+		project_filters.append((project.id, project.category_subs.all()))
+		project_sponsors.append((project.id, UserInfo.objects.get(user=project.sponsor)))
+
 	bookmarked = False
+	bookmarkedProjects = None
 	f_cat_subs_dict = {}
 	for x in category_list:
 		for cs in x['category_sub_list']:
@@ -47,8 +55,9 @@ def landing(request):
 	if loggined and form.is_valid():
 		# bookmarked projects
 		b = form.cleaned_data['bookmarked']
+		bookmarkedProjects = UserInfo.objects.get(user=request.user).bookmarks.all()
 		if b:
-			projects = UserInfo.objects.get(user=request.user).bookmarks.all()
+			projects = bookmarkedProjects
 			bookmarked = True
 	
 		# checkbox filters
@@ -83,8 +92,22 @@ def landing(request):
 		mtype = 'alert-danger'
 		mcontents = 'Invalid filters'
 		projects = []
-			
-	return render(request, 'landing.html', {'filterForm': form, 'projects': projects, 'category_list': category_list, 'message_type': mtype, 'message_contents': mcontents, 'cat_sub_checked_dict': f_cat_subs_dict, 'bookmarked': bookmarked, 'additional_filter': af}, context_instance=RequestContext(request))
+	
+	args = {
+			'filterForm': form, 
+			'projects': projects, 
+			'category_list': category_list, 
+			'message_type': mtype, 
+			'message_contents': mcontents, 
+			'cat_sub_checked_dict': f_cat_subs_dict, 
+			'bookmarked': bookmarked, 
+			'additional_filter': af, 
+			'bookmarkedProjects': bookmarkedProjects,
+			'project_filters': project_filters,
+			'project_sponsors': project_sponsors,
+		}		
+
+	return render(request, 'landing.html', args, context_instance=RequestContext(request))
 
 
 # returns list of dicts containing the categories
@@ -433,7 +456,10 @@ def bookmark(request, proj_id):
 	userInfo = UserInfo.objects.get(user=request.user)
 	if project not in userInfo.bookmarks.all():
 		userInfo.bookmarks.add(project)
-	return redirect('/project/' + proj_id + '/')
+	redirectUrl = '/project/' + proj_id + '/'
+	if request.META.get('HTTP_REFERER'):
+		redirectUrl = request.META['HTTP_REFERER']
+	return redirect(redirectUrl)
 
 
 
@@ -447,7 +473,10 @@ def unbookmark(request, proj_id):
 	userInfo = UserInfo.objects.get(user=request.user)
 	if project in userInfo.bookmarks.all():
 		userInfo.bookmarks.remove(project)
-	return redirect('/project/' + proj_id + '/')
+	redirectUrl = '/project/' + proj_id + '/'
+	if request.META.get('HTTP_REFERER'):
+		redirectUrl = request.META['HTTP_REFERER']
+	return redirect(redirectUrl)
 
 
 

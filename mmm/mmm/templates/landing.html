@@ -23,31 +23,53 @@
 					<img src="{% if project.image %}{{ project.image.url }}{% else %}/static/img/myPictures/defaultProjectPic.jpg{% endif %}" class = "pull-right img-rounded projPic">
         
   						</div>
-  	                        		<i class = "icon-flag pull-right" style = "margin-left: 8px"></i>
-  	                        		 <i class = "icon-star-empty pull-right"></i>
+						
+						<a href="/{% if project in bookmarkedProjects %}unbookmark{% else %}bookmark{% endif %}/{{ project.id }}/"> <i class="{% if project in bookmarkedProjects %}icon-star{% else %}icon-star-empty{% endif %} pull-right"></i></a>
 
 
 						<h2>{{ project.title }}</h2>
 							{% if request.user.is_authenticated %}
-							<div class = "feeditemLogged"
-							<p class = "feedText">{{ project.description }}</p>
-							                        <p style = "display:inline-block"><strong>Sponsor:</strong> {{ project.sponsor.full_name }}</p>  
-
-							<p><a class="btn" href="project/{{ project.id }}" style = "bottom:0">View details &raquo;</a></p>
+							<div class = "feeditemLogged">
+								<p class = "feedText">{{ project.description }}</p>
+								<p style = "display:inline-block"><strong>Sponsor:</strong>
+									{% for id, sponsor in project_sponsors %}
+										{% ifequal id project.id %}
+											{{ sponsor.full_name }}
+										{% endifequal %}
+									{% endfor %}
+								</p>
+								<br>
+								<p style = "display:inline-block"><strong>Filters:</strong>
+									{% for id, categorys in project_filters %}
+										{% ifequal id project.id %}
+											{% for category in categorys %}
+												{{ category.name }}
+											{% endfor %}
+										{% endifequal %}
+									{% endfor %}
+								</p>
+								<p><a class="btn" href="project/{{ project.id }}" style = "bottom:0">View details &raquo;</a></p>
 							{% else %}
 							<div class= "feedItem">
-							<div class = "prompt well">
-								<a href="/login">
-									<button class = "btn btn-info">Log in to view details </button>
-								</a>
-							</div>
-							<p class = "blur feedText"> Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. Donec id elit non mi porta gravida at eget metus Donec id elit non mi porta gravida at eget metus. </p>
-							                        <p style = "display:inline-block"><strong>Sponsor:</strong> {{ project.sponsor.full_name }}</p> <br>
-							                        <p style = "display:inline-block"><strong>Filters:</strong> Filters, Filters, Filters... filled from backend </p>
+								<div class = "prompt well">
+									<a href="/login">
+										<button class = "btn btn-info">Log in to view details </button>
+									</a>
+								</div>
+								<p class = "blur feedText"> Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. Donec id elit non mi porta gravida at eget metus Donec id elit non mi porta gravida at eget metus. </p>
+								<p style = "display:inline-block"><strong>Filters:</strong>
+									{% for id, categorys in project_filters %}
+										{% ifequal id project.id %}
+											{% for category in categorys %}
+												{{ category.name }}
+											{% endfor %}
+										{% endifequal %}
+									{% endfor %}
+								</p>
 
-							<p><a class="btn" href="project/{{ project.id }}" style = "bottom:0">View details &raquo;</a></p>
+								<p><a class="btn" href="project/{{ project.id }}" style = "bottom:0">View details &raquo;</a></p>
 							{% endif %}
-						</div>
+							</div>
 					</div><!--/span-->
 					{% endfor %}
 				</div><!--/row-->
