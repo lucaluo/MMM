@@ -17,7 +17,7 @@ class ProfileForm(forms.Form):
 	user_image = forms.FileField(required=False)
 	major = forms.CharField(max_length=50, required=False)
 	bio = forms.CharField(max_length=500, required=False)
-	weekly_email = forms.BooleanField(required=False)
+	# weekly_email = forms.BooleanField(required=False)
 	
 class FilterForm(forms.Form):
 	bookmarked = forms.BooleanField(required=False)

@@ -23,6 +23,7 @@ def landing(request):
 		loggined = True
 	else:
 		# set not loggined
+		userInfo = None
 		loggined = False
 			
 	# get all tags
@@ -111,10 +112,10 @@ def landing(request):
 			'project_filters': project_filters,
 			'project_sponsors': project_sponsors,
 			'filter_open': filter_open,
+			'userInfo': userInfo,
 		}		
 
 	return render(request, 'landing.html', args, context_instance=RequestContext(request))
-
 
 # returns list of dicts containing the categories
 def getAllCategories():
@@ -251,12 +252,12 @@ def profile(request, prof_id):
 				full_name = form.cleaned_data['full_name']
 				major = form.cleaned_data['major']
 				bio = form.cleaned_data['bio']
-				weekly_email = form.cleaned_data['weekly_email']
+				# weekly_email = form.cleaned_data['weekly_email']
 				# update models in db
 				userInfo.full_name = full_name
 				userInfo.major = major
 				userInfo.bio = bio
-				userInfo.weekly_email = weekly_email
+				# userInfo.weekly_email = weekly_email
 				if request.FILES.get('image'):
 					userInfo.image = request.FILES['image']
 				try:
@@ -500,10 +501,9 @@ def editSettings(request):
 			userInfo.save()
 		else:
 			print 'invlaid settings form'
-			return redirect(HOMEPAGE_URL)
 	else:
 		form = SettingsForm()
-		return redirect(HOMEPAGE_URL)
+	return redirect(HOMEPAGE_URL)
 
 
 # gallery page (unimplemented)
