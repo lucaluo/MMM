@@ -106,7 +106,7 @@ def landing(request):
 			'project_sponsors': project_sponsors,
 			'filter_open': filter_open,
 			'userInfo': userInfo,
-		}		
+		}
 
 	return render(request, 'landing.html', args, context_instance=RequestContext(request))
 
@@ -129,18 +129,15 @@ def user_register(request):
 		password = request.POST['password']
 		full_name = request.POST['full_name']
 		if not (password and uniqname and full_name):
-			mtype = 'alert-danger'
-			mcontents = 'Please fill all register fields!'
-			return render(request, 'login.html', {'username': uniqname, 'message_type': mtype, 'message_contents': mcontents}, context_instance=RequestContext(request))
+			messages.error(request, 'Please fill all register fields.')
+			return render(request, 'login.html', {'username': uniqname}, context_instance=RequestContext(request))
 		if User.objects.filter(username=uniqname).exists():
-			mtype = 'alert-danger'
-			mcontents = 'Uniqname has been registered!'
-			return render(request, 'login.html', {'username': uniqname, 'message_type': mtype, 'message_contents': mcontents}, context_instance=RequestContext(request))
+			messages.error(request, 'Uniqname has been registered.')
+			return render(request, 'login.html', {'username': uniqname}, context_instance=RequestContext(request))
 		passwordStrength = check_password_strength(request.POST['password'])
 		if passwordStrength:
-			mtype = 'alert-danger'
-			mcontents = passwordStrength
-			return render(request, 'login.html', {'username': uniqname, 'message_type': mtype, 'message_contents': mcontents}, context_instance=RequestContext(request))
+			messages.error(request, passwordStrength)
+			return render(request, 'login.html', {'username': uniqname}, context_instance=RequestContext(request))
 		email = uniqname + '@umich.edu'
 		user = User.objects.create_user(username=uniqname, password=password, email=email)
 		user.is_active = False
@@ -148,9 +145,8 @@ def user_register(request):
 		userInfo = UserInfo(user=user, full_name=full_name, weekly_email=True,)
 		userInfo.save()
 		send_verify_email(request, uniqname, email)
-		mtype = 'alert-success'
-		mcontents = 'Please check your email for an activation link!'
-		return render(request, 'login.html', {'username': uniqname, 'message_type': mtype, 'message_contents': mcontents}, context_instance=RequestContext(request))
+		messages.success(request, 'Please check your email for an activation link.')
+		return render(request, 'login.html', {'username': uniqname}, context_instance=RequestContext(request))
 	else:
 		return redirect(REGISTER_URL)
 
@@ -171,8 +167,10 @@ def user_activate(request, username, activation_code):
 		user = User.objects.get(username=username)
 		user.is_active = True
 		user.save()
+		messages.success(request, 'Your account has been actived. Please login in.')
 		return redirect(LOGIN_URL)
 	else:
+		messages.error(request, 'Something wrong with your activation. Please copy the link in your verification email and paste into your browser.')
 		return redirect(REGISTER_URL)
 
 
@@ -180,7 +178,6 @@ def user_activate(request, username, activation_code):
 # getnerate activation code function
 def generate_actication_code(username):
 	return hashlib.sha256(username[0] + username[-1] + username).hexdigest()
-
 
 
 # login the user
@@ -193,22 +190,19 @@ def user_login(request):
 		else:
 			next = HOMEPAGE_URL
 		if not (username and password):
-			mtype = 'alert-danger'
-			mcontents = 'Please fill your uniqname and password!'
-			return render(request, 'login.html', {'next': next, 'username': username, 'message_type': mtype, 'message_contents': mcontents}, context_instance=RequestContext(request))
+			messages.error(request, 'Please fill your uniqname and password.')
+			return render(request, 'login.html', {'next': next, 'username': username}, context_instance=RequestContext(request))
 		user = authenticate(username=username, password=password)
 		if user is not None:
 			if user.is_active:
 				login(request, user)
 				return redirect(next);
 			else:
-				mtype = 'alert-danger'
-				mcontents = 'Account is not activated!'
-				return render(request, 'login.html', {'next': next, 'username': username, 'message_type': mtype, 'message_contents': mcontents}, context_instance=RequestContext(request))
+				messages.error(request, 'Account is not activated. Please check your email.')
+				return render(request, 'login.html', {'next': next, 'username': username}, context_instance=RequestContext(request))
 		else:
-			mtype = 'alert-danger'
-			mcontents = 'The user does not exists!'
-			return render(request, 'login.html', {'next': next, 'username': username, 'message_type': mtype, 'message_contents': mcontents}, context_instance=RequestContext(request))
+			messages.error(request, 'Uniqname or password is not correct.')
+			return render(request, 'login.html', {'next': next, 'username': username}, context_instance=RequestContext(request))
 	else:
 		if request.GET.get('next'):
 			next = request.GET['next']
@@ -225,6 +219,7 @@ def user_login(request):
 def user_logout(request):
 	logout(request)
 	# redirect to homepage
+	messages.success(request, 'You have been logged out.')
 	return redirect(HOMEPAGE_URL)
 
 
@@ -232,8 +227,6 @@ def user_logout(request):
 # profile page
 @login_required
 def profile(request, prof_id):
-	mtype = 'none'
-	mcontents = ''
 	if request.method == 'POST':
 		if prof_id == str(request.user.id):
 			# bound form
@@ -260,24 +253,19 @@ def profile(request, prof_id):
 				try:
 					userInfo.save()
 					# message color and contents
-					mtype = 'alert-success'
-					mcontents = 'Profile successfully updated'
+					messages.success(request, 'Your profile has been successfully updated.')
 				except userInfo.DoesNotExist: # what other errors could occur?
 					# message color and contents
 					mtype = 'alert-danger'
-					mcontents = 'Profile could not be updated'
+					messages.error(request, 'Something wrong when updating your profile. Please try again.')
 				# get sponsored projects
 				projects = Project.objects.filter(sponsor=prof_id)
 				#return redirect('/profile/' + prof_id + '/')
-				return render(request, 'profile.html', {'userInfoObj': userInfo, 'profileEditForm':form, 'projects': projects, 'message_type': mtype, 'message_contents': mcontents}, context_instance=RequestContext(request))
+				return render(request, 'profile.html', {'userInfoObj': userInfo, 'profileEditForm':form, 'projects': projects}, context_instance=RequestContext(request))
 			else:
-				mtype = 'alert-danger'
-				mcontents = 'Edit is not valid!'
-				print form.errors
+				messages.error(request, 'The form you submitted is not valid.')
 		else:
-			mtype = 'alert-danger'
-			mcontents = 'User does not have permission to edit!'
-			print request.user.id
+			messages.error(request, 'You are not allowed to edit this profile.')
 	# GET request
 	try:
 		# get user and userInfo to edit
@@ -286,12 +274,10 @@ def profile(request, prof_id):
 		raise Http404
 	# unbound form
 	form = ProfileForm()
-	# get info
-	userInfo = UserInfo.objects.get(user=prof_id)
 	# get sponsored projects
 	projects = Project.objects.filter(sponsor=prof_id)
 	# render
-	return render(request, 'profile.html', {'userInfoObj': userInfo, 'profileEditForm':form, 'projects': projects, 'message_type': mtype, 'message_contents': mcontents}, context_instance=RequestContext(request))
+	return render(request, 'profile.html', {'userInfoObj': userInfo, 'profileEditForm':form, 'projects': projects}, context_instance=RequestContext(request))
 
 
 
@@ -320,12 +306,10 @@ def new_project(request):
 			for category_sub in form.cleaned_data['category_subs']:
 				project.category_subs.add(category_sub)
 			project.save()
-			return redirect(HOMEPAGE_URL)
+			messages.success(request, 'You have successfully added a new project. The project will show up soon after our review.')
 		else:
-			print 'not valid'
-			return redirect(HOMEPAGE_URL)
-	else:
-		return redirect(HOMEPAGE_URL)
+			messages.error(request, 'The form you submitted is not valid.')
+	return redirect(HOMEPAGE_URL)
 
 
 
@@ -354,11 +338,12 @@ def project(request, proj_id):
 				for category_sub in form.cleaned_data['category_subs']:
 					project.category_subs.add(category_sub)
 				project.save()
-				return redirect('/project/' + proj_id + "/")
+				messages.success(request, 'You have successfully updated this project.')
 			else:
-				print 'no permission'
+				messages.error(request, 'You are not allowed to edit this project.')
 		else:
-			print 'not valid'
+			messages.error(request, 'The form you submitted is not valid.')
+		return redirect('/project/' + proj_id + "/")
 	else: # GET
 		try:
 			project = Project.objects.get(id=proj_id)
@@ -401,9 +386,10 @@ def apply_project(request):
 			sponsor_email.send(fail_silently=False)
 			applier = EmailMessage('Confirmation of Project Application on Michigan Mobile Manufactory', render(request, 'email_applier.txt', {'message': message, 'project': project, 'applier': applier, 'sponsor': project.sponsor, 'profile_url': profile_url, 'project_url': project_url, 'applierInfo': applierInfo, 'sponsorInfo': sponsorInfo}).content, 'mmm.umich@gmail.com', [applier.email], [])
 			applier.send(fail_silently=False)
-			return redirect(HOMEPAGE_URL)
+			messages.success(request, 'You have successfully applied for this project. The project sponsor will reply to you soon.')
 		else:
-			return redirect(HOMEPAGE_URL)
+			messages.error(request, 'Please leave a message to apply for the project.')
+		return redirect('/project/' + request.POST['proj_id'])
 	else:
 		raise Http404
 
@@ -422,9 +408,10 @@ def new_comment(request):
 				raise Http404
 			comment = Comment(user=request.user, project=project, text=comment, flags=0)
 			comment.save()
-			return redirect('/project/' + str(proj_id))
+			messages.success(request, 'The comment has been made.')
 		else:
-			return redirect(HOMEPAGE_URL)
+			messages.error(request, 'An empty comment is not allowed.')
+		return redirect('/project/' + request.POST['proj_id'])
 	else:
 		raise Http404
 
@@ -436,17 +423,15 @@ def delete_comment(request, proj_id, comm_id):
 	try:
 		comment = Comment.objects.get(id=comm_id)
 		if str(comment.project.id) != proj_id:
-			# TODO error message comment and proejct id not correspond
-			print "comment and proejct id not correspond"
+			messages.error(request, 'The comment is not found.')
 		elif comment.user != request.user:
-			# TODO no permission to delete this comment
-			print "no permission to delete this comment"
+			messages.error(request, 'You are not allowed to deleted this comment.')
 		else:
 			comment.delete()
-			return redirect('/project/' + proj_id + '/')
+			messages.success(request, 'The comment has been deleted.')
 	except Comment.DoesNotExist:
-		# TODO error message comment to delete not exists
-		print "error message comment to delete not exists"
+		messages.error(request, 'The comment is not found.')
+	return redirect('/project/' + proj_id + '/')
 
 
 
@@ -490,15 +475,20 @@ def editSettings(request):
 		userInfo = UserInfo.objects.get(user=request.user)
 	except UserInfo.DoesNotExist:
 		raise Http404
-		
 	if request.method == 'POST':
 		form = SettingsForm(request.POST)
 		if form.is_valid():
 			userInfo.weekly_email = form.cleaned_data['weekly_email']
 			userInfo.save()
+			messages.success(request, 'You have successfully updated your email setting.')
 		else:
-			print 'invlaid settings form'
-	return redirect(HOMEPAGE_URL)
+			messages.error(request, 'The form you submitted is not valid.')
+	if request.META.get('HTTP_REFERER'):
+		redirectUrl = request.META['HTTP_REFERER']
+	else:
+		redirectUrl = HOMEPAGE_URL
+	return redirect(redirectUrl)
+
 
 @login_required
 def change_password(request):
@@ -509,17 +499,23 @@ def change_password(request):
 			if user is not None and user.is_active:
 				strenghMessage = check_password_strength(form.cleaned_data['new_password'])
 				if form.cleaned_data['new_password'] != form.cleaned_data['confirm_password']:
-					print 'password not match'
+					messages.error(request, 'The passwords you entered do not match.')
 				elif strenghMessage:
-					print strenghMessage
+					messages.error(request, strenghMessage)
 				else:
 					user.set_password(form.cleaned_data['new_password'])
 					user.save()
+					messages.success(request, 'Your password has successfully been updated.')
 			else:
-				print 'wrong password'
+				messages.error(request, 'The password you entered is not correct.')
 		else:
-			print 'invlaid password form'
-	return redirect(HOMEPAGE_URL)
+			messages.error(request, 'Please fill the entire forms.')
+	if request.META.get('HTTP_REFERER'):
+		redirectUrl = request.META['HTTP_REFERER']
+	else:
+		redirectUrl = HOMEPAGE_URL
+	return redirect(redirectUrl)
+
 
 def check_password_strength(password):
 	if len(password) < PASSWORD_MINLENGTH:
