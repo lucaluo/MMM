@@ -26,6 +26,9 @@
       .name {
       	text-align: center;
       }
+      #submitButton {
+      margin-left:10px;
+      }
       .picBox {
       height:240px;
       }

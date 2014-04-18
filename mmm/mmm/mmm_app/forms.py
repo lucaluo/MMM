@@ -27,3 +27,6 @@ class FilterForm(forms.Form):
 			required = False,
 		)
 	
+class SettingsForm(forms.Form):
+	weekly_email = forms.BooleanField(required=False)
+	
