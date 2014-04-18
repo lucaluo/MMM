@@ -30,3 +30,7 @@ class FilterForm(forms.Form):
 class SettingsForm(forms.Form):
 	weekly_email = forms.BooleanField(required=False)
 	
+class PasswordForm(forms.Form):
+	old_password = forms.CharField()
+	new_password = forms.CharField()
+	confirm_password = forms.CharField()

@@ -12,7 +12,7 @@ import hashlib
 HOMEPAGE_URL = '/'
 LOGIN_URL = '/login/'
 REGISTER_URL = '/login/'
-
+PASSWORD_MINLENGTH = 8
 
 # landing page
 def landing(request):
@@ -143,7 +143,11 @@ def user_register(request):
 			mtype = 'alert-danger'
 			mcontents = 'Uniqname has been registered!'
 			return render(request, 'login.html', {'username': uniqname, 'message_type': mtype, 'message_contents': mcontents}, context_instance=RequestContext(request))
-		# TODO: Check legitimate username, password, uniqname, etc.
+		passwordStrength = check_password_strength(request.POST['password'])
+		if passwordStrength:
+			mtype = 'alert-danger'
+			mcontents = passwordStrength
+			return render(request, 'login.html', {'username': uniqname, 'message_type': mtype, 'message_contents': mcontents}, context_instance=RequestContext(request))
 		email = uniqname + '@umich.edu'
 		user = User.objects.create_user(username=uniqname, password=password, email=email)
 		user.is_active = False
@@ -501,9 +505,45 @@ def editSettings(request):
 			userInfo.save()
 		else:
 			print 'invlaid settings form'
-	else:
-		form = SettingsForm()
 	return redirect(HOMEPAGE_URL)
+
+@login_required
+def change_password(request):
+	if request.method == 'POST':
+		form = PasswordForm(request.POST)
+		if form.is_valid():
+			user = authenticate(username=request.user.username, password=form.cleaned_data['old_password'])
+			if user is not None and user.is_active:
+				strenghMessage = check_password_strength(form.cleaned_data['new_password'])
+				if form.cleaned_data['new_password'] != form.cleaned_data['confirm_password']:
+					print 'password not match'
+				elif strenghMessage:
+					print strenghMessage
+				else:
+					user.set_password(form.cleaned_data['new_password'])
+					user.save()
+			else:
+				print 'wrong password'
+		else:
+			print 'invlaid password form'
+	return redirect(HOMEPAGE_URL)
+
+def check_password_strength(password):
+	if len(password) < PASSWORD_MINLENGTH:
+		return 'Password too short.'
+	hasNumeric = False
+	hasAlphabet = False
+	for c in password:
+		if c >= '0' and c <= '9':
+			hasNumeric = True
+		if (c >= 'a' and c <= 'z') or (c >= 'A' and c <= 'Z'):
+			hasAlphabet = True
+
+	if not hasNumeric:
+		return 'Password must contain at least one numeric value.'
+	if not hasAlphabet:
+		return 'Password must contain at least one alphabet.'
+	return None
 
 
 # gallery page (unimplemented)
