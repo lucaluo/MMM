@@ -44,7 +44,7 @@ class Command(BaseCommand):
 				
 				# compile the message
 				message_body = render_to_response('weekly_email.txt', {'user': user, 'userinfo': userinfo, 'new_projects': new_projects, 'cutoff_date': cutoff_date, 'bookmarked': bookmarked, 'sponsored': sponsored}).content
-				email = EmailMessage('MMM Weekly Update', message_body, 'mmm.umich@gmail.com', (user.email,))
+				email = EmailMessage('Michigan Mobile Manufactory Weekly Update', message_body, 'mmm.umich@gmail.com', (user.email,))
 		
 				# send the message to user
 				email.send(fail_silently=False)
@@ -54,7 +54,7 @@ class Command(BaseCommand):
 		
 			# compile message
 			message_body = render_to_response('approve_projects.txt', {'user': user, 'unapproved': unapproved}).content
-			email = EmailMessage('MMM Project Approval Update', message_body, 'mmm.umich@gmail.com', (user.email,))
+			email = EmailMessage('Michigan Mobile Manufactory Project Approval Update', message_body, 'mmm.umich@gmail.com', (user.email,))
 			
 			# send message to user
 			email.send(fail_silently=False)

@@ -46,15 +46,15 @@
 
 						<li {% ifequal request.path '/' %}class="active"{% endifequal %}><a href="/">Home</a></li>
 						{% if request.user.is_authenticated %}
+						{% ifequal request.path '/' %}
 						<li><a id = "filterTrigger" href="#">Filter Projects</a></li>
 						<li><a href="#newProjModal" data-toggle="modal">New Project</a></li>
+						{% endifequal %}
 						{% else %}
 						<li><a href="/login">Filter Projects</a></li>
-
 						<li><a href="/login">New Project</a></li>
 						{% endif %} 
 
-						
 						{% if request.user.is_authenticated %}
 						<li {% ifequal request.path|cut:'/profile/' request.user.id|slugify|add:'/' %}class="active"{% endifequal %}><a href="/profile/{{ request.user.id }}/">My Profile</a></li>
 						<li class="pull-right my-username dropdown">
@@ -72,57 +72,16 @@
 					</ul>
 				</div><!--/.nav-collapse -->
 			</div>
-			<div id = "filtersDrop" style = "width:100%; background-color:black; margin-top:0;display:none">
-			
-						<form id="filterForm" style = "margin:0; padding-top:8px; padding-bottom:8px" method="get" action="/" enctype="multipart/form-data">
-						{% for category in category_list %}
-						<div style = "display:inline-block">
-							<li class="nav-header" style = "display:inline-block">{{ category.category_top.name }}</li>	
-							{% for category_sub in category.category_sub_list %}
-							{% for key,value in cat_sub_checked_dict.items %}
-							{% if key == category_sub %}
-							{% if request.user.is_authenticated %}
-								{% if value %}
-								<input type="checkbox" class = "dropbox" name="f_category_subs" value="{{ category_sub.id }}" id="filter-checkbox" checked>{{ category_sub.name }} 
-								{% else %}
-								<input type="checkbox" class = "dropbox" name="f_category_subs" value="{{ category_sub.id }}" id="filter-checkbox" >{{ category_sub.name }}
-								{% endif %}
-								{% else %}
-								<input type="checkbox"  class = "dropbox" name="f_category_subs" value="{{ category_sub.id }}" id="filter-checkbox" disabled>{{ category_sub.name }}
-								{% endif %}
-								{% endif %}
-							{% endfor %}
-								
-							{% endfor %}
-							</div></br>
-						{% endfor %}
-						<li class="nav-header" style = "display:inline-block">Custom Filters</li>
-						{% if bookmarked %}
-						<input type="checkbox" class = "dropbox" name="bookmarked" id="bookmarked-checkbox" checked>Bookmarked<br />
-						{% else %}
-						<input type="checkbox" class = "dropbox" name="bookmarked" id="bookmarked-checkbox">Bookmarked<br />
-						{% endif %}
-						
-						{% if additional_filter %}
-						<input type="text" style = "margin-left:1%; width:20%" class="input-block searchBox" name="additional_filter" id="additional-filter" placeholder="Additional filter" value="{{ additional_filter }}">
-						{% else %}
-						<input type="text" style = "margin-left:1%; width:20%"  class="input-block searchBox" name="additional_filter" id="additional-filter" placeholder="Additional filter">
-						{% endif %}
-						<br />
-						<input type="submit" style="position: absolute; left: -9999px; width: 1px; height: 1px;" />
-						<!-- {% csrf_token %} -->
-						</form>
-					
-			
-			</div>
+			{% block filter-form %}
+			{% endblock %}
 		</div>
-	</div>
-	       <div id = "filterPusher" style = "display:none">
-       <!-- empty div here size of the filter div -->
-       </div>     
+	</div>    
 	{% endblock %}
 
 	{% block error_message %}
+   <div id = "filterPusher" style = "{% if not filter_open %}display:none{% endif %}">
+   <!-- empty div here size of the filter div -->
+   </div> 
 	
 	{% if message_type and message_type != 'none' %}
 	<div class="alert {{ message_type }} alert-dismissable" style = "width:80%; margin-left:10%; margin-right:10%">

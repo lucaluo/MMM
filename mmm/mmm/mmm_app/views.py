@@ -52,6 +52,9 @@ def landing(request):
 	# filtering on get method
 	form = FilterForm(data=request.GET)
 
+	# filter open flag
+	filter_open = None
+
 	if loggined and form.is_valid():
 		# bookmarked projects
 		b = form.cleaned_data['bookmarked']
@@ -87,6 +90,8 @@ def landing(request):
 		if not projects:
 			mtype = 'alert-danger'
 			mcontents = 'No projects matched'
+		if request.GET.get('from') and request.GET['from'] == 'form':
+			filter_open = True
 			
 	elif loggined:
 		mtype = 'alert-danger'
@@ -105,6 +110,7 @@ def landing(request):
 			'bookmarkedProjects': bookmarkedProjects,
 			'project_filters': project_filters,
 			'project_sponsors': project_sponsors,
+			'filter_open': filter_open,
 		}		
 
 	return render(request, 'landing.html', args, context_instance=RequestContext(request))

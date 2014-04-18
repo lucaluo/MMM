@@ -1,6 +1,6 @@
 Hi {{ userInfo.full_name }},
 
-Thanks for registering with MMM!
+Thanks for registering with Michigan Mobile Manufactory!
 
 Please click the following link to activate your account:
 {{ verify_url }}
