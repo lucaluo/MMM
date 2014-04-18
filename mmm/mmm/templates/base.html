@@ -79,21 +79,32 @@
 	{% endblock %}
 
 	{% block error_message %}
-   <div id = "filterPusher" style = "{% if not filter_open %}display:none{% endif %}">
-   <!-- empty div here size of the filter div -->
-   </div> 
 	
-	{% if message_type and message_type != 'none' %}
-	<div class="alert {{ message_type }} alert-dismissable" style = "width:80%; margin-left:10%; margin-right:10%">
-	 <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> {{ message_contents }} </div>
-    {% endif %}
+		{% block filter-push %}
+		{% endblock %}
+
+		{% if messages %}
+		{% for message in messages %}
+			{% if message.tags == 'error' %}
+			<div class="alert alert-danger alert-dismissable" style = "width:80%; margin-left:10%; margin-right:10%">
+				<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+				{{ message }}
+			{% endif %}
+			{% if message.tags == 'success' %}
+			<div class="alert alert-success alert-dismissable" style = "width:80%; margin-left:10%; margin-right:10%">
+				<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+				{{ message }}
+			{% endif %}
+		{% endfor %}
+		</div>
+	    {% endif %}
 
 	{% endblock %}
 
 	{% block content %}{% endblock %}
 
 	{% block footer %}
-	<div class = "footer">
+	<div class="footer">
 		<hr>
 
 			<p>&copy; 2014 Michigan Mobile Manufactory</p>

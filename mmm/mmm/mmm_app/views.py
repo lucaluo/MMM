@@ -1,10 +1,11 @@
-from django.http import Http404, HttpResponseRedirect
+from django.http import Http404
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.core.mail import send_mail, BadHeaderError, EmailMessage
 from django.template import RequestContext
+from django.contrib import messages
 from models import *
 from forms import *
 import hashlib
@@ -28,10 +29,6 @@ def landing(request):
 			
 	# get all tags
 	category_list = getAllCategories()
-	
-	# message color and contents
-	mtype = 'none'
-	mcontents = ''
 	
 	# get list of projects
 	projects = Project.objects.filter(status='OP', approved=True).order_by('-date_posted')
@@ -89,22 +86,18 @@ def landing(request):
 					projects = newprojects
 					
 		if not projects:
-			mtype = 'alert-danger'
-			mcontents = 'No projects matched'
+			messages.error(request, 'No projects matched.')
 		if request.GET.get('from') and request.GET['from'] == 'form':
 			filter_open = True
 			
 	elif loggined:
-		mtype = 'alert-danger'
-		mcontents = 'Invalid filters'
+		messages.error(request, 'Invalid filters.')
 		projects = []
 	
 	args = {
 			'filterForm': form, 
 			'projects': projects, 
 			'category_list': category_list, 
-			'message_type': mtype, 
-			'message_contents': mcontents, 
 			'cat_sub_checked_dict': f_cat_subs_dict, 
 			'bookmarked': bookmarked, 
 			'additional_filter': af, 
