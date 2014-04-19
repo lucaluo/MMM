@@ -363,8 +363,8 @@ def project(request, proj_id):
 		else:
 			is_bookmarked = False
 		try:
-		# get user and userInfo to edit
-		userInfo = UserInfo.objects.get(user=request.user)
+			# get user and userInfo to edit
+			userInfo = UserInfo.objects.get(user=request.user)
 		except UserInfo.DoesNotExist:
 			raise Http404
 		args = {
