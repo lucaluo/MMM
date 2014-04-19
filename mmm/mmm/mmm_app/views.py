@@ -261,7 +261,7 @@ def profile(request, prof_id):
 				# get sponsored projects
 				projects = Project.objects.filter(sponsor=prof_id)
 				#return redirect('/profile/' + prof_id + '/')
-				return render(request, 'profile.html', {'userInfoObj': userInfo, 'profileEditForm':form, 'projects': projects}, context_instance=RequestContext(request))
+				return render(request, 'profile.html', {'userInfo': userInfo, 'profileEditForm':form, 'projects': projects}, context_instance=RequestContext(request))
 			else:
 				messages.error(request, 'The form you submitted is not valid.')
 		else:
@@ -277,7 +277,7 @@ def profile(request, prof_id):
 	# get sponsored projects
 	projects = Project.objects.filter(sponsor=prof_id)
 	# render
-	return render(request, 'profile.html', {'userInfoObj': userInfo, 'profileEditForm':form, 'projects': projects}, context_instance=RequestContext(request))
+	return render(request, 'profile.html', {'userInfo': userInfo, 'profileEditForm':form, 'projects': projects}, context_instance=RequestContext(request))
 
 
 
@@ -362,7 +362,22 @@ def project(request, proj_id):
 			is_bookmarked = True
 		else:
 			is_bookmarked = False
-		return render(request, 'projDetails.html', {'project': project, 'sponsor': sponsor, 'category_subs': category_subs, 'commentsObj': commentsObj, 'category_list': category_list, 'category_sub_ids': category_sub_ids, 'is_bookmarked': is_bookmarked}, context_instance=RequestContext(request))
+		try:
+		# get user and userInfo to edit
+		userInfo = UserInfo.objects.get(user=request.user)
+		except UserInfo.DoesNotExist:
+			raise Http404
+		args = {
+				'project': project, 
+				'sponsor': sponsor, 
+				'category_subs': category_subs, 
+				'commentsObj': commentsObj, 
+				'category_list': category_list, 
+				'category_sub_ids': category_sub_ids, 
+				'is_bookmarked': is_bookmarked, 
+				'userInfo': userInfo,
+				}
+		return render(request, 'projDetails.html', args, context_instance=RequestContext(request))
 
 
 

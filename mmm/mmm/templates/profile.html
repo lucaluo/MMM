@@ -10,10 +10,10 @@
 		<div class = "span8 offset2">
 		  <div class = "well nametag" style = "margin-bottom:0; width:93.5%">
 
-			<img src="{% if userInfoObj.image %}{{ userInfoObj.image.url }}{% else %}/static/img/myPictures/defaultProfPic.jpg{% endif %}" class = "pull-left img-rounded profPic" title = "Click here to edit picture in edit mode...">
-					<h3 class = "name infoBox"> {{ userInfoObj.full_name }} </h3>
-					<h5 class = "major infoBox"> {{ userInfoObj.major|default:"major/department" }} </h5>
-					{% ifequal userInfoObj.user.id request.user.id %}
+			<img src="{% if userInfo.image %}{{ userInfo.image.url }}{% else %}/static/img/myPictures/defaultProfPic.jpg{% endif %}" class = "pull-left img-rounded profPic" title = "Click here to edit picture in edit mode...">
+					<h3 class = "name infoBox"> {{ userInfo.full_name }} </h3>
+					<h5 class = "major infoBox"> {{ userInfo.major|default:"major/department" }} </h5>
+					{% ifequal userInfo.user.id request.user.id %}
 				    <button type = "button" class = "btn pull-right" id="editButton"> Edit</button>
 				    <button type="button" class = "btn pull-right editFields" id = "submitButton" style="display:none"> Submit </button>
         			<button type="button" class = "btn pull-right editFields" id = "cancelButton" style="display:none"> Cancel </button>
@@ -27,7 +27,7 @@
 				<div class = "well" style = "margin:0; width:93.5%">
 					<h5>About</h5>
 					<div class="infoBox" id = "aboutBox">
-					{{ userInfoObj.bio|default:"About me..." }}
+					{{ userInfo.bio|default:"About me..." }}
 					</div>
 				</div>
 			</div>
@@ -49,10 +49,10 @@
 
 	</div>
 
-	{% ifequal userInfoObj.user.id request.user.id %}
+	{% ifequal userInfo.user.id request.user.id %}
 	 <!-- THIS FORM BELOW IS FOR SUBMITTING CHANGES TO PROFILE, values are filled on click of submit -->
    <div id="hiddenForm" style = "display:none">
-   	<form id="profileEditForm" method="post" action="/profile/{{ userInfoObj.user.id }}/" enctype="multipart/form-data">
+   	<form id="profileEditForm" method="post" action="/profile/{{ userInfo.user.id }}/" enctype="multipart/form-data">
    	<input type = "file" name="image" class="picChange" style="display:none">
    	<input type="hidden" name = "full_name" id= "hiddenName" >
    	<input type="hidden" name = "major" id = "hiddenMajor" >
