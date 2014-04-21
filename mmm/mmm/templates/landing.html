@@ -76,8 +76,7 @@
 						
 						<a href="/{% if project in bookmarkedProjects %}unbookmark{% else %}bookmark{% endif %}/{{ project.id }}/"> <i class="{% if project in bookmarkedProjects %}icon-star{% else %}icon-star-empty{% endif %} pull-right"></i></a>
 
-
-						<h2>{{ project.title }}</h2>
+						<h2 class="title">{{ project.title }}</h2>
 							{% if request.user.is_authenticated %}
 							<div class = "feeditemLogged">
 								<p class = "feedText">{{ project.description }}</p>
