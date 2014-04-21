@@ -22,7 +22,7 @@ $('#filterTrigger').click(function(event){
     		//alert("why does this only work with an alert?");
     		});
     		
-    		$('.blur').each(function(){
+    		$('.feedText').each(function(){
     		var count = 0;
     		var html=$(this).html();
     		var newHtml='';
