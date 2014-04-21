@@ -30,7 +30,7 @@ $('#filterTrigger').click(function(event){
         		newHtml=newHtml+html[i];
         		if ((i+1)%73==0) {
         		count = count+1;
-        		if (count == 4){
+        		if (count == 3){
         		var lastIndex = newHtml.lastIndexOf(" ")
 
 			newHtml = newHtml.substring(0, lastIndex);
@@ -39,7 +39,7 @@ $('#filterTrigger').click(function(event){
         		//newHtml=newHtml+'<br/>';
         		 }
         		 }
-    		if (count == 4) {
+    		if (count == 3) {
     		newHtml = newHtml.substring(0, newHtml.indexOf("xx-xx"));
     			newHtml = newHtml + "...";
 			$(this).html(newHtml);
