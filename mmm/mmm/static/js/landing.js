@@ -46,7 +46,7 @@ $('#filterTrigger').click(function(event){
 			break;
     		}
     		$(this).html(newHtml);
-    		$(this).parent().parent().height($(this).parent().height() + 50);
+    		$(this).parent().parent().height($(this).parent().height() + 100);
 		};
 		});
 		
