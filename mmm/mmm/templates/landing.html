@@ -93,7 +93,10 @@
 										{% ifequal id project.id %}
 											{% for category in categorys %}
 												{% if forloop.counter0 < 5 %}
-													{{ category.name }}, 
+													{{ category.name }}
+													{% if not forloop.last %}
+														, 
+													{% endif %}
 												{% endif %}
 												{% if forloop.counter0 == 5 %}
 													...
