@@ -9,6 +9,8 @@ DATABASES = {
     }
 }
 
+MEDIA_ROOT = '/srv/MMM/mmm/mmm/media/'
+
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.mandrillapp.com'
 EMAIL_PORT = 587
