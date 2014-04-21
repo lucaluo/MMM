@@ -89,7 +89,18 @@
 								</p>
 								<br>
 								<p style = "display:inline-block"><strong>Filters:</strong>
-									{% for id, categorys in project_filters %}{% ifequal id project.id %}{% for category in categorys %}{{ category.name }}{% if not forloop.last %}, {% endif %}{% endfor %}{% endifequal %}{% endfor %}
+									{% for id, categorys in project_filters %}
+										{% ifequal id project.id %}
+											{% for category in categorys %}
+												{% if forloop.counter0 < 5 %}
+													{{ category.name }}, 
+												{% endif %}
+												{% if forloop.counter0 == 5 %}
+													...
+												{% endif %}
+											{% endfor %}
+										{% endifequal %}
+									{% endfor %}
 								</p>
 								<p><a class="btn" href="project/{{ project.id }}" style = "bottom:0">View details &raquo;</a></p>
 							{% else %}
