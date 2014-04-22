@@ -1,4 +1,7 @@
 $(document).ready(function(){
+	$("#projTag").height( $("#titleBox").height() + 100 );
+
+
 	$("#editButton").click(function(){
 		$(".projPic").click(function(){
 			$(".picChange").trigger("click");

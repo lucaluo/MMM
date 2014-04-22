@@ -9,7 +9,7 @@
 			<div class = "row-fluid headRow">
 				
 				<div class = "span8 offset2">
-					<div class = "well projTag" style = "margin:0; width:93.5%">
+					<div class = "well projTag" id="projTag" style = "margin:0; width:93.5%">
 										<img src="{% if project.image %}{{ project.image.url }}{% else %}/static/img/myPictures/defaultProjectPic.jpg{% endif %}" class = "pull-left img-rounded projPic" title = "Click here to edit picture in edit mode...">
 
 						<h3 class = "name infoBox" id = "titleBox"> {{ project.title }} </h3>
