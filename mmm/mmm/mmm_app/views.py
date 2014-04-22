@@ -269,7 +269,7 @@ def profile(request, prof_id):
 	# GET request
 	try:
 		# get user and userInfo to edit
-		userInfo = UserInfo.objects.get(user=request.user)
+		userInfo = UserInfo.objects.get(user=prof_id)
 	except UserInfo.DoesNotExist:
 		raise Http404
 	# unbound form
