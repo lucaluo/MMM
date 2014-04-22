@@ -15,7 +15,9 @@
 						<h3 class = "name infoBox" id = "titleBox"> {{ project.title }} </h3>
 						<h5 class = "sponsor"><a href="/profile/{{ project.sponsor.id }}/"> {{ sponsor.full_name }} </a></h5>
 						<h5 class = "date"> {{ project.date_posted }} </h5>
+						{% if project.status == 'OP' %}
 						<button type = "button" class = "btn pull-right btn-info" href="#applyModal" data-toggle="modal" id = "applyButton"> Apply</button>
+						{% endif %}
 						<a type = "button" class = "btn pull-right favorite" id = "favoriteButton" href="/{{ is_bookmarked|yesno:"unbookmark,bookmark" }}/{{ project.id }}/"> <i class="{{ is_bookmarked|yesno:"icon-star,icon-star-empty" }} pull-right"></i></a>
 
 						{% if request.user == project.sponsor %}
