@@ -334,7 +334,8 @@ def project(request, proj_id):
 					project.show_in_gallery = False
 				if request.FILES.get('image'):
 					project.image = request.FILES['image']
-				project.category_subs.through.objects.all().delete()
+				for category_sub in project.category_subs.all():
+					project.category_subs.remove(category_sub)
 				for category_sub in form.cleaned_data['category_subs']:
 					project.category_subs.add(category_sub)
 				project.save()
