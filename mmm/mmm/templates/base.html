@@ -115,12 +115,12 @@
 					<input type="password" class="input-block" placeholder="Old Password" name="old_password"><br>
 					<input type = "password" class = "input-block" placeholder="New Password" name="new_password"><br>
 					<input type = "password" class = "input-block" placeholder="Confirm New Password" name="confirm_password"><br>
+					<p style = "color:gray;">Password must be at least 8 characters, and must contain one numberic and one alphabetic character.</p>
 				</div>
 				<div class="modal-footer">
 					<button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
 					<input type="submit" value="Submit" class="btn btn-info"></input>
 				</div>
-				<p style = "color:gray;">Password must be at least 8 characters and contain one numberic and one alphabetic character.</p>
 				{% csrf_token %}
 			</form>
 		</div>
