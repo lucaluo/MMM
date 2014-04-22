@@ -93,10 +93,7 @@
 										{% ifequal id project.id %}
 											{% for category in categorys %}
 												{% if forloop.counter0 < 5 %}
-													{{ category.name }}
-													{% if not forloop.last %}
-														, 
-													{% endif %}
+													{{ category.name }}{% if not forloop.last %}, {% endif %}
 												{% endif %}
 												{% if forloop.counter0 == 5 %}
 													...
@@ -118,7 +115,12 @@
 									{% for id, categorys in project_filters %}
 										{% ifequal id project.id %}
 											{% for category in categorys %}
-												{{ category.name }}
+												{% if forloop.counter0 < 5 %}
+													{{ category.name }}{% if not forloop.last %}, {% endif %}
+												{% endif %}
+												{% if forloop.counter0 == 5 %}
+													...
+												{% endif %}
 											{% endfor %}
 										{% endifequal %}
 									{% endfor %}
